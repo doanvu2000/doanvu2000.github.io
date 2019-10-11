@@ -1,0 +1,132 @@
+
+.all{
+    background-color: lightgrey;
+    width: 100%;
+    height: auto;
+    padding: 0.5%;
+}
+.header{
+    width: 99%;
+    height: 100px;
+    background-image: linear-gradient(pink,violet);
+    border: 2px solid white;
+}
+.content{
+    width: 100%;
+    height: 530px;
+    margin-bottom: 1%;
+}
+.content_left{
+    width: 49%;
+    height: 520px;
+    margin-right:1%;
+    float:left;
+}
+.left_1{
+    width: 99.5%;
+    height: 250px;
+    background-image: linear-gradient(lightgreen,yellow);
+    margin: 1% 0 1%;
+    border: 2px solid white;
+}
+.left_234{
+    width: 100%;
+    height: 250px;
+}
+.left_23{
+    width: 49%;
+    height: 250px;
+    float:left;
+    margin-right:1%;
+}
+.left_4{
+    width: 49%;
+    height: 247px;
+    background-image: linear-gradient(aqua,violet);
+    
+    border: 2px solid white;
+    float:right;
+}
+.left_2{
+    width: 99%;
+    height: 120px;
+    background-image: linear-gradient(pink,orange);
+    margin-bottom: 1%;
+    border: 2px solid white;
+}
+.left_3{
+    width: 99%;
+    height: 120px;
+    background-image: linear-gradient(green,aqua);
+    border: 2px solid white;
+}
+.content_right{
+    width: 50%;
+    height: 520px;
+    float: left;
+}
+.right_12{
+    display: flex;
+    width: 100%;
+    height: 100px;
+    margin:1% 0;
+}
+.right_1{
+    width: 75%;
+    height: 96px;
+    background-image: linear-gradient(#48D518,#2EFA3C);
+    border: 2px solid white;
+    margin-right:1%;
+}
+.right_2{
+    width: 21.5%;
+    height: 96px;
+    background-image: linear-gradient(#4351E8,aqua);
+    border: 2px solid white;
+}
+.right_3{
+    width: 98%;
+    height: 70px;
+    background-image: linear-gradient(#ECEF4A,#F7D962);
+    border: 2px solid white;
+}
+.right_content{
+    width: 99%;
+    height: 250px;
+    margin-top:1%;
+    display: flex;
+}
+.right_left{
+    width: 31%;
+    height: 246px;
+    background-image: linear-gradient(#F41212,#F41212);
+    border: 2px solid white;
+    margin-right:2%;
+}
+.right_center{
+    width: 31.3%;
+    height: 246px;
+    background-image: linear-gradient(orange,orange);
+    border: 2px solid white;
+    margin-right:2%;
+}
+.right_right{
+    width: 31.5%;
+    height: 246px;
+    background-image: linear-gradient(#F41212,#F41212);
+    border: 2px solid white;
+}
+.right_footer{
+    margin-top:1%;
+    width: 98%;
+    height: 60px;
+    background-image: linear-gradient(#DA12F4,#12CBF4);
+    border: 2px solid white;
+}
+.footer{
+    margin-top:-1%;
+    width: 99%;
+    height: 50px;
+    background-image: linear-gradient(black,gray);
+    border: 2px solid white;
+}
