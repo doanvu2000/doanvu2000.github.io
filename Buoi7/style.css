@@ -50,6 +50,7 @@ a{
     height: auto;
     width: 100%;
     margin-top:20px;
+    position: relative;
 }
 .add{
     margin-left:10%;
@@ -81,6 +82,8 @@ a{
     text-align: center;
     padding: 20px 0;
     font-size: 30px;
+    position: absolute;
+    top:2000px;
 }
 a:hover{
     color:orange;
