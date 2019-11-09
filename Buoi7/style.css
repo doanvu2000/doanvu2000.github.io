@@ -57,7 +57,7 @@ a{
 .profile{
     
     width: 40%;
-    height: 500px;
+    height: 600px;
     background-size: 100% 100%;
     border-radius: 5px;
     float:left;
@@ -65,12 +65,12 @@ a{
 }
 .text{
     width: 30%;
-    height: 500px;
+    height: 600px;
     text-align: center;
     padding: 0 5%;
     float:left;
     font-size:18px;
-    line-height: 1.7;
+    line-height: 1.4;
 }
 .footer{
     clear: both;
