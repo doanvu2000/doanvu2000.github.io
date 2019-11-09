@@ -1,0 +1,90 @@
+*{
+    margin:0 auto;
+    padding: 0;
+}
+.menu{
+    position: fixed;
+    z-index: 1000;
+    background: #424242;
+    opacity: 0.8;
+    padding: 12px 0;
+    width: 100%;
+    height: auto;
+    box-shadow: 2px 2px 5px wheat;
+    box-sizing: border-box;
+}
+li{
+    list-style: none;
+    border: 1px solid black;
+    border-radius:5% ;
+    padding: 10px;
+    float:right;
+    margin:0 15px;
+}
+li:hover{
+    background: aqua;
+}
+a{
+    text-decoration: none;
+    color:yellowgreen;
+}
+.image{
+    background-image: url("logo.png");
+    width: 100%;
+    height: 650px;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    position: relative;
+}
+.logo{
+    position: relative;
+    background-image: url("header.png");
+    border-radius: 50%;
+    background-size:100% 100% ;
+    width: 180px;
+    height: 180px;
+    top:-90px;
+    left:0;
+}
+.content{
+    height: auto;
+    width: 100%;
+    margin-top:20px;
+}
+.add{
+    margin-left:10%;
+}
+.profile{
+    
+    width: 40%;
+    height: 500px;
+    background-size: 100% 100%;
+    border-radius: 5px;
+    float:left;
+    
+}
+.text{
+    width: 30%;
+    height: 500px;
+    text-align: center;
+    padding: 0 5%;
+    float:left;
+    font-size:18px;
+    line-height: 1.7;
+}
+.footer{
+    clear: both;
+    background: black;
+    margin-top:20px;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+}
+a:hover{
+    color:orange;
+}
+.footer:hover a span i b{
+    color:red;
+}
