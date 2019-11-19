@@ -3,6 +3,32 @@
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
+.menu{
+    position: fixed;
+    z-index: 1000;
+    /* background: #424242; */
+    opacity: 0.8;
+    padding: 12px 0;
+    width: 100%;
+    height: auto;
+    box-shadow: 2px 2px 5px wheat;
+    box-sizing: border-box;
+}
+a{
+    background: yellowgreen;
+    text-align: center;
+    text-decoration: none;
+    color:white;
+    border:1px solid;
+    margin-right:20px;
+    padding: 10px;
+}
+#myphoto{}
+#about{}
+#Myskill{}
+#reputation{}
+#Myprice{}
+#contactme{}
 .all{
     display: flex;
     height: auto;
