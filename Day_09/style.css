@@ -13,6 +13,7 @@
     height: auto;
     box-shadow: 2px 2px 5px wheat;
     box-sizing: border-box;
+    display: flex;
 }
 a{
     background: yellowgreen;
