@@ -152,6 +152,7 @@ a{
     height: auto;
     padding: 15px;
     text-align: center;
+    width: 60%;
 }
 .job{
     color:lightgrey;
@@ -224,11 +225,14 @@ ul li{
     opacity: 0.5;
 }
 @media only screen and (max-width:1000px){
-    .bgleft,.right{
+    .bgleft{
         float:none;
         width: 100%;
     }
+
     .right{
-        margin:0;
+        width: 90%;
+        margin:0 auto;
+        margin-left:10%;
     }
 }
