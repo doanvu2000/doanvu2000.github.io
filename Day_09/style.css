@@ -196,3 +196,12 @@ ul li{
 .footer:hover i{
     opacity: 0.5;
 }
+@media only screen and (max-width:1000px){
+    .bgleft,.right{
+        float:none;
+        width: 100%;
+    }
+    .right{
+        margin:0;
+    }
+}
