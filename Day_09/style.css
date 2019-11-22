@@ -226,8 +226,9 @@ ul li{
 }
 @media only screen and (max-width:1000px){
     .bgleft{
-        float:none;
-        width: 100%;
+ /* float:none;
+        width: 100%; */
+        display: none;
     }
 
     .right{
