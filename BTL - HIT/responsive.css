@@ -1,0 +1,452 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+p{
+    margin: 0px!important   ;
+}
+.menu{
+    color: rgb(255, 95, 95);
+    background-color: orange;
+    font-weight: 200px;
+    position: fixed!important;
+    z-index: 99;
+    width: 100%;
+}
+.form{
+    margin-top: 5px;
+}
+.input-group>.input-group-append>.btn, .input-group>.input-group-append>.input-group-text, .input-group>.input-group-prepend:first-child>.btn:not(:first-child), .input-group>.input-group-prepend:first-child>.input-group-text:not(:first-child), .input-group>.input-group-prepend:not(:first-child)>.btn, .input-group>.input-group-prepend:not(:first-child)>.input-group-text {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.input-group-text{
+    padding: .075rem .75rem!important;
+}
+.style:hover{
+    background-color: rgb(248, 177, 45);
+}
+.icon{
+    font-size: 20px;
+    color: rgb(247, 0, 0);
+}
+.iconan{
+    display: none;
+}
+.icon:hover{
+    color: brown;
+}
+.mr-auto, .mx-auto {
+    margin-left: auto!important;
+}
+.user{
+    background-color: orange!important;
+    border: none!important;
+}
+.btn-secondary:not(:disabled):not(.disabled).active:focus, .btn-secondary:not(:disabled):not(.disabled):active:focus, .show>.btn-secondary.dropdown-toggle:focus {
+     box-shadow: none!important;
+}
+.btn-secondary.focus, .btn-secondary:focus {
+    box-shadow: none!important;
+}
+/* HẾT MENU */
+header{
+
+    margin-bottom: 15px;
+}
+.cover{
+    position: relative;
+}
+
+.ten{
+    position: absolute;
+    bottom: 15px;
+    left: 300px;
+
+}
+.ten a{
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 3px rgba(0, 0, 0, .8);
+}
+.ten p{
+    margin: 0px!important;
+}
+.ten a:hover{
+    text-decoration: none;
+}
+.gioithieu{
+    min-height: 47px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+.avatar img{
+    border: white solid 5px;
+    position: absolute;
+    box-shadow: none;
+    left: 15px;
+    margin-top: 0;
+    top: -183px;
+    border-radius: 50%;
+}
+.thanhchon ul{
+    padding-left:25% ;
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    background-color:#f1f1f1;
+}
+.thanhchon ul li{
+    border-right: white solid 1px;
+    display: block;
+    height: 80px;
+    line-height: 80px;
+    width: 150px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+.thanhchon ul li:hover{
+    background-color:orange;
+    cursor: pointer;
+}
+
+.thanhchonMoblie ul{
+    width: 100%;
+    padding-top: 20%;
+    padding-bottom: 5%;
+    padding-left: 5%;
+    list-style-type: none;
+    /* display: flex; */
+    width: 100%;
+    /* background-color:#f1f1f1; */
+    box-sizing: border-box;
+    font-size:90%;
+    height: auto;
+}
+.thanhchonMoblie ul li:hover{
+    cursor: pointer;
+}
+.add1{
+    width: 25%;
+    height: auto;
+    float: left;
+    text-align: center;
+    /* background-color:#f1f1f1; */
+}
+/* Hết cover + avatar */
+.intro{
+    background-color: #f1f1f1;
+    font-family: inherit;
+}
+.phan1 {
+    margin: 0px 12px;
+    padding: 12px 0px 4px;
+    font-size: 20px;
+}
+.phan2 {
+    text-align: center;
+}
+.intro button{
+    margin: 10px!important;
+    width: 90%;
+    height: 36px;
+    background-color: #f5f6f7;
+    border-color: #ccd0d5;
+    color: #4b4f56;
+    border: 1px solid;
+    border-radius: 2px;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: bold;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    text-shadow: none;
+    vertical-align: middle;
+}
+.intro button:hover{
+    background-color: rgb(221, 219, 219);
+}
+.col-4 hr{
+    margin: 0% 8%;
+    size: 3px;
+    width: 80%!important;
+    height: 3px!important;
+    padding: 10px!important;
+}
+.phan3 ul{
+    list-style-type: none;
+    margin: 10px;
+}
+.intro i{
+    width: 30px;
+    font-size: 20px;
+    padding-right: 10px;
+}
+.phan3 ul li{
+    display: block;
+    padding: 10px;
+    font-size: 15px;
+}
+.Img{
+    background-color: #f1f1f1!important;
+    margin-top: 16px;
+}
+.Anh{
+    display: flex;
+}
+.Anh img{
+    margin: 0px 4px 4px 4px;
+}
+.Anh img:hover{
+    cursor: pointer;
+}
+.Img i{
+    width: 30px;
+    font-size: 30px;
+    padding-right: 10px;
+}
+.friend{
+    margin-top: 16px;
+    background-color: #f1f1f1;
+}
+.friend span a{
+    margin: 4px 4px;
+}
+.Eventsinlife{
+    background-color: #f1f1f1!important;
+    margin: 16px 0px; 
+}
+.cv{
+    text-align: center;
+    display: flex;
+}
+.icon2{
+    font-size: 40px;
+    margin-top: 50px;
+}
+.text{
+    border: rgb(0, 0, 0) solid 1px;
+}
+.language{
+    background-color: #f1f1f1!important;
+    margin-bottom: 30px; 
+}
+.thanhchon2{
+    margin-bottom: 10px;
+    background-color: #f1f1f1;
+}
+.thanhchon2 ul{
+    display: flex;
+    list-style-type: none;
+    width: 100%;
+}
+.thanhchon2 ul li{
+    border-right: white solid 1px;
+    border-bottom: white solid 1px;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    width: 25%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+.thanhchon2 ul li:hover{
+    cursor: pointer;
+}
+.avatar1 img{
+    margin: 10px;
+    width: 50px;
+    border-radius: 50%;
+}
+.text-box input[type = text]{
+    background: transparent;
+    border: none;
+    border-bottom: 1px none white;
+    width: 50%;
+    outline: none;
+}
+.form:focus, .form:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+.text-box hr{
+    margin-bottom: 0px!important;
+    margin-top: 0px!important;
+}
+.menu1 ul li{
+    margin: 1%;
+    background: #ffffff;
+    border-radius: 18px;
+    cursor: pointer;
+    position: relative;
+    width: 30%;
+}
+.status{
+    margin-bottom: 3%;
+    background-color: #f1f1f1;
+}
+.name {
+    display: flex;
+}
+.name span{
+    font-size: 20px;
+    margin-top: 1%;
+}
+.tong{
+    padding: 1%;
+    font-size: 25px;
+}
+.like ul{
+    list-style-type: none;
+    display: flex;
+}
+.like ul li{
+    font-size: 25px;
+    text-align: center;
+    width: 33.33%;
+}
+.comment{
+    display: flex;
+}
+.comment span{
+    margin: 10px
+}
+label i{
+    padding-top: 5px;
+    margin: 0px 5px;
+}
+label i:hover{
+    color: rgb(165, 165, 165);
+    cursor: pointer;
+}
+@media all and (min-width:991px){
+    .thanhchonMoblie{
+        display: none;
+    }
+}
+@media all and (min-width:540px) and (max-width: 990px)
+{
+    .form{
+        display: none;
+    }
+    .icon{
+        display: block;
+    }
+    .navbar-nav{
+        flex-direction: row!important;
+    }
+    .dropdown{
+        display: none!important;
+    }
+    .icon{
+        font-size: 30px;
+    }
+    .iconan{
+        display: block;
+    }
+    .navbar-nav .nav-link {
+        padding-right: 1.5rem!important;
+        padding-left: 1.5rem!important;
+    }
+    .thanhchon{
+        display: none;
+    }
+    /* .thanhchonMoblie{
+        display: none;
+    } */
+    .language{
+        display: none;
+    }
+    .gioithieu {
+        margin-bottom: 40px;
+    }
+   .add1{
+       font-size:100%;
+   }
+   .thanhchonMoblie{
+       padding-top: 0%;
+   }
+   .intro{
+    background: white;
+}
+    .ten{
+        left:50%;
+    }
+}
+@media all and (max-width:540px)
+{
+    .form{
+        display: none;
+    }
+    .navbar-nav{
+        flex-direction: row!important;
+    }
+    .dropdown{
+        display: none!important;
+    }
+    .icon{
+        font-size: 20px;
+        display: block;
+    }
+    .iconan{
+        display: block;
+    }
+    .navbar-nav .nav-link {
+        padding-right: 0.8rem!important;
+        padding-left: 0.8rem!important;
+    }
+    /* Hết Menu */
+    .avatar img{
+        border: white solid 5px;
+        position: absolute;
+        border-radius: 50% 50%!important;
+        width: 30%!important;
+        left: 35%;
+        margin-top: 0;
+        top: -80%;
+    }
+    .ten {
+        z-index: 5;
+        position: absolute;
+        bottom: -40%;
+        left: 35%;
+    }
+
+    .ten a {
+        color: black;
+        font-size: 15px;
+        text-align: center;
+    } 
+   
+    .thanhchon{
+        display: none;
+    }
+    .intro{
+        background: white;
+    }
+    .thanhchonMoblie{
+        display: block;
+    }
+    .language{
+        display: none;
+    }
+    .text-box form ul{
+        display: none;
+    }
+    .thanhchon2 ul{
+        display: none;
+    }
+    .name span {
+        font-size: 15px;
+        margin-top: 1%;
+    }
+    .gioithieu {
+        margin-bottom: 80px;
+
+    }
+}
