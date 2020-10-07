@@ -39,7 +39,7 @@ a{
     /* margin-top:100px; */
     width: 100%;
     height: 500px;
-    background-image: url("one.jpg");
+    background-image: url("one.JPG");
     background-size: 100% 100%;
     background-attachment: fixed;
 }
