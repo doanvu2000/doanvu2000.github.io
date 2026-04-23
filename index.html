@@ -682,10 +682,13 @@
 
   <!-- FOOTER -->
   <footer class="py-6 px-4 border-t border-gray-800/60 text-center">
-    <p class="text-gray-600 text-sm font-mono">© 2024 Doan Vũ · Made with ❤️</p>
+    <p class="text-gray-600 text-sm font-mono">© <span id="footer-year"></span> Doan Vũ · Made with ❤️</p>
   </footer>
 
   <script>
+    // Footer year
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
     // Navbar scroll effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
