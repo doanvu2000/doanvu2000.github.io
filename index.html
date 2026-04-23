@@ -752,7 +752,17 @@
     applyTheme(!document.documentElement.classList.contains('light'), false);
 
     themeToggleBtn.addEventListener('click', () => {
-      applyTheme(document.documentElement.classList.contains('light'), true);
+      const html = document.documentElement;
+      html.classList.add('theme-transitioning');
+      setTimeout(() => html.classList.remove('theme-transitioning'), 400);
+
+      applyTheme(html.classList.contains('light'), true);
+
+      const newIcon = iconSun.classList.contains('hidden') ? iconMoon : iconSun;
+      newIcon.classList.remove('theme-icon-animate');
+      void newIcon.offsetWidth;
+      newIcon.classList.add('theme-icon-animate');
+      newIcon.addEventListener('animationend', () => newIcon.classList.remove('theme-icon-animate'), { once: true });
     });
 
     // Sync with OS if no saved preference

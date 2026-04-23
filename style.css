@@ -341,6 +341,21 @@ body::-webkit-scrollbar-thumb {
   100% { transform: scale(1, 1); }
 }
 
+/* Theme switch smooth transition */
+html.theme-transitioning *:not(canvas):not(.typing-cursor):not(#progress-bar):not(.an):not(.braco):not(.anload) {
+  transition: background-color 0.3s ease, color 0.25s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Toggle icon pop-in animation */
+@keyframes theme-icon-in {
+  from { transform: scale(0.3) rotate(-60deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.theme-icon-animate {
+  animation: theme-icon-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
 /* ===== LIGHT THEME ===== */
 
 html.light body {
