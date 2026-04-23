@@ -406,6 +406,43 @@ html.light .social-icon svg      { color: #64748b !important; }
 
 html.light .skill-badge:hover    { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
+/* Navbar always visible in light mode */
+html.light #navbar {
+  background: rgba(248,250,252,0.96) !important;
+  border-bottom: 1px solid rgba(148,163,184,0.25) !important;
+  box-shadow: 0 1px 16px rgba(0,0,0,0.07) !important;
+}
+
+/* Card elevation in light mode */
+html.light .bg-gray-800\/40 {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05) !important;
+}
+html.light .repo-card {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05) !important;
+}
+html.light .repo-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.11), 0 2px 6px rgba(0,0,0,0.06) !important;
+}
+html.light .achievement-card {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05) !important;
+}
+html.light .achievement-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.11) !important;
+}
+html.light .community-card {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05) !important;
+}
+html.light .community-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.11) !important;
+}
+html.light .partner-badge {
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+}
+/* Orange about cards */
+html.light #about .grid > div[style] {
+  box-shadow: 0 2px 12px rgba(249,115,22,0.14), 0 1px 3px rgba(249,115,22,0.08) !important;
+}
+
 /* Section titles (hardcoded #fff in base CSS) */
 html.light .section-title      { color: #0f172a !important; }
 
