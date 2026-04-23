@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+section[id] {
+  scroll-margin-top: 80px;
+}
+
 body::-webkit-scrollbar {
   width: 4px;
 }
