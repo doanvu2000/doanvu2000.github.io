@@ -17,7 +17,7 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-  background: rgba(49, 222, 132, 0.3);
+  background: rgba(249, 115, 22, 0.3);
   border-radius: 2px;
 }
 
@@ -38,7 +38,7 @@ body::-webkit-scrollbar-thumb {
   left: 0;
   width: 2.5rem;
   height: 3px;
-  background: #31DE84;
+  background: #f97316;
   border-radius: 2px;
 }
 
@@ -90,8 +90,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .social-icon:hover {
-  background: rgba(49, 222, 132, 0.15);
-  border-color: rgba(49, 222, 132, 0.4);
+  background: rgba(249, 115, 22, 0.15);
+  border-color: rgba(249, 115, 22, 0.4);
   transform: translateY(-2px);
 }
 
@@ -101,7 +101,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .social-icon:hover svg {
-  color: #31DE84;
+  color: #f97316;
 }
 
 /* Typing cursor blink */
@@ -109,7 +109,7 @@ body::-webkit-scrollbar-thumb {
   display: inline-block;
   animation: blink 1s step-end infinite;
   font-weight: 100;
-  color: #31DE84;
+  color: #f97316;
 }
 
 @keyframes blink {
@@ -145,7 +145,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .repo-card:hover {
-  border-color: rgba(49, 222, 132, 0.35);
+  border-color: rgba(249, 115, 22, 0.35);
   transform: translateY(-3px);
   background: rgba(31, 41, 55, 0.6);
 }
@@ -166,8 +166,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .partner-badge:hover {
-  border-color: rgba(49, 222, 132, 0.3);
-  background: rgba(49, 222, 132, 0.05);
+  border-color: rgba(249, 115, 22, 0.3);
+  background: rgba(249, 115, 22, 0.05);
 }
 
 /* Community card */
@@ -344,29 +344,33 @@ body::-webkit-scrollbar-thumb {
 /* ===== LIGHT THEME ===== */
 
 html.light body {
-  background-color: #f8fafc !important;
+  background-color: #e8edf5 !important;
   color: #1e293b !important;
 }
 
 html.light body::-webkit-scrollbar-track {
-  background-color: #f1f5f9 !important;
+  background-color: #dde3ee !important;
 }
 
 /* Backgrounds */
-html.light .bg-gray-950          { background-color: #f8fafc !important; }
-html.light .bg-gray-900\/40      { background-color: rgba(226,232,240,0.55) !important; }
-html.light .bg-gray-800\/40      { background-color: rgba(255,255,255,0.88) !important; }
-html.light .bg-gray-800\/50      { background-color: rgba(241,245,249,0.9) !important; }
-html.light .bg-gray-900\/50      { background-color: rgba(241,245,249,0.9) !important; }
-html.light .bg-gray-900\/95      { background-color: rgba(248,250,252,0.97) !important; }
-html.light .bg-gray-900\/90      { background-color: rgba(248,250,252,0.94) !important; }
+html.light .bg-gray-950          { background-color: #e8edf5 !important; }
+html.light .bg-gray-900\/40      { background-color: rgba(210,218,235,0.6) !important; }
+html.light .bg-gray-800\/40      { background-color: rgba(255,255,255,0.92) !important; }
+html.light .bg-gray-800\/50      { background-color: rgba(240,244,252,0.95) !important; }
+html.light .bg-gray-900\/50      { background-color: rgba(240,244,252,0.95) !important; }
+html.light .bg-gray-900\/95      { background-color: rgba(235,240,250,0.97) !important; }
+html.light .bg-gray-900\/90      { background-color: rgba(235,240,250,0.94) !important; }
 
-/* Text */
+/* Text — light theme: tăng contrast rõ hơn */
 html.light .text-white           { color: #0f172a !important; }
-html.light .text-gray-300        { color: #475569 !important; }
-html.light .text-gray-400        { color: #64748b !important; }
-html.light .text-gray-500        { color: #94a3b8 !important; }
-html.light .text-gray-600        { color: #64748b !important; }
+html.light .text-gray-300        { color: #1e293b !important; }
+html.light .text-gray-400        { color: #334155 !important; }
+html.light .text-gray-500        { color: #64748b !important; }
+html.light .text-gray-600        { color: #475569 !important; }
+
+/* Text — dark theme: tăng độ sáng chữ phụ */
+html:not(.light) .text-gray-300  { color: #d4dae8 !important; }
+html:not(.light) .text-gray-400  { color: #a8b3c8 !important; }
 
 /* Borders */
 html.light .border-gray-700\/50  { border-color: rgba(148,163,184,0.4) !important; }
@@ -376,10 +380,10 @@ html.light .border-gray-800      { border-color: rgba(148,163,184,0.35) !importa
 html.light .border-t             { border-color: rgba(148,163,184,0.3) !important; }
 
 /* Avatar ring offset */
-html.light .ring-offset-gray-950 { --tw-ring-offset-color: #f8fafc !important; }
+html.light .ring-offset-gray-950 { --tw-ring-offset-color: #e8edf5 !important; }
 
 /* Timeline dot border & vertical line */
-html.light .border-gray-950      { border-color: #f8fafc !important; }
+html.light .border-gray-950      { border-color: #e8edf5 !important; }
 html.light .bg-gray-700\/60      { background-color: rgba(148,163,184,0.4) !important; }
 
 /* Component overrides */
@@ -404,11 +408,22 @@ html.light .social-icon {
 }
 html.light .social-icon svg      { color: #64748b !important; }
 
-html.light .skill-badge:hover    { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+/* Skill badges: white bg + shadow for all, fix invisible gray text */
+html.light .skill-badge {
+  background: #ffffff !important;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.06) !important;
+}
+html.light .skill-badge:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,0.13) !important;
+}
+html.light .skill-badge[style*="color:#d1d5db"] {
+  color: #475569 !important;
+  border-color: rgba(100,116,139,0.45) !important;
+}
 
 /* Navbar always visible in light mode */
 html.light #navbar {
-  background: rgba(248,250,252,0.96) !important;
+  background: rgba(235,240,250,0.96) !important;
   border-bottom: 1px solid rgba(148,163,184,0.25) !important;
   box-shadow: 0 1px 16px rgba(0,0,0,0.07) !important;
 }
@@ -438,9 +453,17 @@ html.light .community-card:hover {
 html.light .partner-badge {
   box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
 }
-/* Orange about cards */
+/* About info cards: sync with other cards in light mode */
 html.light #about .grid > div[style] {
-  box-shadow: 0 2px 12px rgba(249,115,22,0.14), 0 1px 3px rgba(249,115,22,0.08) !important;
+  background: rgba(255,255,255,0.92) !important;
+  border-color: rgba(148,163,184,0.35) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05) !important;
+}
+html.light #about .grid > div[style] > div:first-child {
+  color: #94a3b8 !important;
+}
+html.light #about .grid > div[style] > div:last-child {
+  color: #0f172a !important;
 }
 
 /* Section titles (hardcoded #fff in base CSS) */
@@ -448,6 +471,6 @@ html.light .section-title      { color: #0f172a !important; }
 
 /* Mobile menu */
 html.light #mobile-menu {
-  background: rgba(248,250,252,0.97) !important;
+  background: rgba(232,237,245,0.98) !important;
   border-color: rgba(148,163,184,0.3) !important;
 }
