@@ -406,6 +406,9 @@ html.light .social-icon svg      { color: #64748b !important; }
 
 html.light .skill-badge:hover    { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
+/* Section titles (hardcoded #fff in base CSS) */
+html.light .section-title      { color: #0f172a !important; }
+
 /* Mobile menu */
 html.light #mobile-menu {
   background: rgba(248,250,252,0.97) !important;
