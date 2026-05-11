@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Static personal portfolio/landing page hosted on GitHub Pages (doanvu2000.github.io). No build system — pure HTML, CSS, and vanilla JavaScript served directly.
+Static personal portfolio hosted on GitHub Pages (doanvu2000.github.io). No build system — pure HTML, CSS, and vanilla JavaScript served directly.
 
 ## Development
 
@@ -20,14 +20,16 @@ npx serve .
 
 ## Architecture
 
-- `index.html` — main landing page with social links, app shortcuts, Google search, and animated character
-- `style.css` — all styling for `index.html`; uses CSS variables for dark theme
-- `love.html` — standalone particle heart animation demo
+- `index.html` — full portfolio with sections: About, Skills, Experience, Achievements, Projects, Community, Hobbies, Contact; progress bar + cursor canvas effects
+- `style.css` — supplemental styling for `index.html`; primary styling via Tailwind CSS CDN
+- `love.html` — standalone particle heart animation (canvas, black background, pink gradient text)
 - `fire/hpny2025.html` — fireworks animation using canvas + jQuery; self-contained in `fire/`
+- `jlsoft/lovequote/` — product marketing pages (overview.html + marketing.html) for the LoveQuote app
 
-### Key patterns in index.html
+### Key patterns
 
-- Editable text areas use `contenteditable` + `localStorage` to persist changes across page reloads
-- No external JS framework — all interactivity is inline vanilla JS
-- Google Fonts loaded via `<link>` (Noto Sans, Poppins)
-- External CodePen script injected for additional animations
+- Tailwind CSS loaded via CDN — no PostCSS/build step; utility classes used directly in HTML
+- Google Fonts: Noto Sans, JetBrains Mono (index.html), Poppins (love.html)
+- Dark/light theme toggle stored in `localStorage`; dark is default
+- No JS framework — all interactivity is inline vanilla JS
+- `contenteditable` + `localStorage` persist user-edited text across reloads

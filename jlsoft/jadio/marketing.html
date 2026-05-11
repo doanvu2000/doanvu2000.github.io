@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jadio VN &#8212; The World in Your Ears</title>
+<style>
+:root {
+  --rose: #F97316;
+  --pink: #FB923C;
+  --purple: #FBBF24;
+  --purple-dark: #D97706;
+  --dark: #0D0700;
+  --dark2: #1A0E00;
+  --text: #F8F4FF;
+  --muted: #C4954A;
+  --card-bg: rgba(255,255,255,0.06);
+  --card-border: rgba(255,255,255,0.12);
+  --radius: 20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow-x:hidden;}
+
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(30px,20px) scale(1.1)}}
+@keyframes drift2{from{transform:translate(0,0) scale(1.05)}to{transform:translate(-25px,15px) scale(0.95)}}
+@keyframes phonePulse{0%,100%{box-shadow:0 32px 80px rgba(249,115,22,.35)}50%{box-shadow:0 32px 80px rgba(249,115,22,.6),0 0 60px rgba(251,191,36,.3)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-12px)}60%{transform:translateY(-6px)}}
+@keyframes heroEntrance{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes waveBar{from{transform:scaleY(1)}to{transform:scaleY(0.4)}}
+
+.shimmer-text{background:linear-gradient(90deg,#F97316,#FB923C,#FBBF24,#F97316);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite;}
+
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
+.reveal.visible,.reveal-left.visible,.reveal-right.visible{opacity:1;transform:translate(0);}
+.d1{transition-delay:.05s}.d2{transition-delay:.12s}.d3{transition-delay:.19s}.d4{transition-delay:.26s}.d5{transition-delay:.33s}.d6{transition-delay:.40s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(13,7,0,0.8);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-size:22px;font-weight:800;letter-spacing:-0.5px;}
+.nav-cta{background:linear-gradient(90deg,var(--rose),var(--purple));color:white;border:none;border-radius:100px;padding:8px 20px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;}
+
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.blob-1{width:600px;height:600px;background:radial-gradient(circle,rgba(249,115,22,0.20),transparent 70%);top:-100px;left:-150px;animation:drift 8s ease-in-out alternate infinite;}
+.blob-2{width:500px;height:500px;background:radial-gradient(circle,rgba(251,191,36,0.18),transparent 70%);bottom:-80px;right:-120px;animation:drift2 10s ease-in-out alternate infinite;}
+canvas#hearts-canvas{position:absolute;inset:0;pointer-events:none;z-index:1;}
+
+.hero-content{position:relative;z-index:2;animation:heroEntrance .8s cubic-bezier(.22,1,.36,1) both;}
+.hero-badge{display:inline-block;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.4);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--rose);margin-bottom:20px;letter-spacing:0.5px;}
+.hero h1{font-size:clamp(48px,8vw,88px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:8px;}
+.hero h2{font-size:clamp(20px,3vw,26px);color:var(--muted);font-weight:400;margin-bottom:32px;max-width:560px;line-height:1.4;}
+
+.cta-group{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;}
+.btn-primary{background:linear-gradient(135deg,var(--rose),var(--purple));color:white;border:none;border-radius:100px;padding:16px 36px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;transition:opacity .2s,transform .2s;}
+.btn-primary:hover{opacity:.9;transform:scale(1.02);}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.25);border-radius:100px;padding:16px 32px;font-size:16px;font-weight:500;cursor:pointer;text-decoration:none;transition:border-color .2s;}
+.btn-secondary:hover{border-color:rgba(249,115,22,0.5);}
+
+.hero-phones{display:flex;align-items:flex-end;justify-content:center;gap:20px;position:relative;z-index:2;}
+.phone{width:140px;height:260px;background:linear-gradient(160deg,#1E1000,#2A1400);border-radius:24px;border:2px solid rgba(255,255,255,0.15);position:relative;overflow:hidden;flex-shrink:0;}
+.phone:nth-child(1){transform:rotate(-7deg) translateY(28px);opacity:.8;}
+.phone:nth-child(2){transform:scale(1.08);animation:phonePulse 3s ease-in-out infinite;z-index:2;}
+.phone:nth-child(3){transform:rotate(7deg) translateY(28px);opacity:.8;}
+.phone-notch{width:50px;height:8px;background:var(--dark);border-radius:0 0 8px 8px;margin:10px auto 0;}
+.phone-screen{padding:16px 12px 10px;text-align:center;}
+.phone-emoji{font-size:28px;margin-bottom:8px;}
+.phone-title{font-size:11px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.phone-desc{font-size:9.5px;color:var(--muted);}
+.phone-bar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:50px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;}
+.phone-wave{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:3px;}
+.phone-wave span{width:3px;background:var(--rose);border-radius:2px;animation:waveBar 1s ease-in-out infinite alternate;}
+.phone-wave span:nth-child(1){height:8px;animation-delay:0s;}
+.phone-wave span:nth-child(2){height:16px;animation-delay:.1s;}
+.phone-wave span:nth-child(3){height:24px;animation-delay:.2s;}
+.phone-wave span:nth-child(4){height:16px;animation-delay:.3s;}
+.phone-wave span:nth-child(5){height:8px;animation-delay:.4s;}
+
+.stats{background:var(--dark2);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);display:flex;flex-wrap:wrap;}
+.stat-item{flex:1;min-width:200px;padding:36px 20px;text-align:center;border-right:1px solid rgba(255,255,255,.08);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-size:44px;font-weight:900;line-height:1;margin-bottom:6px;}
+.stat-num.rose{color:var(--rose);}
+.stat-num.purple{color:var(--purple);}
+.stat-num.pink{color:var(--pink);}
+.stat-label{font-size:13px;color:var(--muted);font-weight:500;}
+
+.quote-section{padding:80px 40px;text-align:center;background:linear-gradient(180deg,var(--dark2),var(--dark));}
+blockquote{max-width:640px;margin:0 auto;font-size:clamp(20px,3vw,28px);font-style:italic;color:var(--text);line-height:1.5;font-weight:300;}
+blockquote::before{content:'"';font-size:80px;color:var(--rose);opacity:.3;display:block;line-height:.6;margin-bottom:20px;}
+blockquote cite{display:block;margin-top:20px;font-size:13px;color:var(--muted);font-style:normal;}
+
+.features-section{padding:80px 40px;max-width:1100px;margin:0 auto;}
+.feature-bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.feat-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:28px;transition:border-color .25s,transform .25s;cursor:default;}
+.feat-card:hover{border-color:rgba(249,115,22,0.35);transform:translateY(-3px);}
+.feat-card.large{grid-column:span 2;}
+.feat-icon{font-size:36px;margin-bottom:14px;}
+.feat-title{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text);}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.6;}
+.feat-tag{display:inline-block;background:rgba(249,115,22,0.12);color:var(--rose);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;margin-top:12px;}
+.feat-tag.purple{background:rgba(251,191,36,0.12);color:var(--purple);}
+
+.daily-section{padding:80px 40px;background:var(--dark2);}
+.daily-section h2{text-align:center;font-size:clamp(28px,4vw,40px);font-weight:800;margin-bottom:48px;}
+.daily-steps{display:flex;justify-content:center;flex-wrap:wrap;gap:0;}
+.daily-step{flex:1;min-width:200px;max-width:260px;text-align:center;position:relative;padding:24px 20px;}
+.daily-step:not(:last-child)::after{content:'\2192';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:24px;color:rgba(249,115,22,0.4);}
+.step-num{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--purple));display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;margin:0 auto 14px;}
+.step-title{font-size:16px;font-weight:700;margin-bottom:6px;}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.5;}
+
+.reviews-section{padding:80px 40px;max-width:900px;margin:0 auto;}
+.reviews-section h2{text-align:center;font-size:clamp(28px,4vw,40px);font-weight:800;margin-bottom:48px;}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.review-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:24px;}
+.stars{color:#FBBF24;font-size:16px;margin-bottom:12px;}
+.review-text{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;font-style:italic;}
+.reviewer{display:flex;align-items:center;gap:10px;}
+.reviewer-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;background:linear-gradient(135deg,var(--rose),var(--purple));}
+.reviewer-name{font-size:13px;font-weight:700;color:var(--text);}
+.reviewer-loc{font-size:11px;color:var(--muted);}
+
+.premium-section{padding:80px 40px;background:linear-gradient(135deg,rgba(249,115,22,0.12),rgba(251,191,36,0.10));text-align:center;}
+.premium-box{max-width:620px;margin:0 auto;border:1px solid rgba(249,115,22,0.3);border-radius:28px;padding:56px 40px;background:rgba(13,7,0,0.6);backdrop-filter:blur(20px);}
+.crown{font-size:56px;margin-bottom:16px;display:inline-block;animation:bounce 2.5s ease-in-out infinite;}
+.premium-box h2{font-size:clamp(28px,4vw,40px);font-weight:800;margin-bottom:12px;}
+.premium-box p{color:var(--muted);font-size:16px;margin-bottom:32px;line-height:1.6;}
+.perks{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:32px;}
+.perk{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:100px;padding:7px 16px;font-size:13px;color:var(--text);}
+.premium-cta-group{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+footer{background:var(--dark2);border-top:1px solid var(--card-border);padding:48px 40px 32px;text-align:center;}
+.footer-logo{font-size:28px;font-weight:800;margin-bottom:12px;}
+.footer-links{display:flex;justify-content:center;gap:28px;margin-bottom:20px;flex-wrap:wrap;}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;}
+.footer-links a:hover{color:var(--text);}
+.footer-copy{font-size:13px;color:var(--muted);}
+
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .hero-phones .phone:nth-child(1),.hero-phones .phone:nth-child(3){display:none;}
+  .hero-phones .phone:nth-child(2){transform:none;}
+  .stat-item{min-width:50%;border-right:none;border-bottom:1px solid rgba(255,255,255,.08);}
+  .stat-item:nth-child(odd){border-right:1px solid rgba(255,255,255,.08);}
+  .feature-bento{grid-template-columns:1fr;}
+  .feat-card.large{grid-column:span 1;}
+  .reviews{grid-template-columns:1fr;}
+  .daily-steps{flex-direction:column;align-items:center;}
+  .daily-step:not(:last-child)::after{display:none;}
+  .features-section,.daily-section,.reviews-section,.premium-section{padding:60px 24px;}
+}
+@media(max-width:480px){
+  .cta-group,.premium-cta-group{flex-direction:column;align-items:center;}
+  .btn-primary,.btn-secondary{width:100%;max-width:300px;text-align:center;}
+  .premium-box{padding:36px 24px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo shimmer-text">Jadio VN</div>
+  <a href="#premium" class="nav-cta">Go Premium &#10022;</a>
+</nav>
+
+<section class="hero">
+  <canvas id="hearts-canvas"></canvas>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">&#128251; Radio &amp; Podcast for the world</div>
+    <h1 class="shimmer-text">The World<br>in Your Ears</h1>
+    <h2>Thousands of live radio stations, podcasts,<br>and daily briefings &#8212; all in one beautiful app.</h2>
+    <div class="cta-group">
+      <a href="#" class="btn-primary">Download Free &#8594;</a>
+      <a href="#features" class="btn-secondary">See Features</a>
+    </div>
+  </div>
+  <div class="hero-phones reveal d2">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-emoji">&#127759;</div>
+        <div class="phone-title">Discover</div>
+        <div class="phone-desc">Stations by country &amp; genre</div>
+      </div>
+      <div class="phone-bar"></div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-emoji">&#128251;</div>
+        <div class="phone-title">Now Playing</div>
+        <div class="phone-desc">VTV FM 96 MHz &middot; Live</div>
+        <div class="phone-wave">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="phone-bar"></div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-emoji">&#127749;</div>
+        <div class="phone-title">Wake Alarm</div>
+        <div class="phone-desc">Rise to your favourite station</div>
+      </div>
+      <div class="phone-bar"></div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat-item reveal d1">
+    <div class="stat-num rose" data-target="10000" data-suffix="+">0</div>
+    <div class="stat-label">Live Radio Stations</div>
+  </div>
+  <div class="stat-item reveal d2">
+    <div class="stat-num purple" data-target="31" data-suffix="">0</div>
+    <div class="stat-label">Languages Supported</div>
+  </div>
+  <div class="stat-item reveal d3">
+    <div class="stat-num pink" data-target="100" data-suffix="+">0</div>
+    <div class="stat-label">Countries Available</div>
+  </div>
+  <div class="stat-item reveal d4">
+    <div class="stat-num rose" data-target="4" data-suffix=" &#9733;">0</div>
+    <div class="stat-label">App Store Rating</div>
+  </div>
+</section>
+
+<section class="quote-section">
+  <blockquote class="reveal">
+    Radio is the theatre of the mind.<br>Jadio turns every moment into a stage.
+    <cite>&#8212; The Jadio philosophy</cite>
+  </blockquote>
+</section>
+
+<section id="features" style="padding:80px 0;">
+  <div class="features-section">
+    <h2 class="reveal" style="text-align:center;font-size:clamp(28px,4vw,40px);font-weight:800;margin-bottom:48px;">Everything you need. Nothing you don't.</h2>
+    <div class="feature-bento">
+      <div class="feat-card large reveal d1">
+        <div class="feat-icon">&#128251;</div>
+        <div class="feat-title">Live Radio, Everywhere</div>
+        <div class="feat-desc">Tune in to thousands of live radio stations from every corner of the globe. Browse by country, genre, or top charts &#8212; discover a new station every day.</div>
+        <span class="feat-tag">Media3 &middot; ExoPlayer</span>
+      </div>
+      <div class="feat-card reveal d2">
+        <div class="feat-icon">&#127749;</div>
+        <div class="feat-title">Wake to Radio</div>
+        <div class="feat-desc">Set your alarm to any station. Wake up to the sound you love, every morning.</div>
+        <span class="feat-tag">AlarmManager</span>
+      </div>
+      <div class="feat-card reveal d3">
+        <div class="feat-icon">&#127897;&#65039;</div>
+        <div class="feat-title">Podcast Hub</div>
+        <div class="feat-desc">Browse categories, stream episodes, download for offline listening. Your pocket podcast library.</div>
+        <span class="feat-tag purple">Offline ready</span>
+      </div>
+      <div class="feat-card reveal d4">
+        <div class="feat-icon">&#128240;</div>
+        <div class="feat-title">Daily Brief</div>
+        <div class="feat-desc">Start your day with a curated audio briefing. Fresh news clips, every morning.</div>
+      </div>
+      <div class="feat-card large reveal d5">
+        <div class="feat-icon">&#128202;</div>
+        <div class="feat-title">Listening Stats &amp; Wrapped</div>
+        <div class="feat-desc">See your listening habits at a glance &#8212; hourly heatmap, total time, favourite stations. End-of-year Wrapped lets you relive your audio highlights.</div>
+        <span class="feat-tag purple">Year in review</span>
+      </div>
+      <div class="feat-card reveal d1">
+        <div class="feat-icon">&#128156;</div>
+        <div class="feat-title">Favorites &amp; Library</div>
+        <div class="feat-desc">Save stations and podcast episodes. Your collection, always a tap away.</div>
+      </div>
+      <div class="feat-card reveal d2">
+        <div class="feat-icon">&#127914;</div>
+        <div class="feat-title">Equalizer</div>
+        <div class="feat-desc">Fine-tune your sound with a built-in equalizer. Your ears, your rules.</div>
+      </div>
+      <div class="feat-card reveal d3">
+        <div class="feat-icon">&#127912;</div>
+        <div class="feat-title">Custom Themes</div>
+        <div class="feat-desc">Choose from beautiful preset themes to make Jadio feel uniquely yours.</div>
+      </div>
+      <div class="feat-card reveal d4">
+        <div class="feat-icon">&#128241;</div>
+        <div class="feat-title">Home Screen Widgets</div>
+        <div class="feat-desc">Control playback without opening the app. Quick-access widgets in 2&#215;2 and wide formats.</div>
+        <span class="feat-tag">AppWidget</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="daily-section">
+  <h2 class="reveal shimmer-text">Your Daily Ritual</h2>
+  <div class="daily-steps">
+    <div class="daily-step reveal d1">
+      <div class="step-num">&#127749;</div>
+      <div class="step-title">Wake Up</div>
+      <div class="step-desc">Radio alarm plays your favourite station exactly when you want it.</div>
+    </div>
+    <div class="daily-step reveal d2">
+      <div class="step-num">&#128240;</div>
+      <div class="step-title">Daily Brief</div>
+      <div class="step-desc">Catch up on curated audio news in minutes, hands-free.</div>
+    </div>
+    <div class="daily-step reveal d3">
+      <div class="step-num">&#127897;&#65039;</div>
+      <div class="step-title">Commute</div>
+      <div class="step-desc">Stream live radio or binge downloaded podcast episodes &#8212; even offline.</div>
+    </div>
+    <div class="daily-step reveal d4">
+      <div class="step-num">&#128202;</div>
+      <div class="step-title">Wind Down</div>
+      <div class="step-desc">Sleep timer fades out your station. Stats track every moment you listened.</div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:80px 40px;background:var(--dark);">
+  <div class="reviews-section" style="padding:0;">
+    <h2 class="reveal">Loved by listeners worldwide</h2>
+    <div class="reviews">
+      <div class="review-card reveal d1">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"Finally an app that wakes me up with Hanoi FM every morning. The alarm feature is a game-changer &#8212; my whole routine changed."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">&#127891;</div>
+          <div><div class="reviewer-name">Minh Tu&#7845;n N.</div><div class="reviewer-loc">H&#224; N&#7897;i, Vi&#7879;t Nam</div></div>
+        </div>
+      </div>
+      <div class="review-card reveal d2">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"I use Jadio every single morning for my Daily Brief before work. It's replaced my morning news habit entirely. Simple, fast, beautiful."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">&#127465;&#127466;</div>
+          <div><div class="reviewer-name">Sophie K.</div><div class="reviewer-loc">Berlin, Germany</div></div>
+        </div>
+      </div>
+      <div class="review-card reveal d3">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"The listening stats at the end of the year blew my mind. Turns out I listen to 3 hours of radio a day. The Wrapped feature made me proud of that."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">&#127471;&#127477;</div>
+          <div><div class="reviewer-name">Kenji M.</div><div class="reviewer-loc">Tokyo, Japan</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="premium" class="premium-section">
+  <div class="premium-box reveal">
+    <div class="crown">&#128081;</div>
+    <h2>Go Premium.<br><span class="shimmer-text">Hear more. Do more.</span></h2>
+    <p>Remove all ads, unlock Downloads, For You recommendations, and every feature we'll ever build.</p>
+    <div class="perks">
+      <span class="perk">&#10003; No ads</span>
+      <span class="perk">&#10003; Offline downloads</span>
+      <span class="perk">&#10003; For You feed</span>
+      <span class="perk">&#10003; Priority support</span>
+      <span class="perk">&#10003; All future features</span>
+      <span class="perk">&#10003; Custom themes</span>
+    </div>
+    <div class="premium-cta-group">
+      <a href="#" class="btn-primary">Start Free Trial &#8594;</a>
+      <a href="#" class="btn-secondary">See Plans</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo shimmer-text">Jadio VN</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Support</a>
+    <a href="#">Google Play</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 JLSoft Together. All rights reserved. &middot; com.jlsoft.radio</p>
+</footer>
+
+<script>
+(function(){
+  const canvas=document.getElementById('hearts-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const hearts=[],EMOJIS=['📻','🎵','🔥','❤️','🧡','🟠'];
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function spawn(){hearts.push({x:Math.random()*canvas.width,y:canvas.height+20,emoji:EMOJIS[Math.floor(Math.random()*EMOJIS.length)],size:14+Math.random()*20,speed:0.4+Math.random()*0.7,drift:(Math.random()-.5)*.5,opacity:.5+Math.random()*.4,life:0});}
+  let t=0;
+  function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);t++;
+    if(t%90===0)spawn();
+    for(let i=hearts.length-1;i>=0;i--){const h=hearts[i];h.y-=h.speed;h.x+=h.drift;h.life+=h.speed;const alpha=Math.max(0,h.opacity-h.life/(canvas.height*1.2));ctx.globalAlpha=alpha;ctx.font=h.size+'px serif';ctx.fillText(h.emoji,h.x,h.y);if(alpha<=0)hearts.splice(i,1);}
+    ctx.globalAlpha=1;requestAnimationFrame(animate);}
+  requestAnimationFrame(animate);spawn();spawn();spawn();
+})();
+
+(function(){
+  const els=document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(el=>io.observe(el));
+})();
+
+(function(){
+  const nums=document.querySelectorAll('.stat-num[data-target]');
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const el=e.target,target=parseInt(el.dataset.target),suffix=el.dataset.suffix||'';
+      const isK=target>=1000,displayTarget=isK?target/1000:target,dur=1400,start=performance.now();
+      function tick(now){const p=Math.min((now-start)/dur,1),ease=1-Math.pow(1-p,3),val=Math.round(ease*displayTarget*10)/10;el.textContent=(isK?val.toFixed(val%1?1:0):Math.round(val))+suffix;if(p<1)requestAnimationFrame(tick);}
+      requestAnimationFrame(tick);io.unobserve(el);
+    });
+  },{threshold:0.5});
+  nums.forEach(n=>io.observe(n));
+})();
+</script>
+</body>
+</html>
