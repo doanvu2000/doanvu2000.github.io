@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Quote Story — Every Day, A Little More in Love</title>
+  <style>
+    :root {
+      --rose: #F43F5E;
+      --pink: #EC4899;
+      --purple: #8B5CF6;
+      --purple-dark: #6D28D9;
+      --dark: #0F0A1E;
+      --dark2: #1A1035;
+      --text: #F8F4FF;
+      --muted: #A78BCA;
+      --card-bg: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════
+       SCROLL ANIMATION BASE
+    ═══════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left  { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1); }
+    .reveal-left.visible  { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px);  transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* stagger delays */
+    .d1 { transition-delay: 0.05s; } .d2 { transition-delay: 0.12s; }
+    .d3 { transition-delay: 0.19s; } .d4 { transition-delay: 0.26s; }
+    .d5 { transition-delay: 0.33s; } .d6 { transition-delay: 0.40s; }
+    .d7 { transition-delay: 0.47s; } .d8 { transition-delay: 0.54s; }
+    .d9 { transition-delay: 0.61s; }
+
+    /* ═══════════════════════════════
+       KEYFRAMES
+    ═══════════════════════════════ */
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(30px,20px) scale(1.1); }
+    }
+    @keyframes phonePulse {
+      0%,100% { box-shadow: 0 32px 80px rgba(244,63,94,0.35); }
+      50%      { box-shadow: 0 32px 80px rgba(244,63,94,0.6), 0 0 60px rgba(139,92,246,0.3); }
+    }
+    @keyframes floatHeart {
+      0%   { transform: translateY(0) scale(1); opacity: 0.8; }
+      100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      40%     { transform: translateY(-12px); }
+      60%     { transform: translateY(-6px); }
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes fadeInNav {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroEntrance {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes stepLine {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    /* ═══════════════════════════════
+       NAVBAR
+    ═══════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(15,10,30,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 14px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      animation: fadeInNav 0.6s ease both;
+    }
+    .nav-logo {
+      font-size: 18px; font-weight: 800;
+      background: linear-gradient(90deg, #F43F5E, #EC4899, #8B5CF6);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 4s linear infinite;
+    }
+    .nav-badge {
+      background: linear-gradient(135deg, var(--rose), var(--purple));
+      color: white; font-size: 13px; font-weight: 700;
+      padding: 8px 20px; border-radius: 100px;
+      text-decoration: none; letter-spacing: 0.3px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .nav-badge:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(244,63,94,0.5); }
+
+    /* ═══════════════════════════════
+       HERO
+    ═══════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+
+    /* animated bg blobs */
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); opacity: 0.3;
+      animation: drift 10s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    .blob-1 { width: 500px; height: 500px; background: #F43F5E; top: -100px; left: -150px; animation-delay: 0s; }
+    .blob-2 { width: 400px; height: 400px; background: #8B5CF6; bottom: -80px; right: -100px; animation-delay: 3s; }
+    .blob-3 { width: 280px; height: 280px; background: #EC4899; top: 40%; left: 60%; animation-delay: 6s; }
+
+    /* floating hearts canvas */
+    #hearts-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(244,63,94,0.15); border: 1px solid rgba(244,63,94,0.35);
+      color: #FDA4AF; font-size: 13px; font-weight: 600; letter-spacing: 0.8px;
+      padding: 8px 18px; border-radius: 100px;
+      margin-bottom: 28px; position: relative; z-index: 1;
+      animation: heroEntrance 0.8s 0.2s ease both;
+    }
+    .hero h1 {
+      font-size: clamp(38px, 7vw, 80px);
+      font-weight: 900; line-height: 1.08; letter-spacing: -2px;
+      position: relative; z-index: 1; margin-bottom: 24px;
+      animation: heroEntrance 0.8s 0.35s ease both;
+    }
+    .line-pink {
+      background: linear-gradient(90deg, #F43F5E, #EC4899, #F43F5E);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
+    .line-purple {
+      background: linear-gradient(90deg, #A78BFA, #8B5CF6, #A78BFA);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 3s 1.5s linear infinite;
+    }
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: #C4B5FD; max-width: 540px; line-height: 1.7;
+      position: relative; z-index: 1; margin-bottom: 44px;
+      animation: heroEntrance 0.8s 0.5s ease both;
+    }
+    .cta-group {
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+      position: relative; z-index: 1;
+      animation: heroEntrance 0.8s 0.65s ease both;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #F43F5E, #EC4899);
+      color: white; font-size: 16px; font-weight: 700;
+      padding: 15px 34px; border-radius: 100px;
+      text-decoration: none; letter-spacing: 0.2px;
+      box-shadow: 0 8px 32px rgba(244,63,94,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(244,63,94,0.65); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+      color: white; font-size: 16px; font-weight: 600;
+      padding: 15px 34px; border-radius: 100px;
+      text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+
+    /* ─── PHONES ─── */
+    .hero-phones {
+      margin-top: 64px; position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: flex-end; gap: 16px;
+      animation: heroEntrance 1s 0.8s ease both;
+    }
+    .phone {
+      width: 200px; height: 400px;
+      background: var(--dark2);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 32px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      box-shadow: 0 20px 56px rgba(0,0,0,0.55);
+      flex-shrink: 0;
+    }
+    .phone:nth-child(1) { transform: rotate(-7deg) translateY(28px); opacity: 0.8; }
+    .phone:nth-child(2) {
+      transform: scale(1.08); z-index: 3;
+      animation: phonePulse 3s ease-in-out infinite;
+    }
+    .phone:nth-child(3) { transform: rotate(7deg) translateY(28px); opacity: 0.8; }
+    .phone-screen {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 20px; text-align: center;
+    }
+    .phone-emoji { font-size: 44px; margin-bottom: 12px; }
+    .phone-title { font-size: 13px; font-weight: 700; color: white; margin-bottom: 6px; }
+    .phone-desc  { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    .phone-bar   { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #F43F5E, #8B5CF6); }
+    .phone-notch { position: absolute; top: 12px; width: 72px; height: 20px; background: var(--dark); border-radius: 100px; }
+
+    /* ═══════════════════════════════
+       STATS
+    ═══════════════════════════════ */
+    .stats {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      max-width: 800px; margin: 0 auto 72px; gap: 0;
+    }
+    .stat-item {
+      flex: 1; min-width: 140px; text-align: center;
+      padding: 28px 16px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 38px; font-weight: 900; letter-spacing: -1px;
+      background: linear-gradient(135deg, #F43F5E, #A78BFA);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* ═══════════════════════════════
+       SECTION COMMON
+    ═══════════════════════════════ */
+    section { padding: 88px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+      color: #F43F5E; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(28px, 5vw, 52px); font-weight: 900;
+      letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 18px;
+    }
+    .section-sub { font-size: 17px; color: #C4B5FD; max-width: 480px; line-height: 1.7; }
+    .grad-text {
+      background: linear-gradient(90deg,#F43F5E,#8B5CF6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ═══════════════════════════════
+       LOVE MOMENT QUOTE
+    ═══════════════════════════════ */
+    .love-moment {
+      max-width: 1100px; margin: 0 auto 72px;
+      padding: 72px 40px;
+      background: linear-gradient(135deg, rgba(244,63,94,0.1), rgba(139,92,246,0.1));
+      border: 1px solid rgba(244,63,94,0.18);
+      border-radius: 28px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .love-moment::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(244,63,94,0.1) 0%, transparent 65%);
+    }
+    .love-moment blockquote {
+      font-size: clamp(20px, 3.5vw, 36px);
+      font-weight: 800; letter-spacing: -0.3px; line-height: 1.35;
+      background: linear-gradient(135deg, white, #FCA5A5, #C4B5FD);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      max-width: 660px; margin: 0 auto 24px;
+      position: relative; z-index: 1;
+    }
+    .love-moment cite { font-size: 14px; color: var(--muted); font-style: normal; position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════
+       FEATURE BENTO
+    ═══════════════════════════════ */
+    .feature-bento {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-top: 52px;
+    }
+    .feat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius); padding: 26px;
+      transition: border-color 0.3s, background 0.3s, transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .feat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--rose), var(--purple));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .feat-card:hover { border-color: rgba(244,63,94,0.38); background: rgba(244,63,94,0.05); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(244,63,94,0.15); }
+    .feat-card:hover::before { transform: scaleX(1); }
+    .feat-card.large { grid-column: span 2; }
+
+    .feat-icon { font-size: 34px; margin-bottom: 14px; display: block; transition: transform 0.3s; }
+    .feat-card:hover .feat-icon { transform: scale(1.15) rotate(5deg); }
+    .feat-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+      color: #FDA4AF; background: rgba(244,63,94,0.15);
+      padding: 3px 10px; border-radius: 100px;
+      display: inline-block; margin-bottom: 10px;
+    }
+    .feat-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 9px; }
+    .feat-card p  { font-size: 14px; color: #C4B5FD; line-height: 1.65; }
+    .feat-card ul { list-style: none; margin-top: 12px; }
+    .feat-card ul li { font-size: 13px; color: #C4B5FD; padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+    .feat-card ul li::before { content: '→'; color: #F43F5E; font-weight: 700; flex-shrink: 0; }
+
+    /* ═══════════════════════════════
+       DAILY STEPS
+    ═══════════════════════════════ */
+    .daily-steps { display: flex; flex-direction: column; max-width: 600px; margin: 52px auto 0; }
+    .step {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 24px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--rose), var(--purple));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: transform 0.3s;
+    }
+    .step:hover .step-num { transform: scale(1.12) rotate(-5deg); }
+    .step-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
+    .step-content p  { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ═══════════════════════════════
+       REVIEWS
+    ═══════════════════════════════ */
+    .reviews { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 52px; }
+    .review-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius); padding: 26px;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .review-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(139,92,246,0.18); border-color: rgba(139,92,246,0.3); }
+    .stars { color: #FBBF24; font-size: 16px; margin-bottom: 12px; letter-spacing: 2px; }
+    .review-text { font-size: 14px; color: #E2D9F3; line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+    .reviewer { display: flex; align-items: center; gap: 12px; }
+    .reviewer-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--purple));
+      display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0;
+    }
+    .reviewer-name { font-size: 14px; font-weight: 700; }
+    .reviewer-loc  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ═══════════════════════════════
+       PREMIUM
+    ═══════════════════════════════ */
+    .premium-wrap { padding: 0 24px 88px; max-width: 1148px; margin: 0 auto; }
+    .premium-box {
+      background: linear-gradient(135deg, #1A0A2E, #2D1160);
+      border: 1px solid rgba(139,92,246,0.28);
+      border-radius: 28px; padding: 56px 40px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .premium-box::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(139,92,246,0.13) 0%, transparent 68%);
+    }
+    .premium-crown { font-size: 52px; margin-bottom: 18px; display: block; position: relative; z-index: 1; animation: bounce 2.5s ease-in-out infinite; }
+    .premium-box h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; position: relative; z-index: 1; }
+    .premium-box > p { font-size: 16px; color: #C4B5FD; max-width: 460px; margin: 0 auto 32px; line-height: 1.7; position: relative; z-index: 1; }
+    .perks { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 36px; position: relative; z-index: 1; }
+    .perk {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      padding: 9px 16px; border-radius: 100px; font-size: 13px; font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .perk:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+    .perk::before { content: '✓'; color: #34D399; font-weight: 900; }
+
+    /* ═══════════════════════════════
+       FOOTER
+    ═══════════════════════════════ */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 44px 24px; text-align: center; color: var(--muted); font-size: 14px;
+    }
+    footer .logo {
+      font-size: 20px; font-weight: 800; margin-bottom: 10px;
+      background: linear-gradient(90deg, #F43F5E, #8B5CF6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      display: block;
+    }
+    footer p { line-height: 1.9; }
+    footer a { color: #F43F5E; text-decoration: none; }
+
+    /* ═══════════════════════════════
+       MOBILE — 768px
+    ═══════════════════════════════ */
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+      .nav-badge { font-size: 12px; padding: 7px 14px; }
+
+      .blob-1 { width: 300px; height: 300px; }
+      .blob-2 { width: 250px; height: 250px; }
+      .blob-3 { display: none; }
+
+      .hero { padding: 100px 20px 48px; }
+      .hero h1 { letter-spacing: -1px; }
+
+      /* hide side phones on tablet */
+      .hero-phones .phone:nth-child(1),
+      .hero-phones .phone:nth-child(3) { display: none; }
+      .hero-phones .phone:nth-child(2) { transform: none; }
+      .phone { width: 200px; height: 380px; }
+
+      .stats { gap: 0; }
+      .stat-item { min-width: 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 20px 12px; }
+      .stat-item:nth-child(odd)  { border-right: 1px solid rgba(255,255,255,0.08); }
+      .stat-item:nth-child(3),
+      .stat-item:nth-child(4)   { border-bottom: none; }
+
+      .love-moment { margin: 0 16px 60px; padding: 44px 28px; }
+
+      section { padding: 60px 20px; }
+
+      .feature-bento { grid-template-columns: 1fr; }
+      .feat-card.large { grid-column: span 1; }
+
+      .reviews { grid-template-columns: 1fr; }
+
+      .premium-wrap { padding: 0 16px 64px; }
+      .premium-box { padding: 44px 24px; }
+    }
+
+    /* ═══════════════════════════════
+       MOBILE — 480px (small phones)
+    ═══════════════════════════════ */
+    @media (max-width: 480px) {
+      nav { padding: 10px 16px; }
+      .nav-logo { font-size: 15px; }
+      .nav-badge { font-size: 11px; padding: 6px 12px; }
+
+      .hero { padding: 90px 16px 40px; }
+      .cta-group { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; max-width: 300px; text-align: center; }
+
+      .hero-phones { margin-top: 44px; }
+      .phone { width: 180px; height: 340px; }
+      .phone-emoji { font-size: 36px; }
+
+      .stat-num { font-size: 30px; }
+      .stat-item { padding: 16px 8px; }
+
+      .love-moment { margin: 0 12px 48px; padding: 36px 20px; }
+
+      section { padding: 48px 16px; }
+      .section-title { letter-spacing: -0.8px; }
+
+      .daily-steps { padding: 0 4px; }
+      .step { gap: 14px; }
+      .step-num { width: 38px; height: 38px; font-size: 16px; border-radius: 10px; }
+
+      .premium-box { padding: 36px 18px; }
+      .perks { gap: 8px; }
+      .perk { font-size: 12px; padding: 7px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- floating hearts canvas -->
+<canvas id="hearts-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Love Quote Story 💕</div>
+  <a href="#download" class="nav-badge">Get the App →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-eyebrow">💝 Made for Couples in Love</div>
+
+  <h1>
+    <span class="line-pink">Every Day,</span><br>
+    <span class="line-purple">A Little More</span><br>
+    in Love
+  </h1>
+
+  <p class="hero-sub">
+    The app that helps couples cherish every moment — from daily love quotes to shared memories, mood check-ins, and milestones worth celebrating.
+  </p>
+
+  <div class="cta-group">
+    <a href="#download" class="btn-primary">⬇ Download Free</a>
+    <a href="#features" class="btn-secondary">See Features</a>
+  </div>
+
+  <div class="hero-phones">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-emoji">😊</div>
+        <div class="phone-title">Mood Check-in</div>
+        <div class="phone-desc">How are you feeling today?</div>
+      </div>
+      <div class="phone-bar"></div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-emoji">💕</div>
+        <div class="phone-title">1,247 days</div>
+        <div class="phone-desc">"Together is the best place to be"</div>
+      </div>
+      <div class="phone-bar"></div>
+    </div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-emoji">📸</div>
+        <div class="phone-title">Our Memories</div>
+        <div class="phone-desc">First trip to the sea ☀️</div>
+      </div>
+      <div class="phone-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item reveal d1">
+    <div class="stat-num" data-target="10000" data-suffix="K+">0</div>
+    <div class="stat-label">Love quotes</div>
+  </div>
+  <div class="stat-item reveal d2">
+    <div class="stat-num" data-target="12" data-suffix="">0</div>
+    <div class="stat-label">Couple features</div>
+  </div>
+  <div class="stat-item reveal d3">
+    <div class="stat-num" data-target="8" data-suffix="">0</div>
+    <div class="stat-label">Languages</div>
+  </div>
+  <div class="stat-item reveal d4">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Memories to make</div>
+  </div>
+</div>
+
+<!-- QUOTE MOMENT -->
+<div class="love-moment reveal" style="padding:0 24px;max-width:1148px;margin:0 auto 72px;">
+  <div style="padding:72px 40px;background:linear-gradient(135deg,rgba(244,63,94,.1),rgba(139,92,246,.1));border:1px solid rgba(244,63,94,.18);border-radius:28px;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(244,63,94,.1) 0%,transparent 65%);"></div>
+    <blockquote style="font-size:clamp(20px,3.5vw,36px);font-weight:800;letter-spacing:-.3px;line-height:1.35;background:linear-gradient(135deg,white,#FCA5A5,#C4B5FD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;max-width:660px;margin:0 auto 24px;position:relative;z-index:1;">
+      "Small, consistent gestures of love build the strongest relationships."
+    </blockquote>
+    <cite style="font-size:14px;color:var(--muted);font-style:normal;position:relative;z-index:1;">— The Love Quote Story Philosophy</cite>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-eyebrow reveal">Everything you need</div>
+  <h2 class="section-title reveal d1">One app.<br>A thousand ways<br><span class="grad-text">to love better.</span></h2>
+  <p class="section-sub reveal d2">Built around the daily rhythm of a loving relationship — not just for Valentine's Day.</p>
+
+  <div class="feature-bento">
+    <div class="feat-card large reveal d1">
+      <span class="feat-icon">💬</span>
+      <div class="feat-tag">Daily Inspiration</div>
+      <h3>Love Quotes That Actually Resonate</h3>
+      <p>Thousands of curated quotes organised by mood and theme. Save your favourites, share them, or turn them into beautiful cards to send.</p>
+      <ul>
+        <li>Curated by category & emotion</li>
+        <li>Swipe to browse, tap to savour</li>
+        <li>Share instantly to any platform</li>
+      </ul>
+    </div>
+    <div class="feat-card reveal d2">
+      <span class="feat-icon">😊</span>
+      <div class="feat-tag">Check-in</div>
+      <h3>Mood Calendar</h3>
+      <p>A 30-second daily check-in that turns into a beautiful map of your emotional journey as a couple.</p>
+    </div>
+    <div class="feat-card reveal d1">
+      <span class="feat-icon">💓</span>
+      <div class="feat-tag">Pulse</div>
+      <h3>Relationship Health Score</h3>
+      <p>Answer a few thoughtful questions and see the pulse of your relationship — with trends over time.</p>
+    </div>
+    <div class="feat-card reveal d2">
+      <span class="feat-icon">📸</span>
+      <div class="feat-tag">Memories</div>
+      <h3>Your Story, Beautifully Kept</h3>
+      <p>A private album of your shared moments — photos, notes, dates. Search and relive them anytime.</p>
+    </div>
+    <div class="feat-card reveal d3">
+      <span class="feat-icon">⏳</span>
+      <div class="feat-tag">Capsule</div>
+      <h3>Time Capsule Messages</h3>
+      <p>Write a letter to your future selves. Lock it, forget it, and let the app surprise you on the day you chose.</p>
+    </div>
+    <div class="feat-card reveal d1">
+      <span class="feat-icon">🏆</span>
+      <div class="feat-tag">Challenges</div>
+      <h3>Couple Challenges</h3>
+      <p>Fun daily and weekly challenges designed to spark connection — from "cook together" to "write 3 things you love about them."</p>
+    </div>
+    <div class="feat-card reveal d2">
+      <span class="feat-icon">🎨</span>
+      <div class="feat-tag">Editor</div>
+      <h3>Create Your Own Quote Cards</h3>
+      <p>Pick a template, choose a font and colour, add a sticker. Turn your feelings into art worth sharing.</p>
+    </div>
+    <div class="feat-card reveal d3">
+      <span class="feat-icon">🎬</span>
+      <div class="feat-tag">Recap</div>
+      <h3>Year-in-Love Video</h3>
+      <p>At the end of the year, your memories, stats and moments become a beautiful slideshow video — automatically.</p>
+    </div>
+    <div class="feat-card reveal d4">
+      <span class="feat-icon">📅</span>
+      <div class="feat-tag">Calendar</div>
+      <h3>Milestones & Anniversaries</h3>
+      <p>Never miss a "100 days", "1 year", or any milestone you define. Get notified at the right moment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY LOOP -->
+<section style="text-align:center;padding-top:0;">
+  <div class="section-eyebrow reveal">Your daily ritual</div>
+  <h2 class="section-title reveal d1">Just 5 minutes.<br><span class="grad-text">Every single day.</span></h2>
+  <div class="daily-steps">
+    <div class="step reveal-left d1">
+      <div class="step-num">☀️</div>
+      <div class="step-content">
+        <h4>Morning — Read today's quote</h4>
+        <p>Start the day with a thought that reminds you what matters most.</p>
+      </div>
+    </div>
+    <div class="step reveal-left d2">
+      <div class="step-num">😊</div>
+      <div class="step-content">
+        <h4>Afternoon — Check in on your mood</h4>
+        <p>A quick tap to log how you're feeling builds emotional awareness over time.</p>
+      </div>
+    </div>
+    <div class="step reveal-left d3">
+      <div class="step-num">📸</div>
+      <div class="step-content">
+        <h4>Evening — Save a memory</h4>
+        <p>If something special happened, add it. Even a small note counts.</p>
+      </div>
+    </div>
+    <div class="step reveal-left d4">
+      <div class="step-num">🏆</div>
+      <div class="step-content">
+        <h4>Weekly — Complete a challenge</h4>
+        <p>Tiny couple activities that bring you closer without the effort of planning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section>
+  <div class="section-eyebrow reveal">Real couples</div>
+  <h2 class="section-title reveal d1">They found their<br><span class="grad-text">daily love ritual.</span></h2>
+  <div class="reviews">
+    <div class="review-card reveal d1">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"We've been using the mood check-in every day for 3 months. It's helped us talk about things we'd never bring up otherwise. Genuinely changed how we communicate."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">👩</div>
+        <div>
+          <div class="reviewer-name">Linh & Minh</div>
+          <div class="reviewer-loc">Hà Nội · Together 2 years</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal d2">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"The Time Capsule feature made my girlfriend cry (happy tears). We wrote letters to ourselves on our 1-year anniversary and opened them on our 2nd. Nothing will top that."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">👨</div>
+        <div>
+          <div class="reviewer-name">Carlos & Sofia</div>
+          <div class="reviewer-loc">Barcelona · Together 3 years</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal d3">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"I use the custom quote editor to send her a personalised card every Friday. She thinks I'm creative. The app does all the work. 10/10."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">😄</div>
+        <div>
+          <div class="reviewer-name">Jake</div>
+          <div class="reviewer-loc">Sydney · Together 1.5 years</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREMIUM -->
+<div class="premium-wrap" id="download">
+  <div class="premium-box reveal">
+    <span class="premium-crown">👑</span>
+    <h2>Go Premium.<br>Love Without Limits.</h2>
+    <p>Remove ads, unlock unlimited editor quota, and get every future feature — forever.</p>
+    <div class="perks">
+      <span class="perk">No ads, ever</span>
+      <span class="perk">Unlimited quote cards</span>
+      <span class="perk">Unlimited stickers</span>
+      <span class="perk">All future features</span>
+      <span class="perk">Cancel anytime</span>
+    </div>
+    <div class="cta-group" style="position:relative;z-index:1;">
+      <a href="#" class="btn-primary" style="background:linear-gradient(135deg,#7B2FBE,#4F46E5);box-shadow:0 8px 32px rgba(123,47,190,0.5);">Start Free Trial →</a>
+      <a href="#" class="btn-secondary">View Plans</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="logo">Love Quote Story 💕</span>
+  <p>Available for Android · Free to download · 8 languages<br>
+  Made with ❤️ by <a href="#">JLSoftTogether</a></p>
+</footer>
+
+<!-- ═══════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════ -->
+<script>
+/* ── FLOATING HEARTS ── */
+(function() {
+  const canvas = document.getElementById('hearts-canvas');
+  const ctx = canvas.getContext('2d');
+  const hearts = [];
+  const EMOJIS = ['💕','💖','💗','💓','❤️','🩷'];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function spawnHeart() {
+    hearts.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height + 20,
+      emoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+      size: 14 + Math.random() * 20,
+      speed: 0.4 + Math.random() * 0.7,
+      drift: (Math.random() - 0.5) * 0.5,
+      opacity: 0.5 + Math.random() * 0.4,
+      life: 0
+    });
+  }
+
+  let spawnTimer = 0;
+  function animate(ts) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    spawnTimer++;
+    if (spawnTimer % 90 === 0) spawnHeart();
+
+    for (let i = hearts.length - 1; i >= 0; i--) {
+      const h = hearts[i];
+      h.y    -= h.speed;
+      h.x    += h.drift;
+      h.life += h.speed;
+      const alpha = Math.max(0, h.opacity - h.life / (canvas.height * 1.2));
+      ctx.globalAlpha = alpha;
+      ctx.font = h.size + 'px serif';
+      ctx.fillText(h.emoji, h.x, h.y);
+      if (alpha <= 0) hearts.splice(i, 1);
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+  spawnHeart(); spawnHeart(); spawnHeart();
+})();
+
+/* ── SCROLL REVEAL (IntersectionObserver) ── */
+(function() {
+  const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => io.observe(el));
+})();
+
+/* ── COUNTER ANIMATION ── */
+(function() {
+  const nums = document.querySelectorAll('.stat-num[data-target]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el     = e.target;
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const isK    = target >= 1000;
+      const displayTarget = isK ? target / 1000 : target;
+      const duration = 1400;
+      const start    = performance.now();
+
+      function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        const val  = Math.round(ease * displayTarget * 10) / 10;
+        el.textContent = (isK ? val.toFixed(val % 1 ? 1 : 0) : Math.round(val)) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      io.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  nums.forEach(n => io.observe(n));
+})();
+
+/* ── SMOOTH NAV SHADOW on SCROLL ── */
+(function() {
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 20
+      ? '0 4px 32px rgba(0,0,0,0.5)'
+      : 'none';
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>

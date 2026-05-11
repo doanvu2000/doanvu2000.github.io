@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Quote Story — App Description</title>
+  <style>
+    :root {
+      --pink: #E91E8C;
+      --pink-light: #F8BBD9;
+      --pink-soft: #FFF0F7;
+      --purple: #7B2FBE;
+      --dark: #1A1A2E;
+      --text: #2D2D3F;
+      --muted: #6B7280;
+      --card: #FFFFFF;
+      --border: #F3E8FF;
+      --tag-bg: #FDF2F8;
+      --tag-text: #BE185D;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #FFF0F7 0%, #F3E8FF 50%, #EEF2FF 100%);
+      min-height: 100vh;
+      color: var(--text);
+      padding: 32px 16px 64px;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 56px 32px 48px;
+      background: linear-gradient(135deg, #E91E8C 0%, #7B2FBE 100%);
+      border-radius: 24px;
+      color: white;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '💕';
+      position: absolute;
+      font-size: 180px;
+      opacity: 0.07;
+      top: -20px; right: -20px;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 100px;
+      padding: 4px 16px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }
+    .hero h1 { font-size: 42px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+    .hero p { font-size: 17px; opacity: 0.88; max-width: 520px; margin: 0 auto 28px; line-height: 1.6; }
+    .meta-row {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    }
+    .meta-chip {
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+    }
+
+    /* ── SECTION ── */
+    h2.section-title {
+      font-size: 22px; font-weight: 700; color: var(--dark);
+      margin-bottom: 16px; margin-top: 40px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    h2.section-title .icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+
+    /* ── CARD GRID ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(123,47,190,0.07);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover { box-shadow: 0 8px 24px rgba(123,47,190,0.13); transform: translateY(-2px); }
+    .card .card-icon { font-size: 28px; margin-bottom: 10px; }
+    .card h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .card p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+    /* ── TAG ── */
+    .tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 12px; font-weight: 600;
+      padding: 3px 10px; border-radius: 100px;
+      margin: 2px 2px 0 0;
+    }
+    .tag.blue { background: #EFF6FF; color: #1D4ED8; }
+    .tag.green { background: #F0FDF4; color: #15803D; }
+    .tag.orange { background: #FFF7ED; color: #C2410C; }
+
+    /* ── FLOW ── */
+    .flow {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+      background: white; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px;
+      box-shadow: 0 2px 8px rgba(123,47,190,0.06);
+    }
+    .flow-step {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white; border-radius: 8px;
+      padding: 7px 14px; font-size: 14px; font-weight: 600;
+    }
+    .flow-arrow { color: var(--pink); font-size: 18px; }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; border-radius: var(--radius); }
+    table {
+      width: 100%; border-collapse: collapse;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 14px;
+    }
+    th {
+      background: linear-gradient(90deg, #FDF2F8, #F3E8FF);
+      color: var(--dark); font-weight: 700;
+      padding: 12px 16px; text-align: left;
+    }
+    td { padding: 11px 16px; color: var(--text); border-top: 1px solid #FAF5FF; }
+    tr:hover td { background: #FDFAFF; }
+    code {
+      background: #F3E8FF; color: var(--purple);
+      padding: 2px 7px; border-radius: 5px;
+      font-size: 12.5px; font-family: 'SF Mono', Consolas, monospace;
+    }
+
+    /* ── ARCH BOX ── */
+    .arch-box {
+      background: var(--dark);
+      color: #E2E8F0;
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      font-family: 'SF Mono', Consolas, monospace;
+      font-size: 13.5px;
+      line-height: 2;
+    }
+    .arch-box .layer { color: #F472B6; font-weight: bold; }
+    .arch-box .arrow { color: #818CF8; }
+    .arch-box .note { color: #94A3B8; font-style: italic; }
+
+    /* ── LOCALE LIST ── */
+    .locale-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      background: white; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .locale-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--tag-bg); color: var(--tag-text);
+      font-size: 13px; font-weight: 600;
+      padding: 6px 14px; border-radius: 100px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center; margin-top: 56px;
+      color: var(--muted); font-size: 13px;
+    }
+    .footer strong { color: var(--pink); }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge">Android App · JLSoftTogether</div>
+    <h1>Love Quote Story 💕</h1>
+    <p>Ứng dụng dành cho các cặp đôi — nuôi dưỡng mối quan hệ qua quotes, kỷ niệm, check-in cảm xúc, và hành trình yêu hàng ngày.</p>
+    <div class="meta-row">
+      <span class="meta-chip">📦 com.jlsoft.lovequotestory</span>
+      <span class="meta-chip">🔧 Kotlin + XML</span>
+      <span class="meta-chip">🏗 MVVM + Repository</span>
+      <span class="meta-chip">🗄 Room DB v11</span>
+      <span class="meta-chip">🌍 8 Ngôn ngữ</span>
+      <span class="meta-chip">📱 Target SDK 36</span>
+    </div>
+  </div>
+
+  <!-- ONBOARDING FLOW -->
+  <h2 class="section-title"><span class="icon">🚀</span>Luồng Onboarding</h2>
+  <div class="flow">
+    <span class="flow-step">Splash</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Language</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Intro (4 slides)</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">First Date</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Main (3 tabs)</span>
+  </div>
+  <p style="margin-top:10px;color:var(--muted);font-size:13px;">
+    Splash xử lý UMP/GDPR consent, AOA ads, và routing thông minh: skip các bước đã hoàn thành.
+    CoachMarkOverlay spotlight 2 bước chỉ hiện lần đầu tiên.
+  </p>
+
+  <!-- MAIN FEATURES -->
+  <h2 class="section-title"><span class="icon">✨</span>Tính năng chính</h2>
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>Quotes & Stories</h3>
+      <p>Feed quotes theo danh mục, FTS search, yêu thích, swipe next/prev. Story viewer toàn màn hình với progress bar Instagram-style.</p>
+      <div style="margin-top:10px">
+        <span class="tag">QuoteDetail</span>
+        <span class="tag">StoryViewer</span>
+        <span class="tag">Favourites</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🎨</div>
+      <h3>Custom Quote Editor</h3>
+      <p>Tạo quote cá nhân với 8+ templates, chọn font, màu, gradient, background, sticker. Có quota free-tier giới hạn hàng ngày.</p>
+      <div style="margin-top:10px">
+        <span class="tag">CustomQuote</span>
+        <span class="tag orange">EditorQuota</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">😊</div>
+      <h3>Mood Check-in</h3>
+      <p>Check-in cảm xúc hàng ngày (5 cấp độ). Lịch mood theo tháng. Streak tracking tự động.</p>
+      <div style="margin-top:10px">
+        <span class="tag">MoodCalendar</span>
+        <span class="tag blue">Streak</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">💓</div>
+      <h3>Relationship Pulse</h3>
+      <p>Bộ câu hỏi đánh giá sức khoẻ mối quan hệ. Kết quả + insights + biểu đồ xu hướng theo thời gian.</p>
+      <div style="margin-top:10px">
+        <span class="tag">PulseSurvey</span>
+        <span class="tag">PulseTrend</span>
+        <span class="tag green">LineChart</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <h3>Couple Challenges</h3>
+      <p>Challenge packs với các nhiệm vụ hàng ngày/tuần. Animation khi hoàn thành. Push reminder định kỳ.</p>
+      <div style="margin-top:10px">
+        <span class="tag">ChallengeList</span>
+        <span class="tag">Missions</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📸</div>
+      <h3>Memories</h3>
+      <p>Thư viện kỷ niệm: ảnh, ghi chú, ngày, tag. FTS search. Filter theo tháng. Export/chia sẻ.</p>
+      <div style="margin-top:10px">
+        <span class="tag">MemoryEditor</span>
+        <span class="tag">MemoryFts</span>
+        <span class="tag blue">Photo</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>Couple Goals</h3>
+      <p>Danh sách mục tiêu từ GoalCatalog, đánh dấu hoàn thành, theo dõi tiến độ cặp đôi.</p>
+      <div style="margin-top:10px">
+        <span class="tag">GoalList</span>
+        <span class="tag green">Progress</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>Anniversary Calendar</h3>
+      <p>Lịch với auto-milestones (100 ngày, 1 năm…). Thêm milestone tuỳ chỉnh. Xem sự kiện từng ngày.</p>
+      <div style="margin-top:10px">
+        <span class="tag">Calendar</span>
+        <span class="tag">Milestones</span>
+        <span class="tag orange">Custom</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">⏳</div>
+      <h3>Time Capsule</h3>
+      <p>Tạo capsule với message + ảnh, khoá đến ngày chỉ định. Worker tự động unlock đúng giờ. Animation reveal đặc biệt.</p>
+      <div style="margin-top:10px">
+        <span class="tag">CapsuleEditor</span>
+        <span class="tag blue">Scheduler</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🖼</div>
+      <h3>Photo Collage</h3>
+      <p>Tạo collage ảnh từ Memories với nhiều template layout. Worker tự động tạo collage cuối tháng.</p>
+      <div style="margin-top:10px">
+        <span class="tag">Collage</span>
+        <span class="tag green">Auto-monthly</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">💌</div>
+      <h3>Couple Card</h3>
+      <p>Chọn template card đẹp, preview, chia sẻ lên mạng xã hội. Nhiều style: polaroid, neon, watercolor…</p>
+      <div style="margin-top:10px">
+        <span class="tag">CoupleCard</span>
+        <span class="tag">Templates</span>
+        <span class="tag blue">Share</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🎬</div>
+      <h3>Year Recap</h3>
+      <p>Tổng kết năm: stats, kỷ niệm nổi bật, slideshow video (MediaCodec). Poster tĩnh để chia sẻ.</p>
+      <div style="margin-top:10px">
+        <span class="tag">Recap</span>
+        <span class="tag orange">Video</span>
+        <span class="tag">Poster</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ARCHITECTURE -->
+  <h2 class="section-title"><span class="icon">🏗</span>Architecture</h2>
+  <div class="arch-box">
+    <span class="layer">UI Layer</span>  (Activity / Fragment / Custom View)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓ observes StateFlow / Channel</span><br>
+    <span class="layer">ViewModel Layer</span>  (extends BaseViewModel, launchSafe {})<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓ calls suspend functions</span><br>
+    <span class="layer">Repository Layer</span>  (ContentRepository, MoodCheckinRepository…)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓ queries</span><br>
+    <span class="layer">DataSource Layer</span>  (Room DAO, DataStore, WorkManager)<br>
+    <br>
+    <span class="note">⚠ W1–W4: một số ViewModel truy cập DAO trực tiếp (bỏ qua Repository) — known issue</span>
+  </div>
+
+  <!-- WIDGETS -->
+  <h2 class="section-title"><span class="icon">📱</span>Home Screen Widgets</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Widget</th><th>Provider</th><th>Nội dung</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Daily Quote</strong></td>
+          <td><code>DailyQuoteWidgetProvider</code></td>
+          <td>Quote ngày hôm nay, tap → QuoteDetail</td>
+        </tr>
+        <tr>
+          <td><strong>Relationship</strong></td>
+          <td><code>RelationshipWidgetProvider</code></td>
+          <td>Love days counter, mood, tuỳ chỉnh màu (pink/sunset/dark)</td>
+        </tr>
+        <tr>
+          <td><strong>Streak Counter</strong></td>
+          <td><code>StreakWidgetProvider</code></td>
+          <td>Số ngày streak check-in liên tiếp</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <h2 class="section-title"><span class="icon">🔔</span>Notifications & Reminders</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Scheduler</th><th>Khi nào</th><th>Deep link đến</th></tr></thead>
+      <tbody>
+        <tr><td><code>DailyQuoteScheduler</code></td><td>Hàng ngày theo giờ set</td><td>QuoteDetailActivity</td></tr>
+        <tr><td><code>LoveQuoteReminderScheduler</code></td><td>Định kỳ</td><td>QuoteDetailActivity</td></tr>
+        <tr><td><code>MilestonePushScheduler</code></td><td>Milestone dates</td><td>RelationshipDashboard</td></tr>
+        <tr><td><code>CapsuleUnlockScheduler</code></td><td>Ngày unlock capsule</td><td>CapsuleListActivity</td></tr>
+        <tr><td><code>CheckinReminderScheduler</code></td><td>Hàng ngày</td><td>MoodCalendarActivity</td></tr>
+        <tr><td><code>PulseReminderScheduler</code></td><td>Hàng tuần</td><td>PulseSurveyActivity</td></tr>
+        <tr><td><code>ChallengeReminderScheduler</code></td><td>Định kỳ</td><td>ChallengeDetailActivity</td></tr>
+        <tr><td><code>MonthlyCollageScheduler</code></td><td>Cuối tháng</td><td>CollageGeneratorActivity</td></tr>
+        <tr><td><code>SeasonalPushScheduler</code></td><td>Dịp lễ / mùa</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DATABASE -->
+  <h2 class="section-title"><span class="icon">🗄</span>Room Database (v11)</h2>
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px,1fr))">
+    <div class="card" style="padding:16px">
+      <h3 style="font-size:14px;margin-bottom:8px">Content</h3>
+      <span class="tag green">QuoteEntity</span>
+      <span class="tag green">QuoteFts</span>
+      <span class="tag green">StoryEntity</span>
+      <span class="tag green">TipEntity</span>
+      <span class="tag green">CategoryEntity</span>
+      <span class="tag green">ThemeEntity</span>
+    </div>
+    <div class="card" style="padding:16px">
+      <h3 style="font-size:14px;margin-bottom:8px">User Data</h3>
+      <span class="tag">FavouriteEntity</span>
+      <span class="tag">CustomDesignEntity</span>
+      <span class="tag">MemoryEntity</span>
+      <span class="tag">MemoryFts</span>
+      <span class="tag">GoalEntity</span>
+    </div>
+    <div class="card" style="padding:16px">
+      <h3 style="font-size:14px;margin-bottom:8px">Engagement</h3>
+      <span class="tag blue">MoodCheckinEntity</span>
+      <span class="tag blue">PulseEntryEntity</span>
+      <span class="tag blue">ChallengeProgressEntity</span>
+      <span class="tag blue">CapsuleEntity</span>
+      <span class="tag blue">CustomMilestoneEntity</span>
+    </div>
+  </div>
+
+  <!-- MONETIZATION -->
+  <h2 class="section-title"><span class="icon">💎</span>Ads & Monetization</h2>
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px,1fr))">
+    <div class="card" style="padding:16px">
+      <div class="card-icon" style="font-size:22px">📢</div>
+      <h3>App Open Ads</h3>
+      <p style="font-size:13px">Hiện khi mở app (Splash) và khi resume từ background.</p>
+    </div>
+    <div class="card" style="padding:16px">
+      <div class="card-icon" style="font-size:22px">⚡</div>
+      <h3>Interstitial</h3>
+      <p style="font-size:13px">Sau Intro và các action chuyển màn chính.</p>
+    </div>
+    <div class="card" style="padding:16px">
+      <div class="card-icon" style="font-size:22px">🖼</div>
+      <h3>Native Ads</h3>
+      <p style="font-size:13px">Language (250dp), Intro (full-in-list), Home bottom banner + collapsible.</p>
+    </div>
+    <div class="card" style="padding:16px">
+      <div class="card-icon" style="font-size:22px">👑</div>
+      <h3>Premium</h3>
+      <p style="font-size:13px">3 gói: <strong>Weekly</strong>, <strong>Weekly Trial</strong>, <strong>Yearly</strong>. Tắt toàn bộ ads. Google Play Billing.</p>
+    </div>
+  </div>
+
+  <!-- LOCALES -->
+  <h2 class="section-title"><span class="icon">🌍</span>Ngôn ngữ hỗ trợ</h2>
+  <div class="locale-row">
+    <span class="locale-chip">🇬🇧 English (default)</span>
+    <span class="locale-chip">🇻🇳 Tiếng Việt</span>
+    <span class="locale-chip">🇪🇸 Español</span>
+    <span class="locale-chip">🇫🇷 Français</span>
+    <span class="locale-chip">🇧🇷 Português</span>
+    <span class="locale-chip">🇯🇵 日本語</span>
+    <span class="locale-chip">🇰🇷 한국어</span>
+    <span class="locale-chip">🇮🇩 Bahasa Indonesia</span>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Generated for <strong>Love Quote Story</strong> · JLSoftTogether · 2026</p>
+    <p style="margin-top:4px">Architecture: MVVM · Room DB v11 · Kotlin Coroutines · WorkManager · Firebase</p>
+  </div>
+
+</div>
+</body>
+</html>
