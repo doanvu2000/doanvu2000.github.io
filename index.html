@@ -1,1272 +1,2638 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doan Vũ — Mobile Developer</title>
-  <script>
-    (function(){
-      var s = localStorage.getItem('theme');
-      var dark = s ? s === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (!dark) document.documentElement.classList.add('light');
-    })();
-  </script>
-  <meta name="description" content="Doan Vũ — Mobile Developer chuyên Android Java/Kotlin. 4+ năm kinh nghiệm xây dựng ứng dụng di động, phát hành Google Play, tích hợp AdMob & In-App Purchase.">
-  <meta property="og:title" content="Doan Vũ — Mobile Developer">
-  <meta property="og:description" content="Mobile Developer chuyên Android Java/Kotlin. 4+ năm kinh nghiệm xây dựng ứng dụng di động.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://doanvu2000.github.io">
-  <meta property="og:image" content="https://doanvu2000.github.io/img/avatar1.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            android: '#f97316',
-            'android-dark': '#ea6a0a',
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doan Vũ — Mobile Developer</title>
+    <script>
+      (function () {
+        var s = localStorage.getItem("theme");
+        var dark = s
+          ? s === "dark"
+          : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (!dark) document.documentElement.classList.add("light");
+      })();
+    </script>
+    <meta
+      name="description"
+      content="Doan Vũ — Mobile Developer chuyên Android Java/Kotlin. 4+ năm kinh nghiệm xây dựng ứng dụng di động, phát hành Google Play, tích hợp AdMob & In-App Purchase."
+    />
+    <meta property="og:title" content="Doan Vũ — Mobile Developer" />
+    <meta
+      property="og:description"
+      content="Mobile Developer chuyên Android Java/Kotlin. 4+ năm kinh nghiệm xây dựng ứng dụng di động."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://doanvu2000.github.io" />
+    <meta
+      property="og:image"
+      content="https://doanvu2000.github.io/img/avatar1.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              android: "#f97316",
+              "android-dark": "#ea6a0a",
+            },
+            fontFamily: {
+              sans: ["Noto Sans", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
           },
-          fontFamily: {
-            sans: ['Noto Sans', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+        },
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=AW-18184184318"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "AW-18184184318");
+    </script>
+  </head>
+  <body class="bg-gray-950 text-white font-sans overflow-x-hidden">
+    <!-- PROGRESS BAR -->
+    <div
+      id="progress-bar"
+      class="fixed top-0 left-0 h-0.5 z-[60] transition-[width] duration-100"
+      style="width: 0%; background: #f97316"
+    ></div>
+
+    <!-- CURSOR CANVAS -->
+    <canvas
+      id="cursor-canvas"
+      class="fixed inset-0 w-full h-full pointer-events-none z-[55]"
+    ></canvas>
+
+    <!-- NAVBAR -->
+    <nav
+      id="navbar"
+      class="fixed top-0 w-full z-50 transition-all duration-300"
+    >
+      <div
+        class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between"
+      >
+        <button
+          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+          class="font-mono text-android font-bold text-lg hover:opacity-80 transition-opacity cursor-pointer"
+        >
+          doanvu<span class="text-white">2000</span>
+        </button>
+        <div class="hidden sm:flex items-center gap-6 text-sm text-gray-400">
+          <a href="#about" class="nav-link hover:text-android transition-colors"
+            >Về tôi</a
+          >
+          <a
+            href="#skills"
+            class="nav-link hover:text-android transition-colors"
+            >Kỹ năng</a
+          >
+          <a
+            href="#experience"
+            class="nav-link hover:text-android transition-colors"
+            >Kinh nghiệm</a
+          >
+          <a
+            href="#achievements"
+            class="nav-link hover:text-android transition-colors"
+            >Thành tích</a
+          >
+          <a
+            href="#projects"
+            class="nav-link hover:text-android transition-colors"
+            >Dự án</a
+          >
+          <a
+            href="#communities"
+            class="nav-link hover:text-android transition-colors"
+            >Cộng đồng</a
+          >
+          <a
+            href="#hobbies"
+            class="nav-link hover:text-android transition-colors"
+            >Sở thích</a
+          >
+          <a
+            href="#contact"
+            class="nav-link hover:text-android transition-colors"
+            >Liên hệ</a
+          >
+          <a
+            href="./jlsoft/index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-400 hover:bg-purple-500/20 hover:text-purple-300 transition-all text-xs font-semibold"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              class="w-3.5 h-3.5"
+            >
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+            JLSoft
+          </a>
+        </div>
+        <button
+          id="theme-toggle"
+          aria-label="Chuyển theme"
+          class="p-2 rounded-lg text-gray-400 hover:text-android transition-colors"
+        >
+          <svg
+            id="icon-sun"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            class="w-5 h-5"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <svg
+            id="icon-moon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            class="w-5 h-5 hidden"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+        <button
+          id="mobile-menu-btn"
+          class="sm:hidden text-gray-400 hover:text-white p-1"
+          aria-label="Menu"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        id="mobile-menu"
+        class="hidden sm:hidden bg-gray-900/95 backdrop-blur border-t border-gray-800"
+      >
+        <div class="px-4 py-3 flex flex-col gap-1 text-sm text-gray-400">
+          <a href="#about" class="hover:text-android transition-colors py-2"
+            >Về tôi</a
+          >
+          <a href="#skills" class="hover:text-android transition-colors py-2"
+            >Kỹ năng</a
+          >
+          <a
+            href="#experience"
+            class="hover:text-android transition-colors py-2"
+            >Kinh nghiệm</a
+          >
+          <a
+            href="#achievements"
+            class="hover:text-android transition-colors py-2"
+            >Thành tích</a
+          >
+          <a href="#projects" class="hover:text-android transition-colors py-2"
+            >Dự án</a
+          >
+          <a
+            href="#communities"
+            class="hover:text-android transition-colors py-2"
+            >Cộng đồng</a
+          >
+          <a href="#hobbies" class="hover:text-android transition-colors py-2"
+            >Sở thích</a
+          >
+          <a href="#contact" class="hover:text-android transition-colors py-2"
+            >Liên hệ</a
+          >
+          <a
+            href="./jlsoft/index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 py-2 text-purple-400 hover:text-purple-300 transition-colors font-semibold"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              class="w-4 h-4"
+            >
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+            JLSoft Together
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section
+      id="hero"
+      class="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      <canvas
+        id="particle-canvas"
+        class="absolute inset-0 w-full h-full"
+      ></canvas>
+
+      <div
+        class="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto pt-20"
+      >
+        <div class="mb-6 flex justify-center">
+          <div class="relative">
+            <div
+              class="w-36 h-36 sm:w-48 sm:h-48 rounded-full ring-4 ring-android ring-offset-4 ring-offset-gray-950 overflow-hidden"
+            >
+              <img
+                src="img/avatar1.jpg"
+                alt="Doan Vũ"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div
+              class="absolute -bottom-1 -right-1 bg-android rounded-full w-6 h-6 flex items-center justify-center"
+            >
+              <svg viewBox="0 0 24 24" fill="white" class="w-3.5 h-3.5">
+                <path
+                  d="M6.5 2.5c2 0 3.5 1.5 3.5 3.5v1h1.5C13.5 7 15 8.5 15 10.5v8c0 2-1.5 3.5-3.5 3.5h-7C2.5 22 1 20.5 1 18.5v-8C1 8.5 2.5 7 4.5 7H6V6c0-2 1.5-3.5 3.5-3.5zM6 2C3.8 2 2 3.8 2 6v1H1.5C.7 7 0 7.7 0 8.5v13c0 .8.7 1.5 1.5 1.5h13c.8 0 1.5-.7 1.5-1.5v-13c0-.8-.7-1.5-1.5-1.5H14V6c0-2.2-1.8-4-4-4H6z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-black mb-3 tracking-tight">
+          Doan <span class="text-android">Vũ</span>
+        </h1>
+
+        <div class="h-8 mb-6 flex items-center justify-center">
+          <span class="font-mono text-lg sm:text-xl text-gray-300">
+            <span id="typing-text" class="text-android"></span
+            ><span class="typing-cursor">|</span>
+          </span>
+        </div>
+
+        <p
+          class="text-gray-400 text-base sm:text-lg mb-8 max-w-xl mx-auto leading-relaxed"
+        >
+          Mobile Developer chuyên Android Java/Kotlin. Đam mê xây dựng ứng dụng
+          di động chất lượng cao từ năm 2021.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="https://github.com/doanvu2000"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 bg-android text-gray-950 font-bold px-6 py-3 rounded-xl hover:bg-android-dark transition-colors duration-200"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+            GitHub
+          </a>
+          <a
+            href="mailto:doan.hit.dev2@gmail.com"
+            class="inline-flex items-center justify-center gap-2 border border-android text-android font-bold px-6 py-3 rounded-xl hover:bg-android hover:text-gray-950 transition-colors duration-200"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              class="w-5 h-5"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            Email
+          </a>
+        </div>
+
+        <div class="mt-16 animate-bounce flex justify-center">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            class="w-6 h-6 text-gray-600"
+          >
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- VỀ TÔI -->
+    <section id="about" class="py-20 px-4 sm:px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="section-title fade-in-up">Về tôi</h2>
+
+        <div class="grid md:grid-cols-2 gap-10 items-center fade-in-up">
+          <div class="flex justify-center">
+            <div style="height: 300px; width: 300px; position: relative">
+              <canvas
+                id="three-about-canvas"
+                style="position: absolute; inset: 0; width: 100%; height: 100%"
+              ></canvas>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-gray-300 text-base leading-relaxed">
+            <p>
+              Xin chào! Tôi là
+              <span class="text-android font-semibold">Doan Vũ</span>, sinh năm
+              2000 tại Nam Định. Hiện là
+              <span class="text-white font-medium">Mobile Developer</span>
+              chuyên phát triển ứng dụng Android bằng Java &amp; Kotlin từ năm
+              2021.
+            </p>
+            <p>
+              Tốt nghiệp kỹ sư tại Đại Học Công Nghiệp Hà Nội (2018–2022). Từng
+              làm chủ nhiệm CLB Tin học ĐHCNHN giai đoạn 2020–2021.
+            </p>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div
+                class="rounded-lg p-3 border"
+                style="
+                  background: rgba(249, 115, 22, 0.15);
+                  border-color: rgba(249, 115, 22, 0.35);
+                "
+              >
+                <div
+                  class="text-xs mb-1"
+                  style="color: rgba(253, 186, 116, 0.85)"
+                >
+                  Sinh năm
+                </div>
+                <div class="font-medium text-sm text-white">
+                  2000 · Nam Định
+                </div>
+              </div>
+              <div
+                class="rounded-lg p-3 border"
+                style="
+                  background: rgba(249, 115, 22, 0.15);
+                  border-color: rgba(249, 115, 22, 0.35);
+                "
+              >
+                <div
+                  class="text-xs mb-1"
+                  style="color: rgba(253, 186, 116, 0.85)"
+                >
+                  Kinh nghiệm
+                </div>
+                <div class="font-medium text-sm text-white">4+ năm Android</div>
+              </div>
+              <div
+                class="rounded-lg p-3 border"
+                style="
+                  background: rgba(249, 115, 22, 0.15);
+                  border-color: rgba(249, 115, 22, 0.35);
+                "
+              >
+                <div
+                  class="text-xs mb-1"
+                  style="color: rgba(253, 186, 116, 0.85)"
+                >
+                  Email
+                </div>
+                <div class="font-medium text-xs truncate text-white">
+                  doan.hit.dev2@gmail.com
+                </div>
+              </div>
+              <div
+                class="rounded-lg p-3 border"
+                style="
+                  background: rgba(249, 115, 22, 0.15);
+                  border-color: rgba(249, 115, 22, 0.35);
+                "
+              >
+                <div
+                  class="text-xs mb-1"
+                  style="color: rgba(253, 186, 116, 0.85)"
+                >
+                  GitHub
+                </div>
+                <div class="font-medium text-sm text-white">doanvu2000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KỸ NĂNG -->
+    <section id="skills" class="py-20 px-4 sm:px-6 bg-gray-900/40">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="section-title fade-in-up">Kỹ năng</h2>
+
+        <div class="flex justify-center mb-8 fade-in-up">
+          <canvas
+            id="three-skills-canvas"
+            style="
+              width: 100%;
+              max-width: 520px;
+              height: 220px;
+              display: block;
+              border-radius: 1rem;
+            "
+          ></canvas>
+        </div>
+
+        <div class="space-y-8 fade-in-up">
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4"
+            >
+              Ngôn ngữ &amp; Nền tảng
+            </h3>
+            <div class="flex flex-wrap gap-2 sm:gap-3">
+              <span
+                class="skill-badge"
+                style="
+                  color: #f97316;
+                  border-color: rgba(249, 115, 22, 0.3);
+                  background: rgba(249, 115, 22, 0.08);
+                "
+                >Android</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #fb923c;
+                  border-color: rgba(251, 146, 60, 0.3);
+                  background: rgba(251, 146, 60, 0.08);
+                "
+                >Java</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #a78bfa;
+                  border-color: rgba(167, 139, 250, 0.3);
+                  background: rgba(167, 139, 250, 0.08);
+                "
+                >Kotlin</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #60a5fa;
+                  border-color: rgba(96, 165, 250, 0.3);
+                  background: rgba(96, 165, 250, 0.08);
+                "
+                >XML Layout</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #d1d5db;
+                  border-color: rgba(75, 85, 99, 0.5);
+                  background: rgba(55, 65, 81, 0.4);
+                "
+                >Jetpack Compose</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #68d391;
+                  border-color: rgba(104, 211, 145, 0.3);
+                  background: rgba(104, 211, 145, 0.08);
+                "
+                >Node.js</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #f6e05e;
+                  border-color: rgba(246, 224, 94, 0.3);
+                  background: rgba(246, 224, 94, 0.08);
+                "
+                >Python</span
+              >
+            </div>
+          </div>
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4"
+            >
+              Libraries &amp; Architecture
+            </h3>
+            <div class="flex flex-wrap gap-2 sm:gap-3">
+              <span
+                class="skill-badge"
+                style="
+                  color: #fbbf24;
+                  border-color: rgba(251, 191, 36, 0.3);
+                  background: rgba(251, 191, 36, 0.08);
+                "
+                >MVVM</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #22d3ee;
+                  border-color: rgba(34, 211, 238, 0.3);
+                  background: rgba(34, 211, 238, 0.08);
+                "
+                >Retrofit</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #4ade80;
+                  border-color: rgba(74, 222, 128, 0.3);
+                  background: rgba(74, 222, 128, 0.08);
+                "
+                >Room DB</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #f87171;
+                  border-color: rgba(248, 113, 113, 0.3);
+                  background: rgba(248, 113, 113, 0.08);
+                "
+                >Firebase</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #d1d5db;
+                  border-color: rgba(75, 85, 99, 0.5);
+                  background: rgba(55, 65, 81, 0.4);
+                "
+                >Coroutines</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #d1d5db;
+                  border-color: rgba(75, 85, 99, 0.5);
+                  background: rgba(55, 65, 81, 0.4);
+                "
+                >LiveData</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #d1d5db;
+                  border-color: rgba(75, 85, 99, 0.5);
+                  background: rgba(55, 65, 81, 0.4);
+                "
+                >Hilt/Dagger</span
+              >
+            </div>
+          </div>
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4"
+            >
+              Monetization &amp; Publish
+            </h3>
+            <div class="flex flex-wrap gap-2 sm:gap-3">
+              <span
+                class="skill-badge"
+                style="
+                  color: #34d399;
+                  border-color: rgba(52, 211, 153, 0.3);
+                  background: rgba(52, 211, 153, 0.08);
+                "
+                >Google Play Store</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #facc15;
+                  border-color: rgba(250, 204, 21, 0.3);
+                  background: rgba(250, 204, 21, 0.08);
+                "
+                >AdMob / Ads SDK</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #38bdf8;
+                  border-color: rgba(56, 189, 248, 0.3);
+                  background: rgba(56, 189, 248, 0.08);
+                "
+                >In-App Purchase</span
+              >
+            </div>
+          </div>
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4"
+            >
+              Reverse &amp; Crawl
+            </h3>
+            <div class="flex flex-wrap gap-2 sm:gap-3">
+              <span
+                class="skill-badge"
+                style="
+                  color: #f87171;
+                  border-color: rgba(248, 113, 113, 0.3);
+                  background: rgba(248, 113, 113, 0.08);
+                "
+                >Reverse APK</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #c084fc;
+                  border-color: rgba(192, 132, 252, 0.3);
+                  background: rgba(192, 132, 252, 0.08);
+                "
+                >Decompile / Smali</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #fbbf24;
+                  border-color: rgba(251, 191, 36, 0.3);
+                  background: rgba(251, 191, 36, 0.08);
+                "
+                >Crawl Data</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #34d399;
+                  border-color: rgba(52, 211, 153, 0.3);
+                  background: rgba(52, 211, 153, 0.08);
+                "
+                >Intercept API</span
+              >
+            </div>
+          </div>
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4"
+            >
+              Công cụ
+            </h3>
+            <div class="flex flex-wrap gap-2 sm:gap-3">
+              <span
+                class="skill-badge"
+                style="
+                  color: #d1d5db;
+                  border-color: rgba(75, 85, 99, 0.5);
+                  background: rgba(55, 65, 81, 0.4);
+                "
+                >Git</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #d1d5db;
+                  border-color: rgba(75, 85, 99, 0.5);
+                  background: rgba(55, 65, 81, 0.4);
+                "
+                >Android Studio</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #d1d5db;
+                  border-color: rgba(75, 85, 99, 0.5);
+                  background: rgba(55, 65, 81, 0.4);
+                "
+                >Postman</span
+              >
+              <span
+                class="skill-badge"
+                style="
+                  color: #d1d5db;
+                  border-color: rgba(75, 85, 99, 0.5);
+                  background: rgba(55, 65, 81, 0.4);
+                "
+                >Figma</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KINH NGHIỆM & HỌC VẤN -->
+    <section id="experience" class="py-20 px-4 sm:px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="section-title fade-in-up">Kinh nghiệm &amp; Học vấn</h2>
+
+        <div class="relative fade-in-up">
+          <div
+            class="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-gray-700/60"
+          ></div>
+
+          <div class="space-y-6">
+            <!-- Solar JSC -->
+            <div class="relative pl-12 sm:pl-16">
+              <div
+                class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-android border-4 border-gray-950 z-10"
+              ></div>
+              <div
+                class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-android/40 transition-colors duration-300"
+              >
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="font-mono text-xs text-gray-500"
+                    >04/2025 – nay</span
+                  >
+                  <span
+                    class="text-xs text-android bg-android/10 border border-android/20 px-2 py-0.5 rounded-full"
+                    >Current</span
+                  >
+                </div>
+                <h3 class="text-lg font-bold text-white mb-0.5">
+                  Mobile Developer
+                </h3>
+                <p class="text-android text-sm font-medium mb-2">Solar JSC</p>
+                <p class="text-gray-400 text-sm mb-3">
+                  Xây dựng và phát hành ứng dụng Android lên Google Play. Tích
+                  hợp Ads SDK (AdMob), In-App Purchase. Phát triển tool nội bộ
+                  hỗ trợ quy trình làm việc.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-android/10 text-android border border-android/20"
+                    >Google Play</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                    >AdMob</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                    >In-App Purchase</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                    >Java / Kotlin</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Wezen -->
+            <div class="relative pl-12 sm:pl-16">
+              <div
+                class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-purple-500 border-4 border-gray-950 z-10"
+              ></div>
+              <div
+                class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-purple-500/40 transition-colors duration-300"
+              >
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="font-mono text-xs text-gray-500"
+                    >2022 – 03/2025</span
+                  >
+                  <span
+                    class="text-xs text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded-full"
+                    >Full-time</span
+                  >
+                </div>
+                <h3 class="text-lg font-bold text-white mb-0.5">
+                  Mobile Developer
+                </h3>
+                <p class="text-purple-400 text-sm font-medium mb-2">Wezen</p>
+                <p class="text-gray-400 text-sm mb-3">
+                  Xây dựng và phát hành ứng dụng Android lên Google Play. Tích
+                  hợp Ads SDK (AdMob), In-App Purchase, MVVM, Retrofit, Room,
+                  Firebase.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-android/10 text-android border border-android/20"
+                    >Google Play</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                    >AdMob</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                    >In-App Purchase</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Teracom / Hitex Global -->
+            <div class="relative pl-12 sm:pl-16">
+              <div
+                class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-cyan-500 border-4 border-gray-950 z-10"
+              ></div>
+              <div
+                class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-cyan-500/40 transition-colors duration-300"
+              >
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="font-mono text-xs text-gray-500">2021</span>
+                  <span
+                    class="text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-full"
+                    >Full-time</span
+                  >
+                </div>
+                <h3 class="text-lg font-bold text-white mb-0.5">
+                  Mobile Developer
+                </h3>
+                <p class="text-cyan-400 text-sm font-medium mb-2">
+                  Teracom / Hitex Global
+                </p>
+                <div class="space-y-2 mb-3">
+                  <div
+                    class="flex items-start gap-2 bg-gray-900/50 rounded-lg px-3 py-2"
+                  >
+                    <span
+                      class="text-xs text-rose-400 font-mono mt-0.5 flex-shrink-0"
+                      >Onsite</span
+                    >
+                    <div>
+                      <span class="text-xs text-white font-medium"
+                        >Viettel Telecom</span
+                      >
+                      <span class="text-xs text-gray-500 ml-1"
+                        >· T3 – T6 · Keangnam Landmark 72</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-start gap-2 bg-gray-900/50 rounded-lg px-3 py-2"
+                  >
+                    <span
+                      class="text-xs text-rose-400 font-mono mt-0.5 flex-shrink-0"
+                      >Onsite</span
+                    >
+                    <div>
+                      <span class="text-xs text-white font-medium">VTI</span>
+                      <span class="text-xs text-gray-500 ml-1"
+                        >· T6 – T9 · App bảo hiểm Sony</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                    >Android</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                    >Java / Kotlin</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Monstarlab -->
+            <div class="relative pl-12 sm:pl-16">
+              <div
+                class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-orange-500 border-4 border-gray-950 z-10"
+              ></div>
+              <div
+                class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-orange-500/40 transition-colors duration-300"
+              >
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="font-mono text-xs text-gray-500">2020</span>
+                  <span
+                    class="text-xs text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded-full"
+                    >Internship</span
+                  >
+                </div>
+                <h3 class="text-lg font-bold text-white mb-0.5">
+                  Mobile Developer
+                </h3>
+                <p class="text-orange-400 text-sm font-medium mb-2">
+                  Monstarlab
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                    >Android</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                    >Java</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Gia sư / Mentor -->
+            <div class="relative pl-12 sm:pl-16">
+              <div
+                class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-teal-500 border-4 border-gray-950 z-10"
+              ></div>
+              <div
+                class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-teal-500/40 transition-colors duration-300"
+              >
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="font-mono text-xs text-gray-500"
+                    >2020 – nay</span
+                  >
+                  <span
+                    class="text-xs text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded-full"
+                    >Mentoring</span
+                  >
+                </div>
+                <h3 class="text-lg font-bold text-white mb-0.5">
+                  Gia sư &amp; Mentor Lập trình
+                </h3>
+                <p class="text-teal-400 text-sm font-medium mb-2">Freelance</p>
+                <p class="text-gray-400 text-sm mb-3">
+                  Truyền đạt kiến thức lập trình Android, Java/Kotlin cho người
+                  mới. Tổ chức nhiều buổi seminar chia sẻ kinh nghiệm thực chiến
+                  về phát triển ứng dụng di động.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20"
+                    >Android</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                    >Java / Kotlin</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                    >Seminar</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- CLB -->
+            <div class="relative pl-12 sm:pl-16">
+              <div
+                class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-blue-500 border-4 border-gray-950 z-10"
+              ></div>
+              <div
+                class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-blue-500/40 transition-colors duration-300"
+              >
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="font-mono text-xs text-gray-500"
+                    >2020 – 2021</span
+                  >
+                  <span
+                    class="text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full"
+                    >Leadership</span
+                  >
+                </div>
+                <h3 class="text-lg font-bold text-white mb-0.5">
+                  Chủ nhiệm CLB Tin học
+                </h3>
+                <p class="text-blue-400 text-sm font-medium mb-2">
+                  Đại Học Công Nghiệp Hà Nội
+                </p>
+                <p class="text-gray-400 text-sm">
+                  Tổ chức các hoạt động học thuật, cuộc thi lập trình cho sinh
+                  viên.
+                </p>
+              </div>
+            </div>
+
+            <!-- Education -->
+            <div class="relative pl-12 sm:pl-16">
+              <div
+                class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-yellow-500 border-4 border-gray-950 z-10"
+              ></div>
+              <div
+                class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-yellow-500/40 transition-colors duration-300"
+              >
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="font-mono text-xs text-gray-500"
+                    >2018 – 2022</span
+                  >
+                  <span
+                    class="text-xs text-yellow-400 bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded-full"
+                    >Education</span
+                  >
+                </div>
+                <h3 class="text-lg font-bold text-white mb-0.5">
+                  Kỹ sư Công nghệ Thông tin
+                </h3>
+                <p class="text-yellow-400 text-sm font-medium mb-2">
+                  Đại Học Công Nghiệp Hà Nội
+                </p>
+                <p class="text-gray-400 text-sm">
+                  Tốt nghiệp kỹ sư Công nghệ Thông tin.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THÀNH TÍCH -->
+    <section id="achievements" class="py-20 px-4 sm:px-6 bg-gray-900/40">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="section-title fade-in-up">Thành tích</h2>
+
+        <div class="grid sm:grid-cols-3 gap-4 fade-in-up">
+          <div
+            class="achievement-card"
+            style="border-color: rgba(249, 115, 22, 0.25)"
+          >
+            <div class="text-3xl mb-3">🥉</div>
+            <h3 class="font-bold text-white mb-2 text-base">
+              Giải 3 Thuật toán Tỉnh
+            </h3>
+            <p class="text-gray-400 text-sm">
+              Cuộc thi thuật toán tin học cấp tỉnh Nam Định 2017
+            </p>
+          </div>
+          <div
+            class="achievement-card"
+            style="border-color: rgba(96, 165, 250, 0.25)"
+          >
+            <div class="text-3xl mb-3">🏅</div>
+            <h3 class="font-bold text-white mb-2 text-base">Giải 3 ACM</h3>
+            <p class="text-gray-400 text-sm">
+              Cuộc thi ACM cấp trường năm 2020 · ĐHCNHN
+            </p>
+          </div>
+          <div
+            class="achievement-card"
+            style="border-color: rgba(251, 191, 36, 0.25)"
+          >
+            <div class="text-3xl mb-3">🎓</div>
+            <h3 class="font-bold text-white mb-2 text-base">
+              Tốt nghiệp Bằng Giỏi
+            </h3>
+            <p class="text-gray-400 text-sm">
+              Kỹ sư Công nghệ Thông tin · ĐHCNHN 2022
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DỰ ÁN / REPOS -->
+    <section id="projects" class="py-20 px-4 sm:px-6 bg-gray-900/40">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="section-title fade-in-up">Dự án &amp; Repos</h2>
+
+        <div class="space-y-6 fade-in-up">
+          <!-- Personal repos -->
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3"
+            >
+              Open Source
+            </h3>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <a
+                href="https://github.com/doanvu2000/AndroidBaseKotlin"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-card group"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex items-center gap-2">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-4 h-4 text-gray-500 flex-shrink-0"
+                    >
+                      <path
+                        d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"
+                      />
+                    </svg>
+                    <span
+                      class="text-white font-semibold text-sm group-hover:text-android transition-colors"
+                      >AndroidBaseKotlin</span
+                    >
+                  </div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+                    />
+                  </svg>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed mb-3">
+                  Base template cho dự án Android với Kotlin — cấu trúc sẵn,
+                  dùng liền.
+                </p>
+                <span
+                  class="text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                  >Kotlin</span
+                >
+              </a>
+
+              <a
+                href="https://github.com/doanvu2000/ToolTranslateStringXMLAndroid"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-card group"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex items-center gap-2">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-4 h-4 text-gray-500 flex-shrink-0"
+                    >
+                      <path
+                        d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"
+                      />
+                    </svg>
+                    <span
+                      class="text-white font-semibold text-sm group-hover:text-android transition-colors"
+                      >ToolTranslateStringXML</span
+                    >
+                  </div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+                    />
+                  </svg>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed mb-3">
+                  Tool dịch file strings.xml Android sang nhiều ngôn ngữ tự
+                  động.
+                </p>
+                <span
+                  class="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20"
+                  >Java</span
+                >
+              </a>
+
+              <a
+                href="https://github.com/gaotam/NovelNow"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-card group sm:col-span-2"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex items-center gap-2">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-4 h-4 text-gray-500 flex-shrink-0"
+                    >
+                      <path
+                        d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"
+                      />
+                    </svg>
+                    <span
+                      class="text-white font-semibold text-sm group-hover:text-android transition-colors"
+                      >NovelNow</span
+                    >
+                  </div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+                    />
+                  </svg>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed mb-3">
+                  Crawl chapter mới nhất từ TruyenQQ — theo dõi truyện yêu thích
+                  không bỏ lỡ chap nào.
+                </p>
+                <span
+                  class="text-xs px-2 py-0.5 rounded-full bg-android/10 text-android border border-android/20"
+                  >Android</span
+                >
+              </a>
+            </div>
+          </div>
+
+          <!-- Workplace -->
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3"
+            >
+              Workplace
+            </h3>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <a
+                href="https://github.com/JinWorkPlace"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-card group"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex items-center gap-2">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-4 h-4 text-gray-500 flex-shrink-0"
+                    >
+                      <path
+                        d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+                      />
+                    </svg>
+                    <span
+                      class="text-white font-semibold text-sm group-hover:text-android transition-colors"
+                      >JinWorkPlace</span
+                    >
+                  </div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+                    />
+                  </svg>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed mb-3">
+                  GitHub organization — nơi tập trung các dự án cộng tác.
+                </p>
+                <span
+                  class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                  >GitHub Org</span
+                >
+              </a>
+
+              <a
+                href="https://gitlab.com/jlsoft-together"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-card group"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex items-center gap-2">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-4 h-4 text-orange-400 flex-shrink-0"
+                    >
+                      <path
+                        d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"
+                      />
+                    </svg>
+                    <span
+                      class="text-white font-semibold text-sm group-hover:text-android transition-colors"
+                      >jlsoft-together</span
+                    >
+                  </div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+                    />
+                  </svg>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed mb-3">
+                  GitLab group — workspace cộng tác dự án nhóm.
+                </p>
+                <span
+                  class="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20"
+                  >GitLab Group</span
+                >
+              </a>
+            </div>
+          </div>
+
+          <!-- JLSoft -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3
+                class="text-xs font-mono text-gray-500 uppercase tracking-widest"
+              >
+                JLSoft Products
+              </h3>
+              <a
+                href="./jlsoft/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1"
+              >
+                View Store
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="w-3 h-3"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+            <div
+              class="relative mb-4 rounded-xl overflow-hidden border border-gray-700/40"
+              style="height: 90px"
+            >
+              <canvas
+                id="jlsoft-canvas"
+                style="
+                  position: absolute;
+                  inset: 0;
+                  width: 100%;
+                  height: 100%;
+                  display: block;
+                "
+              ></canvas>
+              <div
+                class="absolute inset-0 flex items-center justify-around pointer-events-none select-none"
+              >
+                <span
+                  class="text-xs font-semibold text-rose-400/80 tracking-wide"
+                  >💖 Love Quote Story</span
+                >
+                <div class="w-px h-8 bg-white/10"></div>
+                <span
+                  class="text-xs font-semibold text-orange-400/80 tracking-wide"
+                  >📻 Jadio Podcast</span
+                >
+              </div>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <a
+                href="./jlsoft/lovequote/marketing.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-card group"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="./jlsoft/lovequote/logo.png"
+                      alt="Love Quote Story"
+                      class="w-6 h-6 rounded-md flex-shrink-0"
+                    />
+                    <span
+                      class="text-white font-semibold text-sm group-hover:text-rose-400 transition-colors"
+                      >Love Quote Story</span
+                    >
+                  </div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="w-4 h-4 text-gray-600 group-hover:text-rose-400 transition-colors flex-shrink-0"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+                    />
+                  </svg>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed mb-3">
+                  App gửi quote tình yêu lãng mạn mỗi ngày — kết nối và thể hiện
+                  tình cảm đôi lứa.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                    >Android</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                    >Kotlin</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20"
+                    >JLSoft</span
+                  >
+                </div>
+              </a>
+
+              <a
+                href="./jlsoft/jadio/marketing.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-card group"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="./jlsoft/jadio/logo.png"
+                      alt="Jadio Podcast"
+                      class="w-6 h-6 rounded-md flex-shrink-0"
+                    />
+                    <span
+                      class="text-white font-semibold text-sm group-hover:text-orange-400 transition-colors"
+                      >Jadio Podcast</span
+                    >
+                  </div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="w-4 h-4 text-gray-600 group-hover:text-orange-400 transition-colors flex-shrink-0"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+                    />
+                  </svg>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed mb-3">
+                  Nghe radio trực tuyến — thế giới trong tầm tay, bất kỳ đâu bất
+                  kỳ lúc nào.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20"
+                    >Android</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                    >Kotlin</span
+                  >
+                  <span
+                    class="text-xs px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20"
+                    >JLSoft</span
+                  >
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Đối tác -->
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3"
+            >
+              Đối tác
+            </h3>
+            <div class="flex flex-wrap gap-3">
+              <div class="partner-badge">
+                <div
+                  class="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"
+                ></div>
+                Socby
+              </div>
+              <div class="partner-badge">
+                <div
+                  class="w-2 h-2 rounded-full bg-purple-400 flex-shrink-0"
+                ></div>
+                JSoft
+              </div>
+              <div class="partner-badge">
+                <div
+                  class="w-2 h-2 rounded-full bg-orange-400 flex-shrink-0"
+                ></div>
+                JLSoft Together
+              </div>
+              <a
+                href="https://hoanxu.vn"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="partner-badge hover:border-green-400/50 hover:text-green-400 transition-colors"
+              >
+                <div
+                  class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"
+                ></div>
+                Hoanxu.vn
+              </a>
+              <div class="partner-badge">
+                <div
+                  class="w-2 h-2 rounded-full bg-android flex-shrink-0"
+                ></div>
+                SyncSoft
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CỘNG ĐỒNG -->
+    <section id="communities" class="py-20 px-4 sm:px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="section-title fade-in-up">Cộng đồng</h2>
+
+        <div class="space-y-4 fade-in-up">
+          <!-- Discord -->
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-4 h-4 text-indigo-400"
+              >
+                <path
+                  d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.014.043.031.057a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
+                />
+              </svg>
+              Discord
+            </h3>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <a
+                href="https://discord.gg/ncRhpJnVf"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="community-card border-indigo-500/20 hover:border-indigo-400/50"
+              >
+                <div
+                  class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center mb-3"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-4 h-4 text-indigo-400"
+                  >
+                    <path
+                      d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.014.043.031.057a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
+                    />
+                  </svg>
+                </div>
+                <p class="text-white font-semibold text-sm mb-1">
+                  HIT Community
+                </p>
+                <p class="text-gray-500 text-xs">discord.gg/ncRhpJnVf</p>
+              </a>
+              <a
+                href="https://discord.gg/4qQjTge2t"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="community-card border-android/20 hover:border-android/50"
+              >
+                <div
+                  class="w-8 h-8 rounded-lg bg-android/10 flex items-center justify-center mb-3"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-4 h-4 text-android"
+                  >
+                    <path
+                      d="M6.5 2.5c2 0 3.5 1.5 3.5 3.5v1h4V6c0-2 1.5-3.5 3.5-3.5S21 4 21 6v1h.5c.8 0 1.5.7 1.5 1.5v13c0 .8-.7 1.5-1.5 1.5h-19C1.7 23 1 22.3 1 21.5v-13C1 7.7 1.7 7 2.5 7H3V6c0-2 1.5-3.5 3.5-3.5zm5 9.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-4 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"
+                    />
+                  </svg>
+                </div>
+                <p class="text-white font-semibold text-sm mb-1">Android Dev</p>
+                <p class="text-gray-500 text-xs">discord.gg/4qQjTge2t</p>
+              </a>
+              <a
+                href="https://discord.gg/M3DEhjYuW"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="community-card border-purple-500/20 hover:border-purple-400/50"
+              >
+                <div
+                  class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center mb-3"
+                >
+                  <span class="text-base">🧘</span>
+                </div>
+                <p class="text-white font-semibold text-sm mb-1">
+                  Tu tiên và cuộc sống
+                </p>
+                <p class="text-gray-500 text-xs">discord.gg/M3DEhjYuW</p>
+              </a>
+            </div>
+          </div>
+
+          <!-- Facebook -->
+          <div>
+            <h3
+              class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-4 h-4 text-blue-400"
+              >
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                />
+              </svg>
+              Facebook
+            </h3>
+            <div class="grid sm:grid-cols-1 gap-3">
+              <a
+                href="https://www.facebook.com/groups/hit.learningcorner"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="community-card border-blue-500/20 hover:border-blue-400/50"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-4 h-4 text-blue-400"
+                    >
+                      <path
+                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-white font-semibold text-sm mb-0.5">
+                      HIT - Learning Corner
+                    </p>
+                    <p class="text-gray-500 text-xs">
+                      facebook.com/groups/hit.learningcorner
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SỞ THÍCH -->
+    <section id="hobbies" class="py-20 px-4 sm:px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="section-title fade-in-up">Sở thích</h2>
+
+        <div class="grid sm:grid-cols-2 gap-4 fade-in-up">
+          <div
+            class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-6 flex items-center gap-4 hover:border-gray-500/60 transition-colors duration-300"
+          >
+            <span class="text-4xl">⚔️</span>
+            <div>
+              <h3 class="font-bold text-white mb-1">Liên Minh Huyền Thoại</h3>
+              <p class="text-gray-400 text-sm">Cày rank, chơi với bạn bè</p>
+            </div>
+          </div>
+          <div
+            class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-6 flex items-center gap-4 hover:border-gray-500/60 transition-colors duration-300"
+          >
+            <span class="text-4xl">📚</span>
+            <div>
+              <h3 class="font-bold text-white mb-1">Đọc Truyện</h3>
+              <p class="text-gray-400 text-sm">Light novel, manga, webtoon</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIÊN HỆ -->
+    <section id="contact" class="py-20 px-4 sm:px-6 bg-gray-900/40">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="section-title fade-in-up">Liên hệ</h2>
+
+        <p class="text-gray-400 mb-8 max-w-md mx-auto fade-in-up">
+          Tôi luôn sẵn sàng cho các cơ hội mới và dự án thú vị. Hãy liên hệ!
+        </p>
+
+        <div class="flex justify-center mb-8 fade-in-up">
+          <a
+            href="mailto:doan.hit.dev2@gmail.com"
+            class="inline-flex items-center gap-2 bg-android text-gray-950 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl hover:bg-android-dark transition-colors duration-200 text-base sm:text-lg"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              class="w-5 h-5 flex-shrink-0"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <span class="truncate">doan.hit.dev2@gmail.com</span>
+          </a>
+        </div>
+
+        <div class="flex justify-center mb-8 fade-in-up">
+          <a
+            href="./jlsoft/index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-3 px-6 py-3 rounded-xl border border-purple-500/30 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 hover:text-purple-200 transition-all duration-200 font-semibold text-sm"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              class="w-5 h-5 flex-shrink-0"
+            >
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+            JLSoft Together — Xem tất cả ứng dụng
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              class="w-4 h-4"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="flex justify-center gap-4 fade-in-up">
+          <a
+            href="https://github.com/doanvu2000"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-icon"
+            aria-label="GitHub"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5 text-gray-300"
+            >
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.instagram.com/jinvu00"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-icon"
+            aria-label="Instagram"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              class="w-5 h-5 text-gray-300"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4.5" />
+              <circle
+                cx="17.5"
+                cy="6.5"
+                r="1"
+                fill="currentColor"
+                stroke="none"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.youtube.com/channel/UCbPGuzWUg2RIqSn5SEDPBTQ"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-icon"
+            aria-label="YouTube"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5 text-gray-300"
+            >
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.facebook.com/jinvu00"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-icon"
+            aria-label="Facebook"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5 text-gray-300"
+            >
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://discord.com/users/653921963064164352"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-icon"
+            aria-label="Discord"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5 text-gray-300"
+            >
+              <path
+                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.014.043.031.057a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCROLL TO TOP -->
+    <button
+      id="scroll-top"
+      aria-label="Về đầu trang"
+      class="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full border flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:scale-110"
+      style="
+        background: rgba(249, 115, 22, 0.15);
+        border-color: rgba(249, 115, 22, 0.4);
+        color: #f97316;
+      "
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        class="w-4 h-4"
+      >
+        <path d="M18 15l-6-6-6 6" />
+      </svg>
+    </button>
+
+    <!-- FOOTER -->
+    <footer class="py-6 px-4 border-t border-gray-800/60 text-center">
+      <p class="text-gray-600 text-sm font-mono">
+        © <span id="footer-year"></span> Doan Vũ · Made with ❤️
+      </p>
+    </footer>
+
+    <script>
+      // Footer year
+      document.getElementById("footer-year").textContent =
+        new Date().getFullYear();
+
+      // Theme toggle
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const iconSun = document.getElementById("icon-sun");
+      const iconMoon = document.getElementById("icon-moon");
+
+      function applyTheme(dark, save) {
+        document.documentElement.classList.toggle("light", !dark);
+        if (save) localStorage.setItem("theme", dark ? "dark" : "light");
+        iconSun.classList.toggle("hidden", !dark);
+        iconMoon.classList.toggle("hidden", dark);
+      }
+
+      // Init icons to match current state (class already set in <head>)
+      applyTheme(!document.documentElement.classList.contains("light"), false);
+
+      themeToggleBtn.addEventListener("click", () => {
+        const html = document.documentElement;
+        html.classList.add("theme-transitioning");
+        setTimeout(() => html.classList.remove("theme-transitioning"), 400);
+
+        applyTheme(html.classList.contains("light"), true);
+
+        const newIcon = iconSun.classList.contains("hidden")
+          ? iconMoon
+          : iconSun;
+        newIcon.classList.remove("theme-icon-animate");
+        void newIcon.offsetWidth;
+        newIcon.classList.add("theme-icon-animate");
+        newIcon.addEventListener(
+          "animationend",
+          () => newIcon.classList.remove("theme-icon-animate"),
+          { once: true },
+        );
+      });
+
+      // Sync with OS if no saved preference
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+          if (!localStorage.getItem("theme")) applyTheme(e.matches, false);
+        });
+
+      // Navbar scroll effect
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 60) {
+          navbar.classList.add(
+            "bg-gray-900/90",
+            "backdrop-blur-md",
+            "border-b",
+            "border-gray-800/50",
+            "shadow-xl",
+          );
+        } else {
+          navbar.classList.remove(
+            "bg-gray-900/90",
+            "backdrop-blur-md",
+            "border-b",
+            "border-gray-800/50",
+            "shadow-xl",
+          );
+        }
+      });
+
+      // Mobile menu
+      const mobileBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      mobileBtn.addEventListener("click", () =>
+        mobileMenu.classList.toggle("hidden"),
+      );
+      mobileMenu
+        .querySelectorAll("a")
+        .forEach((a) =>
+          a.addEventListener("click", () => mobileMenu.classList.add("hidden")),
+        );
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const target = document.querySelector(a.getAttribute("href"));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth" });
           }
+        });
+      });
+
+      // ===== THREE.JS HERO =====
+      (function () {
+        const hC = document.getElementById("particle-canvas");
+        const isMob = window.innerWidth < 768;
+
+        const hScene = new THREE.Scene();
+        const hCam = new THREE.PerspectiveCamera(
+          60,
+          hC.offsetWidth / hC.offsetHeight,
+          0.1,
+          100,
+        );
+        hCam.position.z = 6;
+
+        const hRend = new THREE.WebGLRenderer({
+          canvas: hC,
+          alpha: true,
+          antialias: !isMob,
+        });
+        hRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        hRend.setSize(hC.offsetWidth, hC.offsetHeight);
+
+        // 3D particle field
+        const ptCount = isMob ? 600 : 1400;
+        const ptPos = new Float32Array(ptCount * 3);
+        for (let i = 0; i < ptCount; i++) {
+          ptPos[i * 3] = (Math.random() - 0.5) * 22;
+          ptPos[i * 3 + 1] = (Math.random() - 0.5) * 18;
+          ptPos[i * 3 + 2] = (Math.random() - 0.5) * 14;
+        }
+        const ptGeo = new THREE.BufferGeometry();
+        ptGeo.setAttribute("position", new THREE.BufferAttribute(ptPos, 3));
+        const pts = new THREE.Points(
+          ptGeo,
+          new THREE.PointsMaterial({
+            color: 0xf97316,
+            size: 0.045,
+            transparent: true,
+            opacity: 0.65,
+          }),
+        );
+        hScene.add(pts);
+
+        // Floating wireframe polyhedra
+        const hShapes = [];
+        const palette = [0xf97316, 0xea580c, 0xfb923c];
+        for (let i = 0; i < (isMob ? 4 : 8); i++) {
+          const t = Math.random(),
+            s = Math.random() * 0.45 + 0.18;
+          const sg =
+            t < 0.34
+              ? new THREE.IcosahedronGeometry(s, 0)
+              : t < 0.67
+                ? new THREE.OctahedronGeometry(s, 0)
+                : new THREE.TetrahedronGeometry(s, 0);
+          const mesh = new THREE.Mesh(
+            sg,
+            new THREE.MeshBasicMaterial({
+              color: palette[i % 3],
+              wireframe: true,
+              transparent: true,
+              opacity: Math.random() * 0.18 + 0.04,
+            }),
+          );
+          mesh.position.set(
+            (Math.random() - 0.5) * 14,
+            (Math.random() - 0.5) * 12,
+            (Math.random() - 0.5) * 8,
+          );
+          mesh.userData.rx = (Math.random() - 0.5) * 0.013;
+          mesh.userData.ry = (Math.random() - 0.5) * 0.013;
+          hScene.add(mesh);
+          hShapes.push(mesh);
+        }
+
+        // Mouse parallax
+        let hTx = 0,
+          hTy = 0,
+          hMx = 0,
+          hMy = 0;
+        window.addEventListener("mousemove", (e) => {
+          hMx = (e.clientX / window.innerWidth - 0.5) * 2.0;
+          hMy = -(e.clientY / window.innerHeight - 0.5) * 1.4;
+        });
+        window.addEventListener("resize", () => {
+          hCam.aspect = hC.offsetWidth / hC.offsetHeight;
+          hCam.updateProjectionMatrix();
+          hRend.setSize(hC.offsetWidth, hC.offsetHeight);
+        });
+
+        (function heroLoop() {
+          requestAnimationFrame(heroLoop);
+          hTx += (hMx - hTx) * 0.04;
+          hTy += (hMy - hTy) * 0.04;
+          hCam.position.x = hTx;
+          hCam.position.y = hTy;
+          pts.rotation.y += 0.0004;
+          pts.rotation.x += 0.0002;
+          hShapes.forEach((s) => {
+            s.rotation.x += s.userData.rx;
+            s.rotation.y += s.userData.ry;
+          });
+          hRend.render(hScene, hCam);
+        })();
+      })();
+
+      // Typing animation
+      const words = [
+        "Mobile Developer",
+        "Android Engineer",
+        "Kotlin Enthusiast",
+        "Java Developer",
+      ];
+      let wi = 0,
+        ci = 0,
+        del = false;
+      const el = document.getElementById("typing-text");
+      function type() {
+        const w = words[wi];
+        el.textContent = del ? w.substring(0, ci - 1) : w.substring(0, ci + 1);
+        del ? ci-- : ci++;
+        if (!del && ci === w.length) {
+          setTimeout(() => {
+            del = true;
+            type();
+          }, 1800);
+          return;
+        }
+        if (del && ci === 0) {
+          del = false;
+          wi = (wi + 1) % words.length;
+        }
+        setTimeout(type, del ? 55 : 95);
+      }
+      type();
+
+      // Scroll fade-in
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".fade-in-up").forEach((el) => obs.observe(el));
+
+      // Progress bar
+      const progressBar = document.getElementById("progress-bar");
+      function updateProgress() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width =
+          (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
+      }
+
+      // Scroll-to-top button
+      const scrollTopBtn = document.getElementById("scroll-top");
+      function updateScrollTop() {
+        if (window.scrollY > 400) {
+          scrollTopBtn.classList.remove("opacity-0", "invisible");
+          scrollTopBtn.classList.add("opacity-100");
+        } else {
+          scrollTopBtn.classList.add("opacity-0", "invisible");
+          scrollTopBtn.classList.remove("opacity-100");
         }
       }
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body class="bg-gray-950 text-white font-sans overflow-x-hidden">
-
-  <!-- PROGRESS BAR -->
-  <div id="progress-bar" class="fixed top-0 left-0 h-0.5 z-[60] transition-[width] duration-100" style="width:0%;background:#f97316"></div>
-
-  <!-- CURSOR CANVAS -->
-  <canvas id="cursor-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-[55]"></canvas>
-
-  <!-- NAVBAR -->
-  <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-      <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="font-mono text-android font-bold text-lg hover:opacity-80 transition-opacity cursor-pointer">doanvu<span class="text-white">2000</span></button>
-      <div class="hidden sm:flex items-center gap-6 text-sm text-gray-400">
-        <a href="#about" class="nav-link hover:text-android transition-colors">Về tôi</a>
-        <a href="#skills" class="nav-link hover:text-android transition-colors">Kỹ năng</a>
-        <a href="#experience" class="nav-link hover:text-android transition-colors">Kinh nghiệm</a>
-        <a href="#achievements" class="nav-link hover:text-android transition-colors">Thành tích</a>
-        <a href="#projects" class="nav-link hover:text-android transition-colors">Dự án</a>
-        <a href="#communities" class="nav-link hover:text-android transition-colors">Cộng đồng</a>
-        <a href="#hobbies" class="nav-link hover:text-android transition-colors">Sở thích</a>
-        <a href="#contact" class="nav-link hover:text-android transition-colors">Liên hệ</a>
-        <a href="./jlsoft/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-400 hover:bg-purple-500/20 hover:text-purple-300 transition-all text-xs font-semibold">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          JLSoft
-        </a>
-      </div>
-      <button id="theme-toggle" aria-label="Chuyển theme" class="p-2 rounded-lg text-gray-400 hover:text-android transition-colors">
-        <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
-          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 hidden">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-      <button id="mobile-menu-btn" class="sm:hidden text-gray-400 hover:text-white p-1" aria-label="Menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-    <div id="mobile-menu" class="hidden sm:hidden bg-gray-900/95 backdrop-blur border-t border-gray-800">
-      <div class="px-4 py-3 flex flex-col gap-1 text-sm text-gray-400">
-        <a href="#about" class="hover:text-android transition-colors py-2">Về tôi</a>
-        <a href="#skills" class="hover:text-android transition-colors py-2">Kỹ năng</a>
-        <a href="#experience" class="hover:text-android transition-colors py-2">Kinh nghiệm</a>
-        <a href="#achievements" class="hover:text-android transition-colors py-2">Thành tích</a>
-        <a href="#projects" class="hover:text-android transition-colors py-2">Dự án</a>
-        <a href="#communities" class="hover:text-android transition-colors py-2">Cộng đồng</a>
-        <a href="#hobbies" class="hover:text-android transition-colors py-2">Sở thích</a>
-        <a href="#contact" class="hover:text-android transition-colors py-2">Liên hệ</a>
-        <a href="./jlsoft/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 py-2 text-purple-400 hover:text-purple-300 transition-colors font-semibold">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          JLSoft Together
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-    <canvas id="particle-canvas" class="absolute inset-0 w-full h-full"></canvas>
-
-    <div class="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto pt-20">
-      <div class="mb-6 flex justify-center">
-        <div class="relative">
-          <div class="w-36 h-36 sm:w-48 sm:h-48 rounded-full ring-4 ring-android ring-offset-4 ring-offset-gray-950 overflow-hidden">
-            <img src="img/avatar1.jpg" alt="Doan Vũ" class="w-full h-full object-cover">
-          </div>
-          <div class="absolute -bottom-1 -right-1 bg-android rounded-full w-6 h-6 flex items-center justify-center">
-            <svg viewBox="0 0 24 24" fill="white" class="w-3.5 h-3.5">
-              <path d="M6.5 2.5c2 0 3.5 1.5 3.5 3.5v1h1.5C13.5 7 15 8.5 15 10.5v8c0 2-1.5 3.5-3.5 3.5h-7C2.5 22 1 20.5 1 18.5v-8C1 8.5 2.5 7 4.5 7H6V6c0-2 1.5-3.5 3.5-3.5zM6 2C3.8 2 2 3.8 2 6v1H1.5C.7 7 0 7.7 0 8.5v13c0 .8.7 1.5 1.5 1.5h13c.8 0 1.5-.7 1.5-1.5v-13c0-.8-.7-1.5-1.5-1.5H14V6c0-2.2-1.8-4-4-4H6z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <h1 class="text-4xl sm:text-6xl font-black mb-3 tracking-tight">
-        Doan <span class="text-android">Vũ</span>
-      </h1>
-
-      <div class="h-8 mb-6 flex items-center justify-center">
-        <span class="font-mono text-lg sm:text-xl text-gray-300">
-          <span id="typing-text" class="text-android"></span><span class="typing-cursor">|</span>
-        </span>
-      </div>
-
-      <p class="text-gray-400 text-base sm:text-lg mb-8 max-w-xl mx-auto leading-relaxed">
-        Mobile Developer chuyên Android Java/Kotlin. Đam mê xây dựng ứng dụng di động chất lượng cao từ năm 2021.
-      </p>
-
-      <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="https://github.com/doanvu2000" target="_blank" rel="noopener noreferrer"
-           class="inline-flex items-center justify-center gap-2 bg-android text-gray-950 font-bold px-6 py-3 rounded-xl hover:bg-android-dark transition-colors duration-200">
-          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-          </svg>
-          GitHub
-        </a>
-        <a href="mailto:doan.hit.dev2@gmail.com"
-           class="inline-flex items-center justify-center gap-2 border border-android text-android font-bold px-6 py-3 rounded-xl hover:bg-android hover:text-gray-950 transition-colors duration-200">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-          Email
-        </a>
-      </div>
-
-      <div class="mt-16 animate-bounce flex justify-center">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6 text-gray-600">
-          <path d="M12 5v14M5 12l7 7 7-7"/>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- VỀ TÔI -->
-  <section id="about" class="py-20 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="section-title fade-in-up">Về tôi</h2>
-
-      <div class="grid md:grid-cols-2 gap-10 items-center fade-in-up">
-        <div class="flex justify-center">
-          <div style="height:300px;width:300px;position:relative;">
-            <canvas id="three-about-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-          </div>
-        </div>
-
-        <div class="space-y-4 text-gray-300 text-base leading-relaxed">
-          <p>
-            Xin chào! Tôi là <span class="text-android font-semibold">Doan Vũ</span>, sinh năm 2000 tại Nam Định.
-            Hiện là <span class="text-white font-medium">Mobile Developer</span> chuyên phát triển ứng dụng Android bằng Java &amp; Kotlin từ năm 2021.
-          </p>
-          <p>
-            Tốt nghiệp kỹ sư tại Đại Học Công Nghiệp Hà Nội (2018–2022).
-            Từng làm chủ nhiệm CLB Tin học ĐHCNHN giai đoạn 2020–2021.
-          </p>
-          <div class="grid grid-cols-2 gap-3 pt-2">
-            <div class="rounded-lg p-3 border" style="background:rgba(249,115,22,0.15);border-color:rgba(249,115,22,0.35)">
-              <div class="text-xs mb-1" style="color:rgba(253,186,116,0.85)">Sinh năm</div>
-              <div class="font-medium text-sm text-white">2000 · Nam Định</div>
-            </div>
-            <div class="rounded-lg p-3 border" style="background:rgba(249,115,22,0.15);border-color:rgba(249,115,22,0.35)">
-              <div class="text-xs mb-1" style="color:rgba(253,186,116,0.85)">Kinh nghiệm</div>
-              <div class="font-medium text-sm text-white">4+ năm Android</div>
-            </div>
-            <div class="rounded-lg p-3 border" style="background:rgba(249,115,22,0.15);border-color:rgba(249,115,22,0.35)">
-              <div class="text-xs mb-1" style="color:rgba(253,186,116,0.85)">Email</div>
-              <div class="font-medium text-xs truncate text-white">doan.hit.dev2@gmail.com</div>
-            </div>
-            <div class="rounded-lg p-3 border" style="background:rgba(249,115,22,0.15);border-color:rgba(249,115,22,0.35)">
-              <div class="text-xs mb-1" style="color:rgba(253,186,116,0.85)">GitHub</div>
-              <div class="font-medium text-sm text-white">doanvu2000</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- KỸ NĂNG -->
-  <section id="skills" class="py-20 px-4 sm:px-6 bg-gray-900/40">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="section-title fade-in-up">Kỹ năng</h2>
-
-      <div class="flex justify-center mb-8 fade-in-up">
-        <canvas id="three-skills-canvas" style="width:100%;max-width:520px;height:220px;display:block;border-radius:1rem;"></canvas>
-      </div>
-
-      <div class="space-y-8 fade-in-up">
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">Ngôn ngữ &amp; Nền tảng</h3>
-          <div class="flex flex-wrap gap-2 sm:gap-3">
-            <span class="skill-badge" style="color:#f97316;border-color:rgba(249,115,22,0.3);background:rgba(249,115,22,0.08)">Android</span>
-            <span class="skill-badge" style="color:#fb923c;border-color:rgba(251,146,60,0.3);background:rgba(251,146,60,0.08)">Java</span>
-            <span class="skill-badge" style="color:#a78bfa;border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08)">Kotlin</span>
-            <span class="skill-badge" style="color:#60a5fa;border-color:rgba(96,165,250,0.3);background:rgba(96,165,250,0.08)">XML Layout</span>
-            <span class="skill-badge" style="color:#d1d5db;border-color:rgba(75,85,99,0.5);background:rgba(55,65,81,0.4)">Jetpack Compose</span>
-            <span class="skill-badge" style="color:#68d391;border-color:rgba(104,211,145,0.3);background:rgba(104,211,145,0.08)">Node.js</span>
-            <span class="skill-badge" style="color:#f6e05e;border-color:rgba(246,224,94,0.3);background:rgba(246,224,94,0.08)">Python</span>
-          </div>
-        </div>
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">Libraries &amp; Architecture</h3>
-          <div class="flex flex-wrap gap-2 sm:gap-3">
-            <span class="skill-badge" style="color:#fbbf24;border-color:rgba(251,191,36,0.3);background:rgba(251,191,36,0.08)">MVVM</span>
-            <span class="skill-badge" style="color:#22d3ee;border-color:rgba(34,211,238,0.3);background:rgba(34,211,238,0.08)">Retrofit</span>
-            <span class="skill-badge" style="color:#4ade80;border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.08)">Room DB</span>
-            <span class="skill-badge" style="color:#f87171;border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.08)">Firebase</span>
-            <span class="skill-badge" style="color:#d1d5db;border-color:rgba(75,85,99,0.5);background:rgba(55,65,81,0.4)">Coroutines</span>
-            <span class="skill-badge" style="color:#d1d5db;border-color:rgba(75,85,99,0.5);background:rgba(55,65,81,0.4)">LiveData</span>
-            <span class="skill-badge" style="color:#d1d5db;border-color:rgba(75,85,99,0.5);background:rgba(55,65,81,0.4)">Hilt/Dagger</span>
-          </div>
-        </div>
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">Monetization &amp; Publish</h3>
-          <div class="flex flex-wrap gap-2 sm:gap-3">
-            <span class="skill-badge" style="color:#34d399;border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.08)">Google Play Store</span>
-            <span class="skill-badge" style="color:#facc15;border-color:rgba(250,204,21,0.3);background:rgba(250,204,21,0.08)">AdMob / Ads SDK</span>
-            <span class="skill-badge" style="color:#38bdf8;border-color:rgba(56,189,248,0.3);background:rgba(56,189,248,0.08)">In-App Purchase</span>
-          </div>
-        </div>
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">Reverse &amp; Crawl</h3>
-          <div class="flex flex-wrap gap-2 sm:gap-3">
-            <span class="skill-badge" style="color:#f87171;border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.08)">Reverse APK</span>
-            <span class="skill-badge" style="color:#c084fc;border-color:rgba(192,132,252,0.3);background:rgba(192,132,252,0.08)">Decompile / Smali</span>
-            <span class="skill-badge" style="color:#fbbf24;border-color:rgba(251,191,36,0.3);background:rgba(251,191,36,0.08)">Crawl Data</span>
-            <span class="skill-badge" style="color:#34d399;border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.08)">Intercept API</span>
-          </div>
-        </div>
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">Công cụ</h3>
-          <div class="flex flex-wrap gap-2 sm:gap-3">
-            <span class="skill-badge" style="color:#d1d5db;border-color:rgba(75,85,99,0.5);background:rgba(55,65,81,0.4)">Git</span>
-            <span class="skill-badge" style="color:#d1d5db;border-color:rgba(75,85,99,0.5);background:rgba(55,65,81,0.4)">Android Studio</span>
-            <span class="skill-badge" style="color:#d1d5db;border-color:rgba(75,85,99,0.5);background:rgba(55,65,81,0.4)">Postman</span>
-            <span class="skill-badge" style="color:#d1d5db;border-color:rgba(75,85,99,0.5);background:rgba(55,65,81,0.4)">Figma</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- KINH NGHIỆM & HỌC VẤN -->
-  <section id="experience" class="py-20 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="section-title fade-in-up">Kinh nghiệm &amp; Học vấn</h2>
-
-      <div class="relative fade-in-up">
-        <div class="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-gray-700/60"></div>
-
-        <div class="space-y-6">
-          <!-- Solar JSC -->
-          <div class="relative pl-12 sm:pl-16">
-            <div class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-android border-4 border-gray-950 z-10"></div>
-            <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-android/40 transition-colors duration-300">
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                <span class="font-mono text-xs text-gray-500">04/2025 – nay</span>
-                <span class="text-xs text-android bg-android/10 border border-android/20 px-2 py-0.5 rounded-full">Current</span>
-              </div>
-              <h3 class="text-lg font-bold text-white mb-0.5">Mobile Developer</h3>
-              <p class="text-android text-sm font-medium mb-2">Solar JSC</p>
-              <p class="text-gray-400 text-sm mb-3">Xây dựng và phát hành ứng dụng Android lên Google Play. Tích hợp Ads SDK (AdMob), In-App Purchase. Phát triển tool nội bộ hỗ trợ quy trình làm việc.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-android/10 text-android border border-android/20">Google Play</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">AdMob</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">In-App Purchase</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50">Java / Kotlin</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Wezen -->
-          <div class="relative pl-12 sm:pl-16">
-            <div class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-purple-500 border-4 border-gray-950 z-10"></div>
-            <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-purple-500/40 transition-colors duration-300">
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                <span class="font-mono text-xs text-gray-500">2022 – 03/2025</span>
-                <span class="text-xs text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded-full">Full-time</span>
-              </div>
-              <h3 class="text-lg font-bold text-white mb-0.5">Mobile Developer</h3>
-              <p class="text-purple-400 text-sm font-medium mb-2">Wezen</p>
-              <p class="text-gray-400 text-sm mb-3">Xây dựng và phát hành ứng dụng Android lên Google Play. Tích hợp Ads SDK (AdMob), In-App Purchase, MVVM, Retrofit, Room, Firebase.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-android/10 text-android border border-android/20">Google Play</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">AdMob</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">In-App Purchase</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Teracom / Hitex Global -->
-          <div class="relative pl-12 sm:pl-16">
-            <div class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-cyan-500 border-4 border-gray-950 z-10"></div>
-            <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-cyan-500/40 transition-colors duration-300">
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                <span class="font-mono text-xs text-gray-500">2021</span>
-                <span class="text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-full">Full-time</span>
-              </div>
-              <h3 class="text-lg font-bold text-white mb-0.5">Mobile Developer</h3>
-              <p class="text-cyan-400 text-sm font-medium mb-2">Teracom / Hitex Global</p>
-              <div class="space-y-2 mb-3">
-                <div class="flex items-start gap-2 bg-gray-900/50 rounded-lg px-3 py-2">
-                  <span class="text-xs text-rose-400 font-mono mt-0.5 flex-shrink-0">Onsite</span>
-                  <div>
-                    <span class="text-xs text-white font-medium">Viettel Telecom</span>
-                    <span class="text-xs text-gray-500 ml-1">· T3 – T6 · Keangnam Landmark 72</span>
-                  </div>
-                </div>
-                <div class="flex items-start gap-2 bg-gray-900/50 rounded-lg px-3 py-2">
-                  <span class="text-xs text-rose-400 font-mono mt-0.5 flex-shrink-0">Onsite</span>
-                  <div>
-                    <span class="text-xs text-white font-medium">VTI</span>
-                    <span class="text-xs text-gray-500 ml-1">· T6 – T9 · App bảo hiểm Sony</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-wrap gap-2">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50">Android</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50">Java / Kotlin</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Monstarlab -->
-          <div class="relative pl-12 sm:pl-16">
-            <div class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-orange-500 border-4 border-gray-950 z-10"></div>
-            <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-orange-500/40 transition-colors duration-300">
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                <span class="font-mono text-xs text-gray-500">2020</span>
-                <span class="text-xs text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded-full">Internship</span>
-              </div>
-              <h3 class="text-lg font-bold text-white mb-0.5">Mobile Developer</h3>
-              <p class="text-orange-400 text-sm font-medium mb-2">Monstarlab</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50">Android</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50">Java</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gia sư / Mentor -->
-          <div class="relative pl-12 sm:pl-16">
-            <div class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-teal-500 border-4 border-gray-950 z-10"></div>
-            <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-teal-500/40 transition-colors duration-300">
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                <span class="font-mono text-xs text-gray-500">2020 – nay</span>
-                <span class="text-xs text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded-full">Mentoring</span>
-              </div>
-              <h3 class="text-lg font-bold text-white mb-0.5">Gia sư &amp; Mentor Lập trình</h3>
-              <p class="text-teal-400 text-sm font-medium mb-2">Freelance</p>
-              <p class="text-gray-400 text-sm mb-3">Truyền đạt kiến thức lập trình Android, Java/Kotlin cho người mới. Tổ chức nhiều buổi seminar chia sẻ kinh nghiệm thực chiến về phát triển ứng dụng di động.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20">Android</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50">Java / Kotlin</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50">Seminar</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- CLB -->
-          <div class="relative pl-12 sm:pl-16">
-            <div class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-blue-500 border-4 border-gray-950 z-10"></div>
-            <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-blue-500/40 transition-colors duration-300">
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                <span class="font-mono text-xs text-gray-500">2020 – 2021</span>
-                <span class="text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">Leadership</span>
-              </div>
-              <h3 class="text-lg font-bold text-white mb-0.5">Chủ nhiệm CLB Tin học</h3>
-              <p class="text-blue-400 text-sm font-medium mb-2">Đại Học Công Nghiệp Hà Nội</p>
-              <p class="text-gray-400 text-sm">Tổ chức các hoạt động học thuật, cuộc thi lập trình cho sinh viên.</p>
-            </div>
-          </div>
-
-          <!-- Education -->
-          <div class="relative pl-12 sm:pl-16">
-            <div class="absolute left-2 sm:left-4 top-1.5 w-5 h-5 rounded-full bg-yellow-500 border-4 border-gray-950 z-10"></div>
-            <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-5 hover:border-yellow-500/40 transition-colors duration-300">
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                <span class="font-mono text-xs text-gray-500">2018 – 2022</span>
-                <span class="text-xs text-yellow-400 bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded-full">Education</span>
-              </div>
-              <h3 class="text-lg font-bold text-white mb-0.5">Kỹ sư Công nghệ Thông tin</h3>
-              <p class="text-yellow-400 text-sm font-medium mb-2">Đại Học Công Nghiệp Hà Nội</p>
-              <p class="text-gray-400 text-sm">Tốt nghiệp kỹ sư Công nghệ Thông tin.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- THÀNH TÍCH -->
-  <section id="achievements" class="py-20 px-4 sm:px-6 bg-gray-900/40">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="section-title fade-in-up">Thành tích</h2>
-
-      <div class="grid sm:grid-cols-3 gap-4 fade-in-up">
-        <div class="achievement-card" style="border-color:rgba(249,115,22,0.25)">
-          <div class="text-3xl mb-3">🥉</div>
-          <h3 class="font-bold text-white mb-2 text-base">Giải 3 Thuật toán Tỉnh</h3>
-          <p class="text-gray-400 text-sm">Cuộc thi thuật toán tin học cấp tỉnh Nam Định 2017</p>
-        </div>
-        <div class="achievement-card" style="border-color:rgba(96,165,250,0.25)">
-          <div class="text-3xl mb-3">🏅</div>
-          <h3 class="font-bold text-white mb-2 text-base">Giải 3 ACM</h3>
-          <p class="text-gray-400 text-sm">Cuộc thi ACM cấp trường năm 2020 · ĐHCNHN</p>
-        </div>
-        <div class="achievement-card" style="border-color:rgba(251,191,36,0.25)">
-          <div class="text-3xl mb-3">🎓</div>
-          <h3 class="font-bold text-white mb-2 text-base">Tốt nghiệp Bằng Giỏi</h3>
-          <p class="text-gray-400 text-sm">Kỹ sư Công nghệ Thông tin · ĐHCNHN 2022</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DỰ ÁN / REPOS -->
-  <section id="projects" class="py-20 px-4 sm:px-6 bg-gray-900/40">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="section-title fade-in-up">Dự án &amp; Repos</h2>
-
-      <div class="space-y-6 fade-in-up">
-        <!-- Personal repos -->
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3">Open Source</h3>
-          <div class="grid sm:grid-cols-2 gap-3">
-            <a href="https://github.com/doanvu2000/AndroidBaseKotlin" target="_blank" rel="noopener noreferrer" class="repo-card group">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-gray-500 flex-shrink-0">
-                    <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
-                  </svg>
-                  <span class="text-white font-semibold text-sm group-hover:text-android transition-colors">AndroidBaseKotlin</span>
-                </div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                </svg>
-              </div>
-              <p class="text-gray-400 text-xs leading-relaxed mb-3">Base template cho dự án Android với Kotlin — cấu trúc sẵn, dùng liền.</p>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">Kotlin</span>
-            </a>
-
-            <a href="https://github.com/doanvu2000/ToolTranslateStringXMLAndroid" target="_blank" rel="noopener noreferrer" class="repo-card group">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-gray-500 flex-shrink-0">
-                    <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
-                  </svg>
-                  <span class="text-white font-semibold text-sm group-hover:text-android transition-colors">ToolTranslateStringXML</span>
-                </div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                </svg>
-              </div>
-              <p class="text-gray-400 text-xs leading-relaxed mb-3">Tool dịch file strings.xml Android sang nhiều ngôn ngữ tự động.</p>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">Java</span>
-            </a>
-
-            <a href="https://github.com/gaotam/NovelNow" target="_blank" rel="noopener noreferrer" class="repo-card group sm:col-span-2">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-gray-500 flex-shrink-0">
-                    <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
-                  </svg>
-                  <span class="text-white font-semibold text-sm group-hover:text-android transition-colors">NovelNow</span>
-                </div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                </svg>
-              </div>
-              <p class="text-gray-400 text-xs leading-relaxed mb-3">Crawl chapter mới nhất từ TruyenQQ — theo dõi truyện yêu thích không bỏ lỡ chap nào.</p>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-android/10 text-android border border-android/20">Android</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Workplace -->
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3">Workplace</h3>
-          <div class="grid sm:grid-cols-2 gap-3">
-            <a href="https://github.com/JinWorkPlace" target="_blank" rel="noopener noreferrer" class="repo-card group">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-gray-500 flex-shrink-0">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-                  </svg>
-                  <span class="text-white font-semibold text-sm group-hover:text-android transition-colors">JinWorkPlace</span>
-                </div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                </svg>
-              </div>
-              <p class="text-gray-400 text-xs leading-relaxed mb-3">GitHub organization — nơi tập trung các dự án cộng tác.</p>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-gray-700/50 text-gray-300 border border-gray-600/50">GitHub Org</span>
-            </a>
-
-            <a href="https://gitlab.com/jlsoft-together" target="_blank" rel="noopener noreferrer" class="repo-card group">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-orange-400 flex-shrink-0">
-                    <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"/>
-                  </svg>
-                  <span class="text-white font-semibold text-sm group-hover:text-android transition-colors">jlsoft-together</span>
-                </div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-600 group-hover:text-android transition-colors flex-shrink-0">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                </svg>
-              </div>
-              <p class="text-gray-400 text-xs leading-relaxed mb-3">GitLab group — workspace cộng tác dự án nhóm.</p>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">GitLab Group</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- JLSoft -->
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest">JLSoft Products</h3>
-            <a href="./jlsoft/index.html" target="_blank" rel="noopener noreferrer" class="text-xs text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1">
-              View Store
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-          </div>
-          <div class="relative mb-4 rounded-xl overflow-hidden border border-gray-700/40" style="height:90px;">
-            <canvas id="jlsoft-canvas" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
-            <div class="absolute inset-0 flex items-center justify-around pointer-events-none select-none">
-              <span class="text-xs font-semibold text-rose-400/80 tracking-wide">💖 Love Quote Story</span>
-              <div class="w-px h-8 bg-white/10"></div>
-              <span class="text-xs font-semibold text-orange-400/80 tracking-wide">📻 Jadio Podcast</span>
-            </div>
-          </div>
-          <div class="grid sm:grid-cols-2 gap-3">
-            <a href="./jlsoft/lovequote/marketing.html" target="_blank" rel="noopener noreferrer" class="repo-card group">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2">
-                  <img src="./jlsoft/lovequote/logo.png" alt="Love Quote Story" class="w-6 h-6 rounded-md flex-shrink-0">
-                  <span class="text-white font-semibold text-sm group-hover:text-rose-400 transition-colors">Love Quote Story</span>
-                </div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-600 group-hover:text-rose-400 transition-colors flex-shrink-0">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                </svg>
-              </div>
-              <p class="text-gray-400 text-xs leading-relaxed mb-3">App gửi quote tình yêu lãng mạn mỗi ngày — kết nối và thể hiện tình cảm đôi lứa.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">Android</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">Kotlin</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20">JLSoft</span>
-              </div>
-            </a>
-
-            <a href="./jlsoft/jadio/marketing.html" target="_blank" rel="noopener noreferrer" class="repo-card group">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2">
-                  <img src="./jlsoft/jadio/logo.png" alt="Jadio Podcast" class="w-6 h-6 rounded-md flex-shrink-0">
-                  <span class="text-white font-semibold text-sm group-hover:text-orange-400 transition-colors">Jadio Podcast</span>
-                </div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-600 group-hover:text-orange-400 transition-colors flex-shrink-0">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                </svg>
-              </div>
-              <p class="text-gray-400 text-xs leading-relaxed mb-3">Nghe radio trực tuyến — thế giới trong tầm tay, bất kỳ đâu bất kỳ lúc nào.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">Android</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Kotlin</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20">JLSoft</span>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <!-- Đối tác -->
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3">Đối tác</h3>
-          <div class="flex flex-wrap gap-3">
-            <div class="partner-badge">
-              <div class="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></div>
-              Socby
-            </div>
-             <div class="partner-badge">
-              <div class="w-2 h-2 rounded-full bg-purple-400 flex-shrink-0"></div>
-              JSoft
-            </div>
-            <div class="partner-badge">
-              <div class="w-2 h-2 rounded-full bg-orange-400 flex-shrink-0"></div>
-              JLSoft Together
-            </div>
-            <a href="https://hoanxu.vn" target="_blank" rel="noopener noreferrer" class="partner-badge hover:border-green-400/50 hover:text-green-400 transition-colors">
-              <div class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></div>
-              Hoanxu.vn
-            </a>
-            <div class="partner-badge">
-              <div class="w-2 h-2 rounded-full bg-android flex-shrink-0"></div>
-              SyncSoft
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CỘNG ĐỒNG -->
-  <section id="communities" class="py-20 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="section-title fade-in-up">Cộng đồng</h2>
-
-      <div class="space-y-4 fade-in-up">
-        <!-- Discord -->
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-            <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-indigo-400">
-              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.014.043.031.057a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-            </svg>
-            Discord
-          </h3>
-          <div class="grid sm:grid-cols-3 gap-3">
-            <a href="https://discord.gg/ncRhpJnVf" target="_blank" rel="noopener noreferrer" class="community-card border-indigo-500/20 hover:border-indigo-400/50">
-              <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center mb-3">
-                <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-indigo-400">
-                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.014.043.031.057a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                </svg>
-              </div>
-              <p class="text-white font-semibold text-sm mb-1">HIT Community</p>
-              <p class="text-gray-500 text-xs">discord.gg/ncRhpJnVf</p>
-            </a>
-            <a href="https://discord.gg/4qQjTge2t" target="_blank" rel="noopener noreferrer" class="community-card border-android/20 hover:border-android/50">
-              <div class="w-8 h-8 rounded-lg bg-android/10 flex items-center justify-center mb-3">
-                <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-android">
-                  <path d="M6.5 2.5c2 0 3.5 1.5 3.5 3.5v1h4V6c0-2 1.5-3.5 3.5-3.5S21 4 21 6v1h.5c.8 0 1.5.7 1.5 1.5v13c0 .8-.7 1.5-1.5 1.5h-19C1.7 23 1 22.3 1 21.5v-13C1 7.7 1.7 7 2.5 7H3V6c0-2 1.5-3.5 3.5-3.5zm5 9.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-4 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
-                </svg>
-              </div>
-              <p class="text-white font-semibold text-sm mb-1">Android Dev</p>
-              <p class="text-gray-500 text-xs">discord.gg/4qQjTge2t</p>
-            </a>
-            <a href="https://discord.gg/M3DEhjYuW" target="_blank" rel="noopener noreferrer" class="community-card border-purple-500/20 hover:border-purple-400/50">
-              <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center mb-3">
-                <span class="text-base">🧘</span>
-              </div>
-              <p class="text-white font-semibold text-sm mb-1">Tu tiên và cuộc sống</p>
-              <p class="text-gray-500 text-xs">discord.gg/M3DEhjYuW</p>
-            </a>
-          </div>
-        </div>
-
-        <!-- Facebook -->
-        <div>
-          <h3 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-            <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-blue-400">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-            Facebook
-          </h3>
-          <div class="grid sm:grid-cols-1 gap-3">
-            <a href="https://www.facebook.com/groups/hit.learningcorner" target="_blank" rel="noopener noreferrer" class="community-card border-blue-500/20 hover:border-blue-400/50">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                  <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-blue-400">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-white font-semibold text-sm mb-0.5">HIT - Learning Corner</p>
-                  <p class="text-gray-500 text-xs">facebook.com/groups/hit.learningcorner</p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SỞ THÍCH -->
-  <section id="hobbies" class="py-20 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="section-title fade-in-up">Sở thích</h2>
-
-      <div class="grid sm:grid-cols-2 gap-4 fade-in-up">
-        <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-6 flex items-center gap-4 hover:border-gray-500/60 transition-colors duration-300">
-          <span class="text-4xl">⚔️</span>
-          <div>
-            <h3 class="font-bold text-white mb-1">Liên Minh Huyền Thoại</h3>
-            <p class="text-gray-400 text-sm">Cày rank, chơi với bạn bè</p>
-          </div>
-        </div>
-        <div class="bg-gray-800/40 border border-gray-700/50 rounded-xl p-6 flex items-center gap-4 hover:border-gray-500/60 transition-colors duration-300">
-          <span class="text-4xl">📚</span>
-          <div>
-            <h3 class="font-bold text-white mb-1">Đọc Truyện</h3>
-            <p class="text-gray-400 text-sm">Light novel, manga, webtoon</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LIÊN HỆ -->
-  <section id="contact" class="py-20 px-4 sm:px-6 bg-gray-900/40">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="section-title fade-in-up">Liên hệ</h2>
-
-      <p class="text-gray-400 mb-8 max-w-md mx-auto fade-in-up">
-        Tôi luôn sẵn sàng cho các cơ hội mới và dự án thú vị. Hãy liên hệ!
-      </p>
-
-      <div class="flex justify-center mb-8 fade-in-up">
-        <a href="mailto:doan.hit.dev2@gmail.com"
-           class="inline-flex items-center gap-2 bg-android text-gray-950 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl hover:bg-android-dark transition-colors duration-200 text-base sm:text-lg">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 flex-shrink-0">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-          <span class="truncate">doan.hit.dev2@gmail.com</span>
-        </a>
-      </div>
-
-      <div class="flex justify-center mb-8 fade-in-up">
-        <a href="./jlsoft/index.html" target="_blank" rel="noopener noreferrer"
-           class="inline-flex items-center gap-3 px-6 py-3 rounded-xl border border-purple-500/30 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 hover:text-purple-200 transition-all duration-200 font-semibold text-sm">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 flex-shrink-0"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          JLSoft Together — Xem tất cả ứng dụng
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-
-      <div class="flex justify-center gap-4 fade-in-up">
-        <a href="https://github.com/doanvu2000" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-gray-300">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-          </svg>
-        </a>
-        <a href="https://www.instagram.com/jinvu00" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-5 h-5 text-gray-300">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-            <circle cx="12" cy="12" r="4.5"/>
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <a href="https://www.youtube.com/channel/UCbPGuzWUg2RIqSn5SEDPBTQ" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-gray-300">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-          </svg>
-        </a>
-        <a href="https://www.facebook.com/jinvu00" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-gray-300">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-        </a>
-        <a href="https://discord.com/users/653921963064164352" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Discord">
-          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-gray-300">
-            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.014.043.031.057a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCROLL TO TOP -->
-  <button id="scroll-top" aria-label="Về đầu trang"
-    class="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full border flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:scale-110"
-    style="background:rgba(249,115,22,0.15);border-color:rgba(249,115,22,0.4);color:#f97316">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4">
-      <path d="M18 15l-6-6-6 6"/>
-    </svg>
-  </button>
-
-  <!-- FOOTER -->
-  <footer class="py-6 px-4 border-t border-gray-800/60 text-center">
-    <p class="text-gray-600 text-sm font-mono">© <span id="footer-year"></span> Doan Vũ · Made with ❤️</p>
-  </footer>
-
-  <script>
-    // Footer year
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-
-    // Theme toggle
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const iconSun = document.getElementById('icon-sun');
-    const iconMoon = document.getElementById('icon-moon');
-
-    function applyTheme(dark, save) {
-      document.documentElement.classList.toggle('light', !dark);
-      if (save) localStorage.setItem('theme', dark ? 'dark' : 'light');
-      iconSun.classList.toggle('hidden', !dark);
-      iconMoon.classList.toggle('hidden', dark);
-    }
-
-    // Init icons to match current state (class already set in <head>)
-    applyTheme(!document.documentElement.classList.contains('light'), false);
-
-    themeToggleBtn.addEventListener('click', () => {
-      const html = document.documentElement;
-      html.classList.add('theme-transitioning');
-      setTimeout(() => html.classList.remove('theme-transitioning'), 400);
-
-      applyTheme(html.classList.contains('light'), true);
-
-      const newIcon = iconSun.classList.contains('hidden') ? iconMoon : iconSun;
-      newIcon.classList.remove('theme-icon-animate');
-      void newIcon.offsetWidth;
-      newIcon.classList.add('theme-icon-animate');
-      newIcon.addEventListener('animationend', () => newIcon.classList.remove('theme-icon-animate'), { once: true });
-    });
-
-    // Sync with OS if no saved preference
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      if (!localStorage.getItem('theme')) applyTheme(e.matches, false);
-    });
-
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        navbar.classList.add('bg-gray-900/90', 'backdrop-blur-md', 'border-b', 'border-gray-800/50', 'shadow-xl');
-      } else {
-        navbar.classList.remove('bg-gray-900/90', 'backdrop-blur-md', 'border-b', 'border-gray-800/50', 'shadow-xl');
-      }
-    });
-
-    // Mobile menu
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
-      });
-    });
-
-    // ===== THREE.JS HERO =====
-    (function() {
-      const hC = document.getElementById('particle-canvas');
-      const isMob = window.innerWidth < 768;
-
-      const hScene = new THREE.Scene();
-      const hCam = new THREE.PerspectiveCamera(60, hC.offsetWidth / hC.offsetHeight, 0.1, 100);
-      hCam.position.z = 6;
-
-      const hRend = new THREE.WebGLRenderer({ canvas: hC, alpha: true, antialias: !isMob });
-      hRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      hRend.setSize(hC.offsetWidth, hC.offsetHeight);
-
-      // 3D particle field
-      const ptCount = isMob ? 600 : 1400;
-      const ptPos = new Float32Array(ptCount * 3);
-      for (let i = 0; i < ptCount; i++) {
-        ptPos[i*3]   = (Math.random() - 0.5) * 22;
-        ptPos[i*3+1] = (Math.random() - 0.5) * 18;
-        ptPos[i*3+2] = (Math.random() - 0.5) * 14;
-      }
-      const ptGeo = new THREE.BufferGeometry();
-      ptGeo.setAttribute('position', new THREE.BufferAttribute(ptPos, 3));
-      const pts = new THREE.Points(ptGeo, new THREE.PointsMaterial({ color: 0xf97316, size: 0.045, transparent: true, opacity: 0.65 }));
-      hScene.add(pts);
-
-      // Floating wireframe polyhedra
-      const hShapes = [];
-      const palette = [0xf97316, 0xea580c, 0xfb923c];
-      for (let i = 0; i < (isMob ? 4 : 8); i++) {
-        const t = Math.random(), s = Math.random() * 0.45 + 0.18;
-        const sg = t < 0.34 ? new THREE.IcosahedronGeometry(s, 0)
-                 : t < 0.67 ? new THREE.OctahedronGeometry(s, 0)
-                 : new THREE.TetrahedronGeometry(s, 0);
-        const mesh = new THREE.Mesh(sg, new THREE.MeshBasicMaterial({
-          color: palette[i % 3], wireframe: true, transparent: true,
-          opacity: Math.random() * 0.18 + 0.04
-        }));
-        mesh.position.set((Math.random()-0.5)*14, (Math.random()-0.5)*12, (Math.random()-0.5)*8);
-        mesh.userData.rx = (Math.random()-0.5) * 0.013;
-        mesh.userData.ry = (Math.random()-0.5) * 0.013;
-        hScene.add(mesh);
-        hShapes.push(mesh);
-      }
-
-      // Mouse parallax
-      let hTx = 0, hTy = 0, hMx = 0, hMy = 0;
-      window.addEventListener('mousemove', e => {
-        hMx = (e.clientX / window.innerWidth - 0.5) * 2.0;
-        hMy = -(e.clientY / window.innerHeight - 0.5) * 1.4;
-      });
-      window.addEventListener('resize', () => {
-        hCam.aspect = hC.offsetWidth / hC.offsetHeight;
-        hCam.updateProjectionMatrix();
-        hRend.setSize(hC.offsetWidth, hC.offsetHeight);
-      });
-
-      (function heroLoop() {
-        requestAnimationFrame(heroLoop);
-        hTx += (hMx - hTx) * 0.04;
-        hTy += (hMy - hTy) * 0.04;
-        hCam.position.x = hTx;
-        hCam.position.y = hTy;
-        pts.rotation.y += 0.0004;
-        pts.rotation.x += 0.0002;
-        hShapes.forEach(s => { s.rotation.x += s.userData.rx; s.rotation.y += s.userData.ry; });
-        hRend.render(hScene, hCam);
-      })();
-    })();
-
-    // Typing animation
-    const words = ['Mobile Developer', 'Android Engineer', 'Kotlin Enthusiast', 'Java Developer'];
-    let wi = 0, ci = 0, del = false;
-    const el = document.getElementById('typing-text');
-    function type() {
-      const w = words[wi];
-      el.textContent = del ? w.substring(0, ci - 1) : w.substring(0, ci + 1);
-      del ? ci-- : ci++;
-      if (!del && ci === w.length) { setTimeout(() => { del = true; type(); }, 1800); return; }
-      if (del && ci === 0) { del = false; wi = (wi + 1) % words.length; }
-      setTimeout(type, del ? 55 : 95);
-    }
-    type();
-
-    // Scroll fade-in
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.fade-in-up').forEach(el => obs.observe(el));
-
-    // Progress bar
-    const progressBar = document.getElementById('progress-bar');
-    function updateProgress() {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      progressBar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
-    }
-
-    // Scroll-to-top button
-    const scrollTopBtn = document.getElementById('scroll-top');
-    function updateScrollTop() {
-      if (window.scrollY > 400) {
-        scrollTopBtn.classList.remove('opacity-0', 'invisible');
-        scrollTopBtn.classList.add('opacity-100');
-      } else {
-        scrollTopBtn.classList.add('opacity-0', 'invisible');
-        scrollTopBtn.classList.remove('opacity-100');
-      }
-    }
-    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    // Active nav highlight
-    const allSections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-    function updateActiveNav() {
-      let current = '';
-      allSections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 120) current = s.id;
-      });
-      navLinks.forEach(l => {
-        const active = l.getAttribute('href') === '#' + current;
-        l.style.color = active ? '#f97316' : '';
-      });
-    }
-
-    window.addEventListener('scroll', () => {
-      updateProgress();
-      updateScrollTop();
-      updateActiveNav();
-    }, { passive: true });
-
-    // Cursor trail
-    const cursorCanvas = document.getElementById('cursor-canvas');
-    const cursorCtx = cursorCanvas.getContext('2d');
-    let cursorParticles = [];
-    function resizeCursor() {
-      cursorCanvas.width = window.innerWidth;
-      cursorCanvas.height = window.innerHeight;
-    }
-    resizeCursor();
-    window.addEventListener('resize', resizeCursor);
-
-    document.addEventListener('mousemove', e => {
-      for (let i = 0; i < 2; i++) {
-        cursorParticles.push({
-          x: e.clientX, y: e.clientY,
-          vx: (Math.random() - 0.5) * 1.8,
-          vy: (Math.random() - 0.5) * 1.8 - 0.4,
-          r: Math.random() * 2 + 0.8,
-          a: 0.65
+      scrollTopBtn.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" }),
+      );
+
+      // Active nav highlight
+      const allSections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-link");
+      function updateActiveNav() {
+        let current = "";
+        allSections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 120) current = s.id;
+        });
+        navLinks.forEach((l) => {
+          const active = l.getAttribute("href") === "#" + current;
+          l.style.color = active ? "#f97316" : "";
         });
       }
-      if (cursorParticles.length > 80) cursorParticles = cursorParticles.slice(-80);
-    });
 
-    (function animateCursor() {
-      cursorCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-      cursorParticles = cursorParticles.filter(p => p.a > 0.02);
-      cursorParticles.forEach(p => {
-        p.x += p.vx; p.y += p.vy; p.a *= 0.91;
-        cursorCtx.globalAlpha = p.a;
-        cursorCtx.beginPath();
-        cursorCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        cursorCtx.fillStyle = '#f97316';
-        cursorCtx.fill();
-      });
-      cursorCtx.globalAlpha = 1;
-      requestAnimationFrame(animateCursor);
-    })();
-
-    // ===== THREE.JS ABOUT (3D Android Robot) =====
-    (function() {
-      const aC = document.getElementById('three-about-canvas');
-      if (!aC) return;
-
-      const aScene = new THREE.Scene();
-      const aCam  = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-      aCam.position.set(0, 0.2, 6);
-      const aRend = new THREE.WebGLRenderer({ canvas: aC, alpha: true, antialias: true });
-      aRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      aRend.setSize(300, 300);
-
-      // Lighting
-      aScene.add(new THREE.AmbientLight(0xffffff, 0.5));
-      const dL = new THREE.DirectionalLight(0xffffff, 1.0);
-      dL.position.set(3, 5, 5);
-      aScene.add(dL);
-      const glowL = new THREE.PointLight(0x3DDC84, 1.1, 15);
-      glowL.position.set(-3, 2, 2);
-      aScene.add(glowL);
-
-      // Materials
-      const mG  = new THREE.MeshPhongMaterial({ color: 0x3DDC84, shininess: 60 });
-      const mDG = new THREE.MeshPhongMaterial({ color: 0x25A96B, shininess: 30 });
-      const mW  = new THREE.MeshPhongMaterial({ color: 0xffffff });
-      const mBk = new THREE.MeshBasicMaterial({ color: 0x111111 });
-
-      function mk(geo, mat, x, y, z) {
-        const m = new THREE.Mesh(geo, mat);
-        if (x !== undefined) m.position.set(x, y, z);
-        return m;
-      }
-
-      const robot = new THREE.Group();
-      aScene.add(robot);
-
-      // --- HEAD ---
-      const hG = new THREE.Group();
-      hG.add(mk(new THREE.CylinderGeometry(0.72, 0.72, 0.65, 24), mG));
-      hG.add(mk(new THREE.SphereGeometry(0.72, 24, 12, 0, Math.PI * 2, 0, Math.PI * 0.5), mG, 0, 0.325, 0));
-      const eyeL = mk(new THREE.SphereGeometry(0.13, 10, 10), mW, -0.3, 0.1, 0.67);
-      const eyeR = mk(new THREE.SphereGeometry(0.13, 10, 10), mW,  0.3, 0.1, 0.67);
-      hG.add(eyeL, eyeR);
-      hG.add(mk(new THREE.SphereGeometry(0.065, 8, 8), mBk, -0.3, 0.1, 0.74));
-      hG.add(mk(new THREE.SphereGeometry(0.065, 8, 8), mBk,  0.3, 0.1, 0.74));
-      [-0.37, 0.37].forEach((x, i) => {
-        const ant = mk(new THREE.CylinderGeometry(0.04, 0.04, 0.5, 8), mG, x, 0.8, 0.05);
-        ant.rotation.z = i === 0 ? -0.28 : 0.28;
-        hG.add(ant);
-      });
-      hG.position.y = 1.05;
-      robot.add(hG);
-
-      // --- BODY ---
-      robot.add(mk(new THREE.CylinderGeometry(0.75, 0.68, 1.3, 24), mG, 0, 0, 0));
-      const belt = mk(new THREE.TorusGeometry(0.72, 0.06, 8, 24), mDG, 0, -0.05, 0);
-      robot.add(belt);
-
-      // --- ARMS (pivot at shoulder) ---
-      const arms = [-1, 1].map(side => {
-        const g = new THREE.Group();
-        g.position.set(side * 0.97, 0.45, 0);
-        g.add(mk(new THREE.CylinderGeometry(0.21, 0.19, 1.1, 12), mG, 0, -0.55, 0));
-        g.add(mk(new THREE.SphereGeometry(0.21, 10, 10), mDG, 0, -1.15, 0));
-        robot.add(g);
-        return g;
-      });
-
-      // --- LEGS (pivot at hip) ---
-      const legs = [-1, 1].map(side => {
-        const g = new THREE.Group();
-        g.position.set(side * 0.35, -0.65, 0);
-        g.add(mk(new THREE.CylinderGeometry(0.23, 0.21, 1.1, 12), mG, 0, -0.55, 0));
-        g.add(mk(new THREE.SphereGeometry(0.23, 10, 8), mDG, 0, -1.15, 0));
-        robot.add(g);
-        return g;
-      });
-
-      // Glow particles orbiting robot
-      const gpBuf = new Float32Array(30 * 3);
-      for (let i = 0; i < 30; i++) {
-        const a = Math.random() * Math.PI * 2;
-        const r = 1.8 + Math.random() * 1.2;
-        gpBuf[i*3]   = Math.cos(a) * r;
-        gpBuf[i*3+1] = (Math.random() - 0.5) * 4.5;
-        gpBuf[i*3+2] = Math.sin(a) * r * 0.3;
-      }
-      const gpGeo = new THREE.BufferGeometry();
-      gpGeo.setAttribute('position', new THREE.BufferAttribute(gpBuf, 3));
-      aScene.add(new THREE.Points(gpGeo, new THREE.PointsMaterial({ color: 0x3DDC84, size: 0.07, transparent: true, opacity: 0.75 })));
-
-      robot.position.y = -0.15;
-      // Front fill light so robot face is visible
-      const fillL = new THREE.DirectionalLight(0xffffff, 0.4);
-      fillL.position.set(0, 0, 10);
-      aScene.add(fillL);
-
-      let aT = 0, aMx = 0;
-      window.addEventListener('mousemove', e => { aMx = (e.clientX / window.innerWidth - 0.5) * 0.4; });
-
-      (function aboutLoop() {
-        requestAnimationFrame(aboutLoop);
-        aT += 0.02;
-        // Gentle bob, no auto-spin
-        robot.position.y = -0.15 + Math.sin(aT) * 0.08;
-        robot.rotation.x += (aMx * 0.2 - robot.rotation.x) * 0.04;
-        // Wave right arm (arms[1] = side +1)
-        arms[1].rotation.z = Math.PI * 0.62 + Math.sin(aT * 2.5) * 0.28;
-        // Left arm natural rest
-        arms[0].rotation.z = -0.1;
-        // Head friendly tilt
-        hG.rotation.z = Math.sin(aT * 0.7) * 0.04;
-        // Blink
-        const blink = Math.sin(aT * 0.45) > 0.97;
-        eyeL.scale.y = eyeR.scale.y = blink ? 0.12 : 1;
-        aRend.render(aScene, aCam);
-      })();
-    })();
-
-    // ===== THREE.JS SKILLS (torus knot) =====
-    (function() {
-      const sC = document.getElementById('three-skills-canvas');
-      if (!sC) return;
-      const sW = sC.offsetWidth || 520, sH = 220;
-      const sScene = new THREE.Scene();
-      const sCam = new THREE.PerspectiveCamera(55, sW / sH, 0.1, 100);
-      sCam.position.z = 4.5;
-      const sRend = new THREE.WebGLRenderer({ canvas: sC, alpha: true, antialias: window.innerWidth > 768 });
-      sRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      sRend.setSize(sW, sH);
-
-      const knot = new THREE.Mesh(
-        new THREE.TorusKnotGeometry(1.1, 0.32, 120, 14),
-        new THREE.MeshBasicMaterial({ color: 0xf97316, wireframe: true, transparent: true, opacity: 0.28 })
+      window.addEventListener(
+        "scroll",
+        () => {
+          updateProgress();
+          updateScrollTop();
+          updateActiveNav();
+        },
+        { passive: true },
       );
-      sScene.add(knot);
 
-      const knot2 = new THREE.Mesh(
-        new THREE.TorusKnotGeometry(0.55, 0.14, 80, 10, 3, 5),
-        new THREE.MeshBasicMaterial({ color: 0xfb923c, wireframe: true, transparent: true, opacity: 0.18 })
-      );
-      sScene.add(knot2);
-
-      const spPos = new Float32Array(200 * 3);
-      for (let i = 0; i < 200; i++) {
-        spPos[i*3] = (Math.random()-0.5)*12;
-        spPos[i*3+1] = (Math.random()-0.5)*8;
-        spPos[i*3+2] = (Math.random()-0.5)*4;
+      // Cursor trail
+      const cursorCanvas = document.getElementById("cursor-canvas");
+      const cursorCtx = cursorCanvas.getContext("2d");
+      let cursorParticles = [];
+      function resizeCursor() {
+        cursorCanvas.width = window.innerWidth;
+        cursorCanvas.height = window.innerHeight;
       }
-      const spGeo = new THREE.BufferGeometry();
-      spGeo.setAttribute('position', new THREE.BufferAttribute(spPos, 3));
-      sScene.add(new THREE.Points(spGeo, new THREE.PointsMaterial({ color: 0xf97316, size: 0.04, transparent: true, opacity: 0.4 })));
+      resizeCursor();
+      window.addEventListener("resize", resizeCursor);
 
-      let sMx = 0, sMy = 0;
-      sC.addEventListener('mousemove', e => {
-        const r = sC.getBoundingClientRect();
-        sMx = ((e.clientX - r.left) / sC.offsetWidth - 0.5) * 2;
-        sMy = -((e.clientY - r.top) / sC.offsetHeight - 0.5) * 2;
-      });
-      window.addEventListener('resize', () => {
-        const w = sC.offsetWidth;
-        sCam.aspect = w / sH;
-        sCam.updateProjectionMatrix();
-        sRend.setSize(w, sH);
-      });
-
-      (function skillsLoop() {
-        requestAnimationFrame(skillsLoop);
-        knot.rotation.x += 0.004 + sMy * 0.001;
-        knot.rotation.y += 0.006 + sMx * 0.001;
-        knot2.rotation.x -= 0.003;
-        knot2.rotation.y -= 0.008;
-        sRend.render(sScene, sCam);
-      })();
-    })();
-
-    // ===== JLSoft Banner Particles (2D) =====
-    (function() {
-      const jC = document.getElementById('jlsoft-canvas');
-      if (!jC) return;
-      const jCtx = jC.getContext('2d');
-
-      function jResize() { jC.width = jC.offsetWidth || 400; jC.height = 90; }
-      jResize();
-      window.addEventListener('resize', jResize);
-
-      function mkJP() {
-        const W = jC.width;
-        const left = Math.random() < 0.5;
-        return {
-          x: left ? Math.random() * W * 0.48 : W * 0.52 + Math.random() * W * 0.48,
-          y: 90 + Math.random() * 20,
-          vy: -(Math.random() * 0.65 + 0.28),
-          vx: (Math.random() - 0.5) * 0.38,
-          r: Math.random() * 2.2 + 0.7,
-          life: Math.random(),
-          decay: Math.random() * 0.007 + 0.003,
-          left
-        };
-      }
-
-      const jPs = Array.from({ length: 110 }, () => {
-        const p = mkJP();
-        p.y = Math.random() * 90;
-        p.life = Math.random();
-        return p;
+      document.addEventListener("mousemove", (e) => {
+        for (let i = 0; i < 2; i++) {
+          cursorParticles.push({
+            x: e.clientX,
+            y: e.clientY,
+            vx: (Math.random() - 0.5) * 1.8,
+            vy: (Math.random() - 0.5) * 1.8 - 0.4,
+            r: Math.random() * 2 + 0.8,
+            a: 0.65,
+          });
+        }
+        if (cursorParticles.length > 80)
+          cursorParticles = cursorParticles.slice(-80);
       });
 
-      (function jloop() {
-        requestAnimationFrame(jloop);
-        const W = jC.width;
-        jCtx.clearRect(0, 0, W, 90);
-        const grad = jCtx.createLinearGradient(0, 0, W, 0);
-        grad.addColorStop(0,   'rgba(251,113,133,0.09)');
-        grad.addColorStop(0.48,'rgba(251,113,133,0.04)');
-        grad.addColorStop(0.52,'rgba(251,146,60,0.04)');
-        grad.addColorStop(1,   'rgba(251,146,60,0.09)');
-        jCtx.fillStyle = grad;
-        jCtx.fillRect(0, 0, W, 90);
-        jPs.forEach(p => {
-          p.x += p.vx; p.y += p.vy; p.life -= p.decay;
-          if (p.life <= 0 || p.y < -6) { Object.assign(p, mkJP()); }
-          jCtx.globalAlpha = p.life * 0.9;
-          jCtx.beginPath();
-          jCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          jCtx.fillStyle = p.left ? '#fb7185' : '#fb923c';
-          jCtx.fill();
+      (function animateCursor() {
+        cursorCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+        cursorParticles = cursorParticles.filter((p) => p.a > 0.02);
+        cursorParticles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.a *= 0.91;
+          cursorCtx.globalAlpha = p.a;
+          cursorCtx.beginPath();
+          cursorCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          cursorCtx.fillStyle = "#f97316";
+          cursorCtx.fill();
         });
-        jCtx.globalAlpha = 1;
+        cursorCtx.globalAlpha = 1;
+        requestAnimationFrame(animateCursor);
       })();
-    })();
 
-    // ===== GSAP hero entrance =====
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.from('#hero h1', { y: 50, opacity: 0, duration: 1.0, ease: 'power3.out', delay: 0.4 });
-    gsap.from('#hero .h-8', { y: 35, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.65 });
-    gsap.from('#hero p', { y: 25, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.85 });
-  </script>
-</body>
+      // ===== THREE.JS ABOUT (3D Android Robot) =====
+      (function () {
+        const aC = document.getElementById("three-about-canvas");
+        if (!aC) return;
+
+        const aScene = new THREE.Scene();
+        const aCam = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+        aCam.position.set(0, 0.2, 6);
+        const aRend = new THREE.WebGLRenderer({
+          canvas: aC,
+          alpha: true,
+          antialias: true,
+        });
+        aRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        aRend.setSize(300, 300);
+
+        // Lighting
+        aScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        const dL = new THREE.DirectionalLight(0xffffff, 1.0);
+        dL.position.set(3, 5, 5);
+        aScene.add(dL);
+        const glowL = new THREE.PointLight(0x3ddc84, 1.1, 15);
+        glowL.position.set(-3, 2, 2);
+        aScene.add(glowL);
+
+        // Materials
+        const mG = new THREE.MeshPhongMaterial({
+          color: 0x3ddc84,
+          shininess: 60,
+        });
+        const mDG = new THREE.MeshPhongMaterial({
+          color: 0x25a96b,
+          shininess: 30,
+        });
+        const mW = new THREE.MeshPhongMaterial({ color: 0xffffff });
+        const mBk = new THREE.MeshBasicMaterial({ color: 0x111111 });
+
+        function mk(geo, mat, x, y, z) {
+          const m = new THREE.Mesh(geo, mat);
+          if (x !== undefined) m.position.set(x, y, z);
+          return m;
+        }
+
+        const robot = new THREE.Group();
+        aScene.add(robot);
+
+        // --- HEAD ---
+        const hG = new THREE.Group();
+        hG.add(mk(new THREE.CylinderGeometry(0.72, 0.72, 0.65, 24), mG));
+        hG.add(
+          mk(
+            new THREE.SphereGeometry(
+              0.72,
+              24,
+              12,
+              0,
+              Math.PI * 2,
+              0,
+              Math.PI * 0.5,
+            ),
+            mG,
+            0,
+            0.325,
+            0,
+          ),
+        );
+        const eyeL = mk(
+          new THREE.SphereGeometry(0.13, 10, 10),
+          mW,
+          -0.3,
+          0.1,
+          0.67,
+        );
+        const eyeR = mk(
+          new THREE.SphereGeometry(0.13, 10, 10),
+          mW,
+          0.3,
+          0.1,
+          0.67,
+        );
+        hG.add(eyeL, eyeR);
+        hG.add(mk(new THREE.SphereGeometry(0.065, 8, 8), mBk, -0.3, 0.1, 0.74));
+        hG.add(mk(new THREE.SphereGeometry(0.065, 8, 8), mBk, 0.3, 0.1, 0.74));
+        [-0.37, 0.37].forEach((x, i) => {
+          const ant = mk(
+            new THREE.CylinderGeometry(0.04, 0.04, 0.5, 8),
+            mG,
+            x,
+            0.8,
+            0.05,
+          );
+          ant.rotation.z = i === 0 ? -0.28 : 0.28;
+          hG.add(ant);
+        });
+        hG.position.y = 1.05;
+        robot.add(hG);
+
+        // --- BODY ---
+        robot.add(
+          mk(new THREE.CylinderGeometry(0.75, 0.68, 1.3, 24), mG, 0, 0, 0),
+        );
+        const belt = mk(
+          new THREE.TorusGeometry(0.72, 0.06, 8, 24),
+          mDG,
+          0,
+          -0.05,
+          0,
+        );
+        robot.add(belt);
+
+        // --- ARMS (pivot at shoulder) ---
+        const arms = [-1, 1].map((side) => {
+          const g = new THREE.Group();
+          g.position.set(side * 0.97, 0.45, 0);
+          g.add(
+            mk(
+              new THREE.CylinderGeometry(0.21, 0.19, 1.1, 12),
+              mG,
+              0,
+              -0.55,
+              0,
+            ),
+          );
+          g.add(mk(new THREE.SphereGeometry(0.21, 10, 10), mDG, 0, -1.15, 0));
+          robot.add(g);
+          return g;
+        });
+
+        // --- LEGS (pivot at hip) ---
+        const legs = [-1, 1].map((side) => {
+          const g = new THREE.Group();
+          g.position.set(side * 0.35, -0.65, 0);
+          g.add(
+            mk(
+              new THREE.CylinderGeometry(0.23, 0.21, 1.1, 12),
+              mG,
+              0,
+              -0.55,
+              0,
+            ),
+          );
+          g.add(mk(new THREE.SphereGeometry(0.23, 10, 8), mDG, 0, -1.15, 0));
+          robot.add(g);
+          return g;
+        });
+
+        // Glow particles orbiting robot
+        const gpBuf = new Float32Array(30 * 3);
+        for (let i = 0; i < 30; i++) {
+          const a = Math.random() * Math.PI * 2;
+          const r = 1.8 + Math.random() * 1.2;
+          gpBuf[i * 3] = Math.cos(a) * r;
+          gpBuf[i * 3 + 1] = (Math.random() - 0.5) * 4.5;
+          gpBuf[i * 3 + 2] = Math.sin(a) * r * 0.3;
+        }
+        const gpGeo = new THREE.BufferGeometry();
+        gpGeo.setAttribute("position", new THREE.BufferAttribute(gpBuf, 3));
+        aScene.add(
+          new THREE.Points(
+            gpGeo,
+            new THREE.PointsMaterial({
+              color: 0x3ddc84,
+              size: 0.07,
+              transparent: true,
+              opacity: 0.75,
+            }),
+          ),
+        );
+
+        robot.position.y = -0.15;
+        // Front fill light so robot face is visible
+        const fillL = new THREE.DirectionalLight(0xffffff, 0.4);
+        fillL.position.set(0, 0, 10);
+        aScene.add(fillL);
+
+        let aT = 0,
+          aMx = 0;
+        window.addEventListener("mousemove", (e) => {
+          aMx = (e.clientX / window.innerWidth - 0.5) * 0.4;
+        });
+
+        (function aboutLoop() {
+          requestAnimationFrame(aboutLoop);
+          aT += 0.02;
+          // Gentle bob, no auto-spin
+          robot.position.y = -0.15 + Math.sin(aT) * 0.08;
+          robot.rotation.x += (aMx * 0.2 - robot.rotation.x) * 0.04;
+          // Wave right arm (arms[1] = side +1)
+          arms[1].rotation.z = Math.PI * 0.62 + Math.sin(aT * 2.5) * 0.28;
+          // Left arm natural rest
+          arms[0].rotation.z = -0.1;
+          // Head friendly tilt
+          hG.rotation.z = Math.sin(aT * 0.7) * 0.04;
+          // Blink
+          const blink = Math.sin(aT * 0.45) > 0.97;
+          eyeL.scale.y = eyeR.scale.y = blink ? 0.12 : 1;
+          aRend.render(aScene, aCam);
+        })();
+      })();
+
+      // ===== THREE.JS SKILLS (torus knot) =====
+      (function () {
+        const sC = document.getElementById("three-skills-canvas");
+        if (!sC) return;
+        const sW = sC.offsetWidth || 520,
+          sH = 220;
+        const sScene = new THREE.Scene();
+        const sCam = new THREE.PerspectiveCamera(55, sW / sH, 0.1, 100);
+        sCam.position.z = 4.5;
+        const sRend = new THREE.WebGLRenderer({
+          canvas: sC,
+          alpha: true,
+          antialias: window.innerWidth > 768,
+        });
+        sRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        sRend.setSize(sW, sH);
+
+        const knot = new THREE.Mesh(
+          new THREE.TorusKnotGeometry(1.1, 0.32, 120, 14),
+          new THREE.MeshBasicMaterial({
+            color: 0xf97316,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.28,
+          }),
+        );
+        sScene.add(knot);
+
+        const knot2 = new THREE.Mesh(
+          new THREE.TorusKnotGeometry(0.55, 0.14, 80, 10, 3, 5),
+          new THREE.MeshBasicMaterial({
+            color: 0xfb923c,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.18,
+          }),
+        );
+        sScene.add(knot2);
+
+        const spPos = new Float32Array(200 * 3);
+        for (let i = 0; i < 200; i++) {
+          spPos[i * 3] = (Math.random() - 0.5) * 12;
+          spPos[i * 3 + 1] = (Math.random() - 0.5) * 8;
+          spPos[i * 3 + 2] = (Math.random() - 0.5) * 4;
+        }
+        const spGeo = new THREE.BufferGeometry();
+        spGeo.setAttribute("position", new THREE.BufferAttribute(spPos, 3));
+        sScene.add(
+          new THREE.Points(
+            spGeo,
+            new THREE.PointsMaterial({
+              color: 0xf97316,
+              size: 0.04,
+              transparent: true,
+              opacity: 0.4,
+            }),
+          ),
+        );
+
+        let sMx = 0,
+          sMy = 0;
+        sC.addEventListener("mousemove", (e) => {
+          const r = sC.getBoundingClientRect();
+          sMx = ((e.clientX - r.left) / sC.offsetWidth - 0.5) * 2;
+          sMy = -((e.clientY - r.top) / sC.offsetHeight - 0.5) * 2;
+        });
+        window.addEventListener("resize", () => {
+          const w = sC.offsetWidth;
+          sCam.aspect = w / sH;
+          sCam.updateProjectionMatrix();
+          sRend.setSize(w, sH);
+        });
+
+        (function skillsLoop() {
+          requestAnimationFrame(skillsLoop);
+          knot.rotation.x += 0.004 + sMy * 0.001;
+          knot.rotation.y += 0.006 + sMx * 0.001;
+          knot2.rotation.x -= 0.003;
+          knot2.rotation.y -= 0.008;
+          sRend.render(sScene, sCam);
+        })();
+      })();
+
+      // ===== JLSoft Banner Particles (2D) =====
+      (function () {
+        const jC = document.getElementById("jlsoft-canvas");
+        if (!jC) return;
+        const jCtx = jC.getContext("2d");
+
+        function jResize() {
+          jC.width = jC.offsetWidth || 400;
+          jC.height = 90;
+        }
+        jResize();
+        window.addEventListener("resize", jResize);
+
+        function mkJP() {
+          const W = jC.width;
+          const left = Math.random() < 0.5;
+          return {
+            x: left
+              ? Math.random() * W * 0.48
+              : W * 0.52 + Math.random() * W * 0.48,
+            y: 90 + Math.random() * 20,
+            vy: -(Math.random() * 0.65 + 0.28),
+            vx: (Math.random() - 0.5) * 0.38,
+            r: Math.random() * 2.2 + 0.7,
+            life: Math.random(),
+            decay: Math.random() * 0.007 + 0.003,
+            left,
+          };
+        }
+
+        const jPs = Array.from({ length: 110 }, () => {
+          const p = mkJP();
+          p.y = Math.random() * 90;
+          p.life = Math.random();
+          return p;
+        });
+
+        (function jloop() {
+          requestAnimationFrame(jloop);
+          const W = jC.width;
+          jCtx.clearRect(0, 0, W, 90);
+          const grad = jCtx.createLinearGradient(0, 0, W, 0);
+          grad.addColorStop(0, "rgba(251,113,133,0.09)");
+          grad.addColorStop(0.48, "rgba(251,113,133,0.04)");
+          grad.addColorStop(0.52, "rgba(251,146,60,0.04)");
+          grad.addColorStop(1, "rgba(251,146,60,0.09)");
+          jCtx.fillStyle = grad;
+          jCtx.fillRect(0, 0, W, 90);
+          jPs.forEach((p) => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= p.decay;
+            if (p.life <= 0 || p.y < -6) {
+              Object.assign(p, mkJP());
+            }
+            jCtx.globalAlpha = p.life * 0.9;
+            jCtx.beginPath();
+            jCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            jCtx.fillStyle = p.left ? "#fb7185" : "#fb923c";
+            jCtx.fill();
+          });
+          jCtx.globalAlpha = 1;
+        })();
+      })();
+
+      // ===== GSAP hero entrance =====
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.from("#hero h1", {
+        y: 50,
+        opacity: 0,
+        duration: 1.0,
+        ease: "power3.out",
+        delay: 0.4,
+      });
+      gsap.from("#hero .h-8", {
+        y: 35,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        delay: 0.65,
+      });
+      gsap.from("#hero p", {
+        y: 25,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        delay: 0.85,
+      });
+    </script>
+  </body>
 </html>

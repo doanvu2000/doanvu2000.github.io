@@ -1,593 +1,845 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JLSoft Together — Apps Store</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --bg-from: #1E1B4B;
-      --bg-to: #312E81;
-      --card: rgba(167,139,250,0.08);
-      --card-border: rgba(167,139,250,0.15);
-      --card-hover: rgba(167,139,250,0.14);
-      --text: #EDE9FE;
-      --text-muted: #A5B4FC;
-      --primary: #A78BFA;
-      --primary-hover: #C4B5FD;
-      --badge-bg: rgba(167,139,250,0.18);
-      --badge-text: #C4B5FD;
-      --nav-bg: rgba(30,27,75,0.85);
-      --footer-border: rgba(167,139,250,0.12);
-      --btn-outline-border: rgba(167,139,250,0.5);
-      --btn-outline-text: #A78BFA;
-      --shadow: 0 4px 24px rgba(0,0,0,0.4);
-    }
-    [data-theme="light"] {
-      --bg-from: #F5F3FF;
-      --bg-to: #EDE9FE;
-      --card: #FFFFFF;
-      --card-border: rgba(124,58,237,0.15);
-      --card-hover: #F5F3FF;
-      --text: #1E1B4B;
-      --text-muted: #5B21B6;
-      --primary: #7C3AED;
-      --primary-hover: #6D28D9;
-      --badge-bg: rgba(124,58,237,0.10);
-      --badge-text: #6D28D9;
-      --nav-bg: rgba(245,243,255,0.90);
-      --footer-border: rgba(124,58,237,0.15);
-      --btn-outline-border: rgba(124,58,237,0.5);
-      --btn-outline-text: #6D28D9;
-      --shadow: 0 4px 24px rgba(124,58,237,0.12);
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JLSoft Together — Apps Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --bg-from: #1e1b4b;
+        --bg-to: #312e81;
+        --card: rgba(167, 139, 250, 0.08);
+        --card-border: rgba(167, 139, 250, 0.15);
+        --card-hover: rgba(167, 139, 250, 0.14);
+        --text: #ede9fe;
+        --text-muted: #a5b4fc;
+        --primary: #a78bfa;
+        --primary-hover: #c4b5fd;
+        --badge-bg: rgba(167, 139, 250, 0.18);
+        --badge-text: #c4b5fd;
+        --nav-bg: rgba(30, 27, 75, 0.85);
+        --footer-border: rgba(167, 139, 250, 0.12);
+        --btn-outline-border: rgba(167, 139, 250, 0.5);
+        --btn-outline-text: #a78bfa;
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      }
+      [data-theme="light"] {
+        --bg-from: #f5f3ff;
+        --bg-to: #ede9fe;
+        --card: #ffffff;
+        --card-border: rgba(124, 58, 237, 0.15);
+        --card-hover: #f5f3ff;
+        --text: #1e1b4b;
+        --text-muted: #5b21b6;
+        --primary: #7c3aed;
+        --primary-hover: #6d28d9;
+        --badge-bg: rgba(124, 58, 237, 0.1);
+        --badge-text: #6d28d9;
+        --nav-bg: rgba(245, 243, 255, 0.9);
+        --footer-border: rgba(124, 58, 237, 0.15);
+        --btn-outline-border: rgba(124, 58, 237, 0.5);
+        --btn-outline-text: #6d28d9;
+        --shadow: 0 4px 24px rgba(124, 58, 237, 0.12);
+      }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      font-family: 'Noto Sans', sans-serif;
-      background: linear-gradient(135deg, var(--bg-from) 0%, var(--bg-to) 100%);
-      color: var(--text);
-      min-height: 100vh;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
+      body {
+        font-family: "Noto Sans", sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--bg-from) 0%,
+          var(--bg-to) 100%
+        );
+        color: var(--text);
+        min-height: 100vh;
+        transition:
+          background 0.3s ease,
+          color 0.3s ease;
+      }
 
-    /* Animated gradient orbs */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.25;
-      pointer-events: none;
-      z-index: 0;
-      animation: float 12s ease-in-out infinite;
-    }
-    .orb-1 {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, #7C3AED, #4338CA);
-      top: -100px; left: -150px;
-      animation-delay: 0s;
-    }
-    .orb-2 {
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, #A78BFA, #6366F1);
-      bottom: 100px; right: -100px;
-      animation-delay: -6s;
-    }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0); }
-      33% { transform: translate(30px, -20px); }
-      66% { transform: translate(-20px, 30px); }
-    }
-    [data-theme="light"] .orb { opacity: 0.12; }
+      /* Animated gradient orbs */
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.25;
+        pointer-events: none;
+        z-index: 0;
+        animation: float 12s ease-in-out infinite;
+      }
+      .orb-1 {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, #7c3aed, #4338ca);
+        top: -100px;
+        left: -150px;
+        animation-delay: 0s;
+      }
+      .orb-2 {
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, #a78bfa, #6366f1);
+        bottom: 100px;
+        right: -100px;
+        animation-delay: -6s;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        33% {
+          transform: translate(30px, -20px);
+        }
+        66% {
+          transform: translate(-20px, 30px);
+        }
+      }
+      [data-theme="light"] .orb {
+        opacity: 0.12;
+      }
 
-    /* Navbar */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      background: var(--nav-bg);
-      border-bottom: 1px solid var(--footer-border);
-      transition: background 0.3s;
-    }
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.2rem;
-      color: var(--primary);
-      text-decoration: none;
-      letter-spacing: -0.3px;
-    }
-    .nav-logo svg { flex-shrink: 0; }
+      /* Navbar */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: var(--nav-bg);
+        border-bottom: 1px solid var(--footer-border);
+        transition: background 0.3s;
+      }
+      .nav-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: var(--primary);
+        text-decoration: none;
+        letter-spacing: -0.3px;
+      }
+      .nav-logo svg {
+        flex-shrink: 0;
+      }
 
-    /* Theme toggle */
-    .theme-btn {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      color: var(--text);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
-    }
-    .theme-btn:hover {
-      background: var(--card-hover);
-      transform: scale(1.05);
-    }
-    .icon-moon, .icon-sun { transition: opacity 0.2s; }
-    [data-theme="dark"] .icon-sun { display: none; }
-    [data-theme="light"] .icon-moon { display: none; }
+      /* Theme toggle */
+      .theme-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        border: 1px solid var(--card-border);
+        background: var(--card);
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          transform 0.15s;
+      }
+      .theme-btn:hover {
+        background: var(--card-hover);
+        transform: scale(1.05);
+      }
+      .icon-moon,
+      .icon-sun {
+        transition: opacity 0.2s;
+      }
+      [data-theme="dark"] .icon-sun {
+        display: none;
+      }
+      [data-theme="light"] .icon-moon {
+        display: none;
+      }
 
-    /* Main container */
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+      /* Main container */
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
 
-    /* Hero */
-    .hero {
-      padding: 100px 0 80px;
-      text-align: center;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--badge-bg);
-      color: var(--badge-text);
-      border-radius: 999px;
-      padding: 6px 16px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      margin-bottom: 28px;
-    }
-    .hero-title {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
-      line-height: 1.1;
-      background: linear-gradient(135deg, #A78BFA 0%, #6366F1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 20px;
-    }
-    .hero-sub {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 480px;
-      margin: 0 auto 40px;
-      line-height: 1.6;
-    }
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      flex-wrap: wrap;
-    }
-    .stat { text-align: center; }
-    .stat-num {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--primary);
-      display: block;
-    }
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+      /* Hero */
+      .hero {
+        padding: 100px 0 80px;
+        text-align: center;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        border-radius: 999px;
+        padding: 6px 16px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 28px;
+      }
+      .hero-title {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 800;
+        line-height: 1.1;
+        background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+      }
+      .hero-sub {
+        font-size: 1.15rem;
+        color: var(--text-muted);
+        max-width: 480px;
+        margin: 0 auto 40px;
+        line-height: 1.6;
+      }
+      .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 48px;
+        flex-wrap: wrap;
+      }
+      .stat {
+        text-align: center;
+      }
+      .stat-num {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--primary);
+        display: block;
+      }
+      .stat-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
 
-    /* Section headings */
-    .section-title {
-      font-size: 1.75rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .section-sub {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 40px;
-    }
+      /* Section headings */
+      .section-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+      .section-sub {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-bottom: 40px;
+      }
 
-    /* App cards */
-    .apps-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    @media (min-width: 700px) {
-      .apps-grid { grid-template-columns: 1fr 1fr; }
-    }
+      /* App cards */
+      .apps-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      @media (min-width: 700px) {
+        .apps-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
 
-    .app-card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-      box-shadow: var(--shadow);
-    }
-    .app-card:hover {
-      background: var(--card-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(56,189,248,0.15);
-    }
+      .app-card {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        transition:
+          background 0.2s,
+          transform 0.2s,
+          box-shadow 0.2s;
+        box-shadow: var(--shadow);
+      }
+      .app-card:hover {
+        background: var(--card-hover);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(56, 189, 248, 0.15);
+      }
 
-    .app-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .app-logo {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      object-fit: cover;
-      flex-shrink: 0;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-    }
-    .app-name {
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-    .app-category {
-      font-size: 0.8rem;
-      color: var(--badge-text);
-      background: var(--badge-bg);
-      border-radius: 999px;
-      padding: 3px 10px;
-      display: inline-block;
-      margin-top: 4px;
-    }
+      .app-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .app-logo {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        object-fit: cover;
+        flex-shrink: 0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      }
+      .app-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      .app-category {
+        font-size: 0.8rem;
+        color: var(--badge-text);
+        background: var(--badge-bg);
+        border-radius: 999px;
+        padding: 3px 10px;
+        display: inline-block;
+        margin-top: 4px;
+      }
 
-    .app-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
+      .app-desc {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.65;
+      }
 
-    .app-features {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .feature-tag {
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      background: var(--badge-bg);
-      border-radius: 8px;
-      padding: 4px 10px;
-    }
+      .app-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .feature-tag {
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        background: var(--badge-bg);
+        border-radius: 8px;
+        padding: 4px 10px;
+      }
 
-    .app-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: auto;
-    }
+      .app-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: auto;
+      }
 
-    .btn-play {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.85rem;
-      padding: 10px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-      flex: 1;
-      justify-content: center;
-      white-space: nowrap;
-    }
-    .btn-play:hover {
-      background: var(--primary-hover);
-      transform: scale(1.03);
-    }
-    [data-theme="light"] .btn-play:hover { background: #6D28D9; }
+      .btn-play {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 10px 18px;
+        border-radius: 12px;
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        flex: 1;
+        justify-content: center;
+        white-space: nowrap;
+      }
+      .btn-play:hover {
+        background: var(--primary-hover);
+        transform: scale(1.03);
+      }
+      [data-theme="light"] .btn-play:hover {
+        background: #6d28d9;
+      }
 
-    .btn-detail {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid var(--btn-outline-border);
-      color: var(--btn-outline-text);
-      font-weight: 600;
-      font-size: 0.85rem;
-      padding: 10px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-      flex: 1;
-      justify-content: center;
-      white-space: nowrap;
-      background: transparent;
-    }
-    .btn-detail:hover {
-      background: var(--badge-bg);
-      transform: scale(1.03);
-    }
+      .btn-detail {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--btn-outline-border);
+        color: var(--btn-outline-text);
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 10px 18px;
+        border-radius: 12px;
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        flex: 1;
+        justify-content: center;
+        white-space: nowrap;
+        background: transparent;
+      }
+      .btn-detail:hover {
+        background: var(--badge-bg);
+        transform: scale(1.03);
+      }
 
-    /* Divider */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--footer-border);
-      margin: 72px 0 0;
-    }
+      /* Divider */
+      .divider {
+        border: none;
+        border-top: 1px solid var(--footer-border);
+        margin: 72px 0 0;
+      }
 
-    /* Contact */
-    .contact-section {
-      padding: 72px 0;
-      text-align: center;
-    }
-    .contact-email {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 14px 24px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-      font-size: 1rem;
-      margin-bottom: 32px;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .contact-email:hover {
-      background: var(--card-hover);
-      transform: translateY(-2px);
-    }
-    .contact-email svg { color: var(--primary); }
+      /* Contact */
+      .contact-section {
+        padding: 72px 0;
+        text-align: center;
+      }
+      .contact-email {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 14px 24px;
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 500;
+        font-size: 1rem;
+        margin-bottom: 32px;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+      }
+      .contact-email:hover {
+        background: var(--card-hover);
+        transform: translateY(-2px);
+      }
+      .contact-email svg {
+        color: var(--primary);
+      }
 
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .social-link {
-      width: 48px; height: 48px;
-      border-radius: 14px;
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      color: var(--text-muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s, color 0.2s, transform 0.15s;
-    }
-    .social-link:hover {
-      background: var(--badge-bg);
-      color: var(--primary);
-      transform: translateY(-3px);
-    }
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .social-link {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        border: 1px solid var(--card-border);
+        background: var(--card);
+        color: var(--text-muted);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.2s,
+          color 0.2s,
+          transform 0.15s;
+      }
+      .social-link:hover {
+        background: var(--badge-bg);
+        color: var(--primary);
+        transform: translateY(-3px);
+      }
 
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--footer-border);
-      padding: 24px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-    }
-  </style>
-</head>
-<body>
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--footer-border);
+        padding: 24px;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.82rem;
+      }
+    </style>
 
-<!-- Background orbs -->
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=AW-18184184318"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-<!-- Navbar -->
-<nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="28" height="28" rx="8" fill="currentColor" opacity="0.15"/>
-        <path d="M7 14C7 10.134 10.134 7 14 7C17.866 7 21 10.134 21 14C21 17.866 17.866 21 14 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-        <circle cx="14" cy="14" r="3" fill="currentColor"/>
-        <path d="M14 21L11 18L14 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      JLSoft Together
-    </a>
-    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-      <!-- Moon (dark mode icon) -->
-      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
-      <!-- Sun (light mode icon) -->
-      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/>
-        <line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-      </svg>
-    </button>
-  </div>
-</nav>
+      gtag("config", "AW-18184184318");
+    </script>
+  </head>
+  <body>
+    <!-- Background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-<!-- Hero -->
-<div class="container">
-  <section class="hero">
-    <div class="hero-badge">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Google Play Store
-    </div>
-    <h1 class="hero-title">JLSoft Together</h1>
-    <p class="hero-sub">Crafting apps that connect people — podcast, music, love &amp; memories.</p>
-    <div class="hero-stats">
-      <div class="stat">
-        <span class="stat-num">2</span>
-        <span class="stat-label">Ứng dụng</span>
+    <!-- Navbar -->
+    <nav>
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              width="28"
+              height="28"
+              rx="8"
+              fill="currentColor"
+              opacity="0.15"
+            />
+            <path
+              d="M7 14C7 10.134 10.134 7 14 7C17.866 7 21 10.134 21 14C21 17.866 17.866 21 14 21"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            />
+            <circle cx="14" cy="14" r="3" fill="currentColor" />
+            <path
+              d="M14 21L11 18L14 15"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          JLSoft Together
+        </a>
+        <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+          <!-- Moon (dark mode icon) -->
+          <svg
+            class="icon-moon"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <!-- Sun (light mode icon) -->
+          <svg
+            class="icon-sun"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        </button>
       </div>
-      <div class="stat">
-        <span class="stat-num">10K+</span>
-        <span class="stat-label">Radio Stations</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">8</span>
-        <span class="stat-label">Ngôn ngữ</span>
-      </div>
-    </div>
-  </section>
+    </nav>
 
-  <!-- Apps -->
-  <section id="apps">
-    <h2 class="section-title">Ứng dụng của chúng tôi</h2>
-    <p class="section-sub">Tất cả apps đang có trên Google Play Store</p>
-    <div class="apps-grid">
-
-      <!-- Jadio Podcast -->
-      <div class="app-card">
-        <div class="app-header">
-          <img src="jadio/logo.png" alt="Jadio Podcast logo" class="app-logo" />
-          <div>
-            <div class="app-name">Jadio Podcast</div>
-            <span class="app-category">Podcast &amp; Radio</span>
+    <!-- Hero -->
+    <div class="container">
+      <section class="hero">
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+            />
+          </svg>
+          Google Play Store
+        </div>
+        <h1 class="hero-title">JLSoft Together</h1>
+        <p class="hero-sub">
+          Crafting apps that connect people — podcast, music, love &amp;
+          memories.
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">2</span>
+            <span class="stat-label">Ứng dụng</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">10K+</span>
+            <span class="stat-label">Radio Stations</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">8</span>
+            <span class="stat-label">Ngôn ngữ</span>
           </div>
         </div>
-        <p class="app-desc">
-          Khám phá hơn 10,000+ radio stations &amp; podcast toàn cầu. Nghe trực tiếp, tải về nghe offline, tìm kiếm theo thể loại — tất cả trong một app gọn nhẹ.
-        </p>
-        <div class="app-features">
-          <span class="feature-tag">10K+ Stations</span>
-          <span class="feature-tag">Offline Mode</span>
-          <span class="feature-tag">Free</span>
-          <span class="feature-tag">Android</span>
-        </div>
-        <div class="app-actions">
-          <a href="https://play.google.com/store/apps/details?id=com.jlsoft.radio" target="_blank" rel="noopener" class="btn-play">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z"/></svg>
-            Google Play
-          </a>
-          <a href="jadio/marketing.html" target="_blank" rel="noopener" class="btn-detail">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            Xem chi tiết
-          </a>
-        </div>
-      </div>
+      </section>
 
-      <!-- Love Quote Story -->
-      <div class="app-card">
-        <div class="app-header">
-          <img src="lovequote/logo.png" alt="Love Quote Story logo" class="app-logo" />
-          <div>
-            <div class="app-name">Love Quote Story</div>
-            <span class="app-category">Tình yêu &amp; Cặp đôi</span>
+      <!-- Apps -->
+      <section id="apps">
+        <h2 class="section-title">Ứng dụng của chúng tôi</h2>
+        <p class="section-sub">Tất cả apps đang có trên Google Play Store</p>
+        <div class="apps-grid">
+          <!-- Jadio Podcast -->
+          <div class="app-card">
+            <div class="app-header">
+              <img
+                src="jadio/logo.png"
+                alt="Jadio Podcast logo"
+                class="app-logo"
+              />
+              <div>
+                <div class="app-name">Jadio Podcast</div>
+                <span class="app-category">Podcast &amp; Radio</span>
+              </div>
+            </div>
+            <p class="app-desc">
+              Khám phá hơn 10,000+ radio stations &amp; podcast toàn cầu. Nghe
+              trực tiếp, tải về nghe offline, tìm kiếm theo thể loại — tất cả
+              trong một app gọn nhẹ.
+            </p>
+            <div class="app-features">
+              <span class="feature-tag">10K+ Stations</span>
+              <span class="feature-tag">Offline Mode</span>
+              <span class="feature-tag">Free</span>
+              <span class="feature-tag">Android</span>
+            </div>
+            <div class="app-actions">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.jlsoft.radio"
+                target="_blank"
+                rel="noopener"
+                class="btn-play"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z"
+                  />
+                </svg>
+                Google Play
+              </a>
+              <a
+                href="jadio/marketing.html"
+                target="_blank"
+                rel="noopener"
+                class="btn-detail"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="16" />
+                  <line x1="8" y1="12" x2="16" y2="12" />
+                </svg>
+                Xem chi tiết
+              </a>
+            </div>
+          </div>
+
+          <!-- Love Quote Story -->
+          <div class="app-card">
+            <div class="app-header">
+              <img
+                src="lovequote/logo.png"
+                alt="Love Quote Story logo"
+                class="app-logo"
+              />
+              <div>
+                <div class="app-name">Love Quote Story</div>
+                <span class="app-category">Tình yêu &amp; Cặp đôi</span>
+              </div>
+            </div>
+            <p class="app-desc">
+              App dành cho các cặp đôi — chia sẻ quotes tình yêu, check-in cảm
+              xúc, tạo time capsule kỷ niệm. Hỗ trợ 8 ngôn ngữ, giao diện đẹp
+              &amp; đầy cảm xúc.
+            </p>
+            <div class="app-features">
+              <span class="feature-tag">8 Ngôn ngữ</span>
+              <span class="feature-tag">Couple Mode</span>
+              <span class="feature-tag">Time Capsule</span>
+              <span class="feature-tag">Android</span>
+            </div>
+            <div class="app-actions">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.jlsoft.lovequotestory"
+                target="_blank"
+                rel="noopener"
+                class="btn-play"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z"
+                  />
+                </svg>
+                Google Play
+              </a>
+              <a
+                href="lovequote/marketing.html"
+                target="_blank"
+                rel="noopener"
+                class="btn-detail"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="16" />
+                  <line x1="8" y1="12" x2="16" y2="12" />
+                </svg>
+                Xem chi tiết
+              </a>
+            </div>
           </div>
         </div>
-        <p class="app-desc">
-          App dành cho các cặp đôi — chia sẻ quotes tình yêu, check-in cảm xúc, tạo time capsule kỷ niệm. Hỗ trợ 8 ngôn ngữ, giao diện đẹp &amp; đầy cảm xúc.
+      </section>
+
+      <hr class="divider" />
+
+      <!-- Contact -->
+      <section class="contact-section" id="contact">
+        <h2 class="section-title">Liên hệ</h2>
+        <p class="section-sub" style="margin-bottom: 28px">
+          Góp ý, hỗ trợ, hoặc hợp tác — chúng tôi luôn lắng nghe.
         </p>
-        <div class="app-features">
-          <span class="feature-tag">8 Ngôn ngữ</span>
-          <span class="feature-tag">Couple Mode</span>
-          <span class="feature-tag">Time Capsule</span>
-          <span class="feature-tag">Android</span>
-        </div>
-        <div class="app-actions">
-          <a href="https://play.google.com/store/apps/details?id=com.jlsoft.lovequotestory" target="_blank" rel="noopener" class="btn-play">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l15 8.5-15 8.5c-.5.33-1.5.33-1.5-.5z"/></svg>
-            Google Play
+        <a href="mailto:doan.hit.dev2@gmail.com" class="contact-email">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          doan.hit.dev2@gmail.com
+        </a>
+        <div class="social-links">
+          <!-- GitHub -->
+          <a
+            href="https://github.com/doanvu2000"
+            target="_blank"
+            rel="noopener"
+            class="social-link"
+            aria-label="GitHub"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+              />
+            </svg>
           </a>
-          <a href="lovequote/marketing.html" target="_blank" rel="noopener" class="btn-detail">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            Xem chi tiết
+          <!-- Facebook -->
+          <a
+            href="https://www.facebook.com/jinvu00"
+            target="_blank"
+            rel="noopener"
+            class="social-link"
+            aria-label="Facebook"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+              />
+            </svg>
+          </a>
+          <!-- Instagram -->
+          <a
+            href="https://www.instagram.com/jinvu00"
+            target="_blank"
+            rel="noopener"
+            class="social-link"
+            aria-label="Instagram"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+              />
+            </svg>
+          </a>
+          <!-- YouTube -->
+          <a
+            href="https://www.youtube.com/channel/UCbPGuzWUg2RIqSn5SEDPBTQ"
+            target="_blank"
+            rel="noopener"
+            class="social-link"
+            aria-label="YouTube"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"
+              />
+            </svg>
           </a>
         </div>
-      </div>
-
+      </section>
     </div>
-  </section>
 
-  <hr class="divider" />
+    <!-- Footer -->
+    <footer>© 2026 JLSoft Together. All rights reserved.</footer>
 
-  <!-- Contact -->
-  <section class="contact-section" id="contact">
-    <h2 class="section-title">Liên hệ</h2>
-    <p class="section-sub" style="margin-bottom:28px;">Góp ý, hỗ trợ, hoặc hợp tác — chúng tôi luôn lắng nghe.</p>
-    <a href="mailto:doan.hit.dev2@gmail.com" class="contact-email">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      doan.hit.dev2@gmail.com
-    </a>
-    <div class="social-links">
-      <!-- GitHub -->
-      <a href="https://github.com/doanvu2000" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      </a>
-      <!-- Facebook -->
-      <a href="https://www.facebook.com/jinvu00" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      </a>
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/jinvu00" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-      </a>
-      <!-- YouTube -->
-      <a href="https://www.youtube.com/channel/UCbPGuzWUg2RIqSn5SEDPBTQ" target="_blank" rel="noopener" class="social-link" aria-label="YouTube">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-      </a>
-    </div>
-  </section>
-</div>
+    <script>
+      const html = document.documentElement;
+      const btn = document.getElementById("themeToggle");
 
-<!-- Footer -->
-<footer>
-  © 2026 JLSoft Together. All rights reserved.
-</footer>
+      const saved = localStorage.getItem("jlsoft-theme");
+      if (saved) html.setAttribute("data-theme", saved);
 
-<script>
-  const html = document.documentElement;
-  const btn = document.getElementById('themeToggle');
-
-  const saved = localStorage.getItem('jlsoft-theme');
-  if (saved) html.setAttribute('data-theme', saved);
-
-  btn.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('jlsoft-theme', next);
-  });
-</script>
-</body>
+      btn.addEventListener("click", () => {
+        const current = html.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", next);
+        localStorage.setItem("jlsoft-theme", next);
+      });
+    </script>
+  </body>
 </html>
