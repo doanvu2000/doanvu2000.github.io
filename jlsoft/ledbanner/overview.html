@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Monitor Runner LED — Technical Overview</title>
+    <style>
+        :root {
+          --dark: #0F0A1E;
+          --surface: #1A1030;
+          --card: #221840;
+          --border: #2D2250;
+          --accent1: #F43F5E;
+          --accent2: #8B5CF6;
+          --text: #E2D9F3;
+          --muted: #9B8DC0;
+          --cyan: #22D3EE;
+          --green: #10B981;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--dark); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
+        a { color: var(--accent2); text-decoration: none; }
+
+        /* Layout */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+        section:last-child { border-bottom: none; }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #1A0A30 0%, #0F0A1E 60%); padding: 64px 0 48px; border-bottom: 1px solid var(--border); }
+        .hero h1 { font-size: 2.4rem; font-weight: 800; background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+        .hero .tagline { color: var(--muted); font-size: 1.1rem; margin-bottom: 24px; }
+        .meta-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 0.8rem; color: var(--muted); }
+        .chip.accent { border-color: var(--accent2); color: var(--accent2); }
+
+        /* Headings */
+        h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        h2::before { content: ''; display: inline-block; width: 4px; height: 20px; background: linear-gradient(var(--accent1), var(--accent2)); border-radius: 2px; }
+        h3 { font-size: 1rem; font-weight: 600; color: var(--accent2); margin: 20px 0 10px; }
+
+        /* Tables */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        th { background: var(--card); color: var(--muted); text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--border); font-weight: 600; }
+        td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        tr:hover td { background: rgba(139,92,246,0.04); }
+        code { background: var(--card); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--cyan); font-family: 'Cascadia Code', 'Fira Code', monospace; }
+
+        /* Cards grid */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s, transform 0.2s; }
+        .card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+        .card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+        .card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+        .card p { font-size: 0.82rem; color: var(--muted); }
+
+        /* Flow */
+        .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0; }
+        .flow-step { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; font-size: 0.85rem; }
+        .flow-step strong { display: block; color: var(--accent1); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .flow-arrow { color: var(--accent2); font-size: 1.2rem; padding: 0 6px; }
+
+        /* Arch diagram */
+        .arch-box { background: #0D0920; border: 1px solid var(--border); border-radius: 10px; padding: 24px; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.82rem; color: #A78BFA; white-space: pre; overflow-x: auto; }
+
+        /* Badge */
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; }
+        .badge-green { background: rgba(16,185,129,0.15); color: var(--green); }
+        .badge-rose { background: rgba(244,63,94,0.15); color: var(--accent1); }
+        .badge-purple { background: rgba(139,92,246,0.15); color: var(--accent2); }
+        .badge-cyan { background: rgba(34,211,238,0.15); color: var(--cyan); }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="container">
+        <h1>Monitor Runner LED</h1>
+        <p class="tagline">Full-screen LED scrolling banners + multi-color flash screen for
+            Android</p>
+        <div class="meta-chips">
+            <span class="chip accent">com.jlsoft.led.monitor.runner</span>
+            <span class="chip">Kotlin + MVVM</span>
+            <span class="chip">Multi-module: :app / :CoreLib / :colorpicker</span>
+            <span class="chip">Room v4 · Navigation Component</span>
+            <span class="chip">Firebase Remote Config · AdMob</span>
+            <span class="chip">Locale: English (runtime switch)</span>
+        </div>
+    </div>
+</div>
+
+<!-- ONBOARDING FLOW -->
+<section>
+    <div class="container">
+        <h2>Onboarding Flow</h2>
+        <div class="flow">
+            <div class="flow-step"><strong>Splash</strong>SplashActivity<br><span
+                    style="color:var(--muted);font-size:0.75rem">UMP/GDPR · AOA</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><strong>Language</strong>LanguageActivity<br><span
+                    style="color:var(--muted);font-size:0.75rem">Locale pick · Native Ad</span>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><strong>Intro (×4)</strong>IntroActivity<br><span
+                    style="color:var(--muted);font-size:0.75rem">ViewPager2 pager</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><strong>Main</strong>MainActivity<br><span
+                    style="color:var(--muted);font-size:0.75rem">3 tabs · Nav host</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- SCREENS -->
+<section>
+    <div class="container">
+        <h2>Screens &amp; Features</h2>
+
+        <h3>Main Tabs (NavigationComponent — NavHostFragment)</h3>
+        <div class="card-grid" style="margin-bottom:28px">
+            <div class="card">
+                <div class="icon">📢</div>
+                <h4>LED Banner</h4>
+                <p>Compose text with color, font, background, effect and sound. Launch as
+                    full-screen landscape scroller.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🖼️</div>
+                <h4>Templates</h4>
+                <p>9 built-in asset templates + Your Favorites (Room DB). Tap to play or re-run as
+                    LED Runner.</p>
+            </div>
+            <div class="card">
+                <div class="icon">⚡</div>
+                <h4>Flash Screen</h4>
+                <p>Multi-color strobe with speed slider. Photosensitivity warning gate (per-session,
+                    first Start).</p>
+            </div>
+        </div>
+
+        <h3>All Activity Screens</h3>
+        <div class="table-wrap">
+            <table>
+                <tr>
+                    <th>Screen</th>
+                    <th>Class</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td>Splash</td>
+                    <td><code>SplashActivity</code></td>
+                    <td>UMP/GDPR · AOA · → LanguageActivity</td>
+                </tr>
+                <tr>
+                    <td>Language</td>
+                    <td><code>LanguageActivity</code></td>
+                    <td>Runtime locale · Native Ad 250dp · NativeCacheUtils</td>
+                </tr>
+                <tr>
+                    <td>Intro</td>
+                    <td><code>IntroActivity</code></td>
+                    <td>4-step ViewPager2 · IntroAdapter · IntroItemFragment</td>
+                </tr>
+                <tr>
+                    <td>Main</td>
+                    <td><code>MainActivity</code></td>
+                    <td>3 pill-tab strip · gradient pulse header · NavComponent flat stack</td>
+                </tr>
+                <tr>
+                    <td>Settings</td>
+                    <td><code>SettingActivity</code></td>
+                    <td>Language / Rate / Share / Dark Mode / Contact / Privacy / Version / About
+                        Us
+                    </td>
+                </tr>
+                <tr>
+                    <td>Premium</td>
+                    <td><code>PremiumActivity</code></td>
+                    <td>Monthly + Lifetime · Google Play Billing</td>
+                </tr>
+                <tr>
+                    <td>LED Runner</td>
+                    <td><code>LedTextRunningActivity</code></td>
+                    <td><span class="badge badge-cyan">landscape</span> Full-screen LED · MODE_TEXT
+                        + MODE_FLASH
+                    </td>
+                </tr>
+                <tr>
+                    <td>Favorites</td>
+                    <td><code>FavoriteActivity</code></td>
+                    <td>Full-width list · delete + DialogConfirmDelete</td>
+                </tr>
+                <tr>
+                    <td>Template Player</td>
+                    <td><code>PlayTemplateActivity</code></td>
+                    <td>Portrait fullscreen · translate or zoom animation by index</td>
+                </tr>
+            </table>
+        </div>
+
+        <h3>HomeFragment Bottom Sheets</h3>
+        <div class="table-wrap">
+            <table>
+                <tr>
+                    <th>Sheet</th>
+                    <th>Class</th>
+                    <th>Controls</th>
+                </tr>
+                <tr>
+                    <td>Text Color</td>
+                    <td><code>BottomSheetColorPicker</code></td>
+                    <td>11 LED palette chips + custom HSV/Hex dialog fallback</td>
+                </tr>
+                <tr>
+                    <td>Font</td>
+                    <td><code>BottomSheetFont</code></td>
+                    <td>8 fonts · live preview panel · deferred Apply</td>
+                </tr>
+                <tr>
+                    <td>Background</td>
+                    <td><code>BottomSheetBackground</code></td>
+                    <td>None (black) + color chips + custom picker</td>
+                </tr>
+                <tr>
+                    <td>Effects</td>
+                    <td><code>BottomSheetEffects</code></td>
+                    <td>Direction + 7 effect chips + speed + text size sliders</td>
+                </tr>
+                <tr>
+                    <td>Sound</td>
+                    <td><code>BottomSheetSound</code></td>
+                    <td>Toggle switch + horizontal sound list</td>
+                </tr>
+            </table>
+        </div>
+
+        <h3>LED Effects</h3>
+        <div class="table-wrap">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Animation</th>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>NONE</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>BLINK</td>
+                    <td>Alpha blink</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>WAVE</td>
+                    <td>Translate X wave</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>PULSE</td>
+                    <td>Scale pulse</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>ZOOM</td>
+                    <td>Zoom in/out</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>SHAKE</td>
+                    <td>Horizontal shake</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>BOUNCE</td>
+                    <td>Vertical bounce</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section>
+    <div class="container">
+        <h2>Architecture Diagram</h2>
+        <div class="arch-box">Module dependency
+            ──────────────────────────────────────────────────
+            :app ──depends──▶ :CoreLib
+            :app ──depends──▶ :colorpicker
+
+            MVVM Layer Flow (per feature)
+            ──────────────────────────────────────────────────
+            Fragment / Activity
+            │ collects StateFlow / calls fun
+            ▼
+            ViewModel (extends BaseViewModel, launchSafe{})
+            │ calls repository
+            ▼
+            Repository (FavoriteRepository)
+            │ wraps DAO
+            ▼
+            Room DAO (FavoriteDao)
+            │ Flow / suspend
+            ▼
+            AppDatabase (Room v4, singleton)
+
+            Navigation (NavComponent)
+            ──────────────────────────────────────────────────
+            SplashActivity ──▶ LanguageActivity ──▶ IntroActivity ──▶ MainActivity
+            MainActivity NavHostFragment:
+            tabBanner ──▶ HomeFragment
+            tabTemplates──▶ TemplateFragment
+            tabFlash ──▶ FlashingFragment
+            HomeFragment ──▶ LedTextRunningActivity (landscape)
+            TemplateFragment ──▶ PlayTemplateActivity / FavoriteActivity / LedTextRunningActivity
+            FlashingFragment ──▶ LedTextRunningActivity (flash mode)
+        </div>
+    </div>
+</section>
+
+<!-- DATA LAYER -->
+<section>
+    <div class="container">
+        <h2>Data Layer</h2>
+        <div class="table-wrap">
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Detail</th>
+                </tr>
+                <tr>
+                    <td>Room DB</td>
+                    <td><code>AppDatabase</code> version 4 ·
+                        <code>fallbackToDestructiveMigration</code></td>
+                </tr>
+                <tr>
+                    <td>Entity</td>
+                    <td><code>FavoriteModel</code> — text, color, font, bg, direction, effect,
+                        speed, sound, isHistory
+                    </td>
+                </tr>
+                <tr>
+                    <td>DAO</td>
+                    <td><code>FavoriteDao</code> — <code>getAllFavorites(): Flow</code>, <code>insert()</code>,
+                        <code>deleteById()</code></td>
+                </tr>
+                <tr>
+                    <td>Repository</td>
+                    <td><code>FavoriteRepository</code> — wraps DAO; consumed by TemplateViewModel
+                        &amp; HomeViewModel
+                    </td>
+                </tr>
+                <tr>
+                    <td>Remote Config</td>
+                    <td><code>RemoteConfigManager</code> → <code>AdConfig</code>
+                        (<code>ads_config</code>) + <code>AppConfig</code> (<code>app_config</code>)
+                    </td>
+                </tr>
+                <tr>
+                    <td>Preferences</td>
+                    <td><code>SharePrefUtils</code> (CoreLib singleton)</td>
+                </tr>
+                <tr>
+                    <td>Assets</td>
+                    <td><code>assets/template/</code> — 9 templates (background + text + thumbnail
+                        PNGs)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ADS & MONETIZATION -->
+<section>
+    <div class="container">
+        <h2>Ads &amp; Monetization</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="icon">🚀</div>
+                <h4>App Open Ad</h4>
+                <p>Shown on cold launch (Splash) and app resume. Keys: <code>AOA_SPLASH</code>,
+                    <code>AOA_RESUME</code>.</p>
+            </div>
+            <div class="card">
+                <div class="icon">📺</div>
+                <h4>Interstitial</h4>
+                <p>Intro flow + template/favorite open tap. Keys: <code>INTER_INTRO</code>, <code>INTER_DEFAULT</code>.
+                </p>
+            </div>
+            <div class="card">
+                <div class="icon">🖼️</div>
+                <h4>Native Ads</h4>
+                <p>Language (250dp), Intro 1/2 + full-in-list, Home bottom (collapsible), Template
+                    between sections.</p>
+            </div>
+            <div class="card">
+                <div class="icon">👑</div>
+                <h4>Premium</h4>
+                <p>Monthly subscription + Lifetime one-time. Google Play Billing. Disables all ads
+                    globally.</p>
+            </div>
+        </div>
+        <p style="margin-top:16px;font-size:0.82rem;color:var(--muted)">Master switch: <code>appConfig().isShowAllAds</code>
+            — if <code>false</code>, all ad logic short-circuits before any unit check.</p>
+    </div>
+</section>
+
+<!-- CUSTOM VIEWS -->
+<section>
+    <div class="container">
+        <h2>Notable Custom Views</h2>
+        <div class="table-wrap">
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Module</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td><code>ColorComposer</code></td>
+                    <td>:colorpicker</td>
+                    <td>HSV saturation/value 2D square</td>
+                </tr>
+                <tr>
+                    <td><code>HueSlider</code></td>
+                    <td>:colorpicker</td>
+                    <td>Horizontal hue rainbow + draggable thumb</td>
+                </tr>
+                <tr>
+                    <td><code>AlphaSlider</code></td>
+                    <td>:colorpicker</td>
+                    <td>Transparency gradient slider</td>
+                </tr>
+                <tr>
+                    <td><code>ColorPickerDialogV2</code></td>
+                    <td>:app</td>
+                    <td>Wraps ColorComposer + HueSlider in dialog (HSV + RGB + Hex)</td>
+                </tr>
+                <tr>
+                    <td><code>EffectChipAdapter</code></td>
+                    <td>:app</td>
+                    <td>3-col grid of LedEffect chips in BottomSheetEffects</td>
+                </tr>
+                <tr>
+                    <td><code>RecentHistoryAdapter</code></td>
+                    <td>:app</td>
+                    <td>Horizontal last-4 history chips in HomeFragment</td>
+                </tr>
+                <tr>
+                    <td><code>AnimationEx</code></td>
+                    <td>:app</td>
+                    <td>blink / translate / zoom / shake / bounce animation builders</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
