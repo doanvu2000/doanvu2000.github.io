@@ -26,11 +26,11 @@ npx serve .
 - `fire/hpny2025.html` — fireworks animation using canvas + jQuery; self-contained in `fire/`
 - `jlsoft/lovequote/` — product marketing pages (overview.html + marketing.html) for the LoveQuote app
 - `jlsoft/jadio/` — product marketing pages for the Jadio Podcast app
-- `jlsoft/index.html` — JLSoft Together store landing page listing all apps (purple gradient, dark/light mode)
+- `https://home.jlsoft.workers.dev/` — JLSoft Together store landing page listing all apps (purple gradient, dark/light mode)
 
 ## JLSoft Product Sync Rule
 
-Khi thêm sản phẩm JLSoft mới vào phần Projects của `index.html`, BẮT BUỘC cập nhật đồng thời `jlsoft/index.html`:
+Khi thêm sản phẩm JLSoft mới vào phần Projects của `index.html`, BẮT BUỘC cập nhật đồng thời `https://home.jlsoft.workers.dev/`:
 - Thêm app card mới vào `.apps-grid` với: logo, tên, mô tả, feature tags, nút Play Store, nút Xem chi tiết
 - Cập nhật hero stats (số ứng dụng, các số liệu nổi bật)
 - Thêm thư mục `jlsoft/<appname>/` với `logo.png` và `marketing.html`
