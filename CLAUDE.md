@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -20,25 +22,24 @@ npx serve .
 
 ## Architecture
 
-- `index.html` — full portfolio with sections: About, Skills, Experience, Achievements, Projects, Community, Hobbies, Contact; progress bar + cursor canvas effects
-- `style.css` — supplemental styling for `index.html`; primary styling via Tailwind CSS CDN
+- `index.html` — portfolio 1 file, style Apple (giống `F:\work\web\page\index.html`): Hero + stats, Giới thiệu (về tôi + kỹ năng), Kinh nghiệm, Dự án (app JLSoft + open source dạng app-row), Liên hệ; CSS inline, không Tailwind/three.js/gsap
+- `style.css` — style cũ, `index.html` không còn dùng
 - `love.html` — standalone particle heart animation (canvas, black background, pink gradient text)
 - `fire/hpny2025.html` — fireworks animation using canvas + jQuery; self-contained in `fire/`
 - `jlsoft/lovequote/` — product marketing pages (overview.html + marketing.html) for the LoveQuote app
 - `jlsoft/jadio/` — product marketing pages for the Jadio Podcast app
-- `https://home.jlsoft.workers.dev/` — JLSoft Together store landing page listing all apps (purple gradient, dark/light mode)
+- `https://jlsoft.jinvu.vn/` — JLSoft Together store landing page listing all apps (purple gradient, dark/light mode)
 
 ## JLSoft Product Sync Rule
 
-Khi thêm sản phẩm JLSoft mới vào phần Projects của `index.html`, BẮT BUỘC cập nhật đồng thời `https://home.jlsoft.workers.dev/`:
+Khi thêm sản phẩm JLSoft mới vào phần Projects của `index.html`, BẮT BUỘC cập nhật đồng thời `https://jlsoft.jinvu.vn/`:
 - Thêm app card mới vào `.apps-grid` với: logo, tên, mô tả, feature tags, nút Play Store, nút Xem chi tiết
 - Cập nhật hero stats (số ứng dụng, các số liệu nổi bật)
 - Thêm thư mục `jlsoft/<appname>/` với `logo.png` và `marketing.html`
 
 ### Key patterns
 
-- Tailwind CSS loaded via CDN — no PostCSS/build step; utility classes used directly in HTML
-- Google Fonts: Noto Sans, JetBrains Mono (index.html), Poppins (love.html)
-- Dark/light theme toggle stored in `localStorage`; dark is default
+- `index.html`: CSS token trên `:root` + `[data-theme="dark"]`, font SF / Google Sans; Poppins (love.html)
+- Dark/light theme toggle stored in `localStorage` key `theme`; light is default
 - No JS framework — all interactivity is inline vanilla JS
 - `contenteditable` + `localStorage` persist user-edited text across reloads
