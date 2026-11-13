@@ -1,0 +1,10 @@
+{
+  "$comment": "Cấu hình riêng project cho quy trình Jin. Agent đọc file này thay vì hỏi lại mỗi phiên. Xoá khoá không dùng; giá trị chưa rõ để null.",
+  "platforms": ["web"],
+  "rules": [
+    "Thêm sản phẩm JLSoft vào index.html thì cập nhật cả https://jlsoft.jinvu.vn/ và thêm jlsoft/<appname>/ (logo.png + marketing.html)"
+  ],
+  "release": {
+    "ignore": []
+  }
+}
